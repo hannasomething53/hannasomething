@@ -21,13 +21,6 @@ body {
 }
 
 /* =========================
-   TOP SPACE (상단 여백 확정)
-========================= */
-.top-space {
-  height: 20px;
-}
-
-/* =========================
    SIDE NAVIGATION
 ========================= */
 .side-nav {
@@ -37,20 +30,20 @@ body {
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .side-nav a {
-  font-size: 18px;           /* 👈 폰트 줄임 */
+  font-size: 18px;
   font-weight: 600;
   text-decoration: none;
   color: #111;
-  transform-origin: left center; /* 👈 왼쪽 고정 */
+  transform-origin: left center;   /* 왼쪽 고정 */
   transition: transform 0.25s ease;
 }
 
 .side-nav a:hover {
-  transform: scaleX(1.25);  /* 👈 오른쪽으로만 커짐 */
+  transform: scaleX(1.25);         /* 오른쪽으로만 커짐 */
 }
 
 /* =========================
@@ -58,6 +51,7 @@ body {
 ========================= */
 .content {
   margin-left: 260px;
+  padding-top: 20px;               /* 👈 상단 여백 확정 */
 }
 
 /* =========================
@@ -71,8 +65,9 @@ section {
    IMAGES
 ========================= */
 .work-image {
-  width: 900px;        /* 👈 절대 900 */
-  max-width: 100%;
+  max-width: 900px;                /* 👈 절대 900 이상 안 커짐 */
+  width: 100%;
+  height: auto;
   display: block;
   margin: 0 auto 70px auto;
 }
@@ -81,7 +76,7 @@ section {
    CONTACT
 ========================= */
 .contact-text {
-  width: 900px;
+  max-width: 900px;
   margin: 0 auto;
   font-size: 16px;
 }
@@ -96,5 +91,6 @@ section {
 
   .content {
     margin-left: 0;
+    padding-top: 20px;
   }
 }
