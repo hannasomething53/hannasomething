@@ -5,11 +5,12 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+body body {
+  font-family: 'Poppins', Arial, sans-serif;
   background: #fff;
   color: #111;
 }
+
 
 .side-nav {
   position: fixed;
@@ -30,13 +31,13 @@ body {
 .side-nav a {
   text-decoration: none;
   color: #111;
-  font-size: 15px;
+  font-size: 18px;
   transition: all 0.3s ease;
 }
 
 .side-nav a:hover {
-  font-size: 18px;
-  letter-spacing: 0.5px;
+  font-size: 24px;
+  letter-spacing: 1px;
 }
 
 .contact {
@@ -51,7 +52,7 @@ body {
 
 .content {
   margin-left: 300px;
-  padding: 0 80px;
+  padding: 60 80px;
 }
 
 .section {
