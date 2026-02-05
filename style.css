@@ -15,20 +15,16 @@ html {
 }
 
 body {
-  font-family: 'Fredoka', 'Arial Rounded MT Bold', Arial, sans-serif;
+  font-family: 'Fredoka', Arial, sans-serif;
   background: #ffffff;
   color: #111;
 }
 
 /* =========================
-   PAGE WRAPPER
-   (상단 20px 여백을 확실히 보이게)
+   TOP SPACE (상단 여백 확정)
 ========================= */
-.wrapper {
-  max-width: 1500px;
-  margin: 0 auto;
-  padding-top: 20px;
-  display: flex;
+.top-space {
+  height: 20px;
 }
 
 /* =========================
@@ -37,77 +33,63 @@ body {
 .side-nav {
   position: fixed;
   left: 40px;
-  top: 45%; /* 👈 중앙보다 살짝 위 (2/4 지점) */
+  top: 45%;
   transform: translateY(-50%);
-  width: 240px;
-}
-
-.side-nav ul {
-  list-style: none;
-}
-
-.side-nav li {
-  margin-bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .side-nav a {
+  font-size: 18px;           /* 👈 폰트 줄임 */
+  font-weight: 600;
   text-decoration: none;
   color: #111;
-  font-size: 28px;
-  font-weight: 800;
-  display: inline-block;
-  transition: transform 0.25s ease, letter-spacing 0.25s ease;
+  transform-origin: left center; /* 👈 왼쪽 고정 */
+  transition: transform 0.25s ease;
 }
 
 .side-nav a:hover {
-  transform: scale(1.45);
-  letter-spacing: 1.2px;
+  transform: scaleX(1.25);  /* 👈 오른쪽으로만 커짐 */
 }
 
 /* =========================
-   CONTENT AREA
+   CONTENT
 ========================= */
 .content {
-  margin-left: 300px;
-  width: 100%;
+  margin-left: 260px;
 }
 
 /* =========================
    SECTIONS
 ========================= */
 section {
-  margin-bottom: 180px;
+  margin-bottom: 160px;
 }
 
 /* =========================
    IMAGES
 ========================= */
 .work-image {
-  width: 900px;
+  width: 900px;        /* 👈 절대 900 */
   max-width: 100%;
   display: block;
-  margin: 0 auto 80px auto;
+  margin: 0 auto 70px auto;
 }
 
 /* =========================
-   INTRO / TOP VISUAL
+   CONTACT
 ========================= */
-.intro {
+.contact-text {
   width: 900px;
-  max-width: 100%;
-  margin: 0 auto 200px auto;
-}
-
-.intro video,
-.intro img {
-  width: 100%;
-  display: block;
+  margin: 0 auto;
+  font-size: 16px;
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
   .side-nav {
     display: none;
   }
