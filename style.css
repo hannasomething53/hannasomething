@@ -18,15 +18,16 @@ body {
   font-family: 'Fredoka', 'Arial Rounded MT Bold', Arial, sans-serif;
   background: #ffffff;
   color: #111;
-  padding-top: 20px;
 }
 
 /* =========================
-   LAYOUT
+   PAGE WRAPPER
+   (상단 20px 여백을 확실히 보이게)
 ========================= */
 .wrapper {
   max-width: 1500px;
   margin: 0 auto;
+  padding-top: 20px;
   display: flex;
 }
 
@@ -36,7 +37,7 @@ body {
 .side-nav {
   position: fixed;
   left: 40px;
-  top: 50%;
+  top: 45%; /* 👈 중앙보다 살짝 위 (2/4 지점) */
   transform: translateY(-50%);
   width: 240px;
 }
@@ -46,21 +47,21 @@ body {
 }
 
 .side-nav li {
-  margin-bottom: 22px;
+  margin-bottom: 26px;
 }
 
 .side-nav a {
   text-decoration: none;
   color: #111;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   display: inline-block;
   transition: transform 0.25s ease, letter-spacing 0.25s ease;
 }
 
 .side-nav a:hover {
-  transform: scale(1.35);
-  letter-spacing: 1px;
+  transform: scale(1.45);
+  letter-spacing: 1.2px;
 }
 
 /* =========================
@@ -89,7 +90,7 @@ section {
 }
 
 /* =========================
-   TOP VISUAL (INTRO / VIDEO)
+   INTRO / TOP VISUAL
 ========================= */
 .intro {
   width: 900px;
@@ -104,7 +105,7 @@ section {
 }
 
 /* =========================
-   RESPONSIVE (OPTIONAL)
+   RESPONSIVE
 ========================= */
 @media (max-width: 1200px) {
   .side-nav {
