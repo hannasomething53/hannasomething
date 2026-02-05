@@ -1,96 +1,48 @@
-/* =========================
-   RESET
-========================= */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-/* =========================
-   GLOBAL
-========================= */
-html {
-  scroll-behavior: smooth;
-}
-
 body {
-  font-family: 'Fredoka', Arial, sans-serif;
-  background: #ffffff;
-  color: #111;
+  margin: 0;
+  padding-top: 20px; /* 상단 여백 */
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+  background: #fff;
 }
 
-/* =========================
-   SIDE NAVIGATION
-========================= */
-.side-nav {
-  position: fixed;
-  left: 40px;
-  top: 45%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+/* 메인 콘텐츠 */
+.main {
+  width: 900px;
+  margin: 0 auto;
 }
 
-.side-nav a {
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #111;
-  transform-origin: left center;   /* 왼쪽 고정 */
-  transition: transform 0.25s ease;
-}
-
-.side-nav a:hover {
-  transform: scaleX(1.25);         /* 오른쪽으로만 커짐 */
-}
-
-/* =========================
-   CONTENT
-========================= */
-.content {
-  margin-left: 260px;
-  padding-top: 20px;               /* 👈 상단 여백 확정 */
-}
-
-/* =========================
-   SECTIONS
-========================= */
-section {
-  margin-bottom: 160px;
-}
-
-/* =========================
-   IMAGES
-========================= */
+/* 이미지 */
 .work-image {
-  max-width: 900px;                /* 👈 절대 900 이상 안 커짐 */
   width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto 70px auto;
+  margin-bottom: 70px;
 }
 
-/* =========================
-   CONTACT
-========================= */
-.contact-text {
-  max-width: 900px;
-  margin: 0 auto;
-  font-size: 16px;
+/* 사이드 네비 */
+.side-nav {
+  position: fixed;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 1100px) {
-  .side-nav {
-    display: none;
-  }
+.side-nav a {
+  font-size: 22px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 18px;
+  transition: transform 0.25s ease, font-size 0.25s ease;
+}
 
-  .content {
-    margin-left: 0;
-    padding-top: 20px;
-  }
+.side-nav a:hover {
+  transform: translateX(8px);
+  font-size: 26px;
 }
