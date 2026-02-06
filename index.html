@@ -15,10 +15,8 @@
 
 <body>
 
-  <!-- Hamburger (Mobile) -->
-  <button class="hamburger" aria-label="menu">☰</button>
+  <button class="hamburger">☰</button>
 
-  <!-- Navigation -->
   <nav class="nav">
     <a href="#editorial"><span>Editorial illustration</span></a>
     <a href="#personal"><span>Personal works</span></a>
@@ -26,31 +24,24 @@
     <a href="#me"><span>Me me me!</span></a>
   </nav>
 
-  <!-- Content -->
   <main class="content">
     <section id="editorial">
-      <img src="images/sample1.jpg" class="work-image" alt="">
+      <img src="images/sample1.jpg" class="work-image">
     </section>
-
     <section id="personal">
-      <img src="images/sample2.jpg" class="work-image" alt="">
+      <img src="images/sample2.jpg" class="work-image">
     </section>
-
     <section id="narrative">
-      <img src="images/sample3.jpg" class="work-image" alt="">
+      <img src="images/sample3.jpg" class="work-image">
     </section>
-
     <section id="me">
-      <img src="images/sample4.jpg" class="work-image" alt="">
+      <img src="images/sample4.jpg" class="work-image">
     </section>
   </main>
 
   <script>
-    const hamburger = document.querySelector('.hamburger');
-    const nav = document.querySelector('.nav');
-
-    hamburger.addEventListener('click', () => {
-      nav.classList.toggle('open');
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav').classList.toggle('open');
     });
   </script>
 
