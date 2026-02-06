@@ -4,19 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Font -->
+  <!-- Google Font : Playwrite NZ Basic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
-  <title>Portfolio</title>
+  <title>Hanna Portfolio</title>
 </head>
 
 <body>
 
+  <!-- Mobile Hamburger -->
   <button class="hamburger">☰</button>
 
+  <!-- Side Navigation -->
   <nav class="nav">
     <a href="#editorial"><span>Editorial illustration</span></a>
     <a href="#personal"><span>Personal works</span></a>
@@ -24,22 +26,44 @@
     <a href="#me"><span>Me me me!</span></a>
   </nav>
 
+  <!-- Content -->
   <main class="content">
-    <section id="editorial">
+
+    <section id="editorial" class="reveal">
       <img src="images/sample1.jpg" class="work-image">
     </section>
-    <section id="personal">
+
+    <section id="personal" class="reveal">
       <img src="images/sample2.jpg" class="work-image">
     </section>
-    <section id="narrative">
+
+    <section id="narrative" class="reveal">
       <img src="images/sample3.jpg" class="work-image">
     </section>
-    <section id="me">
+
+    <section id="me" class="reveal">
       <img src="images/sample4.jpg" class="work-image">
     </section>
+
   </main>
 
+  <!-- Scroll animation -->
   <script>
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    reveals.forEach(r => observer.observe(r));
+
+    // Mobile nav toggle
     document.querySelector('.hamburger').addEventListener('click', () => {
       document.querySelector('.nav').classList.toggle('open');
     });
