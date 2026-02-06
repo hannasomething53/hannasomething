@@ -1,4 +1,56 @@
-/* Navigation */
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BASE */
+body {
+  font-family: 'Playwrite NZ Basic', Arial, sans-serif;
+  background: #fff;
+  color: #000;
+}
+
+/* ======================
+   LAYOUT
+====================== */
+
+.content {
+  padding-top: 20px;
+  margin-left: 260px; /* 네비 공간 확보 */
+}
+
+/* ======================
+   IMAGE
+====================== */
+
+.work-image {
+  max-width: 900px;
+  width: 100%;
+  display: block;
+  margin: 0 auto 120px auto;
+}
+
+/* ======================
+   SCROLL REVEAL
+====================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(80px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ======================
+   SIDE NAV
+====================== */
+
 .nav {
   position: fixed;
   top: 20px;
@@ -8,7 +60,6 @@
   z-index: 1000;
 }
 
-/* Table-like cells */
 .nav a {
   position: relative;
   height: 36px;
@@ -17,8 +68,6 @@
   border-bottom: none;
   background: #fff;
   text-decoration: none;
-
-  /* 🔒 브라우저 기본 링크 스타일 제거 */
   color: #000;
   overflow: visible;
 }
@@ -27,34 +76,74 @@
   border-bottom: 1px solid #d0d0d0;
 }
 
-/* 링크 상태 전부 동일하게 고정 */
 .nav a:visited,
 .nav a:hover,
 .nav a:active {
   color: #000;
 }
 
-/* Text */
+/* Nav text */
 .nav a span {
   position: absolute;
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  transform-origin: left center;
-  font-size: 14px;
   white-space: nowrap;
+  font-size: 14px;
 }
 
-/* ✨ 흔들림 애니메이션 */
-@keyframes subtleShake {
+/* Slightly bigger shake */
+@keyframes gentleShake {
   0%   { transform: translateY(-50%) translateX(0); }
-  25%  { transform: translateY(-50%) translateX(1px); }
-  50%  { transform: translateY(-50%) translateX(-1px); }
-  75%  { transform: translateY(-50%) translateX(1px); }
+  25%  { transform: translateY(-50%) translateX(2px); }
+  50%  { transform: translateY(-50%) translateX(-2px); }
+  75%  { transform: translateY(-50%) translateX(2px); }
   100% { transform: translateY(-50%) translateX(0); }
 }
 
-/* Hover effect */
 .nav a:hover span {
-  animation: subtleShake 0.35s ease-in-out;
+  animation: gentleShake 0.4s ease-in-out;
+}
+
+/* ======================
+   HAMBURGER
+====================== */
+
+.hamburger {
+  display: none;
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    z-index: 1100;
+    cursor: pointer;
+  }
+
+  .nav {
+    display: none;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .content {
+    margin-left: 0;
+    padding-top: 80px;
+  }
 }
