@@ -33,14 +33,13 @@ body {
   flex-direction: column;
 }
 
-.side-nav a {
-  font-size: 22px;
-  font-weight: 800;
-  text-decoration: none;
-  color: #000;
-  margin-bottom: 18px;
-  transition: transform 0.25s ease, font-size 0.25s ease;
+.nav a {
+  font-family: 'Playwrite New Zealand Basic', Arial, sans-serif;
+  font-weight: 100;
+  font-size: 18px;
+  letter-spacing: 0.02em;
 }
+
 
 .side-nav a:hover {
   transform: translateX(8px);
