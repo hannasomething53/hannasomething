@@ -8,11 +8,8 @@
 /* Base */
 body {
   font-family: 'Playwrite NZ Basic', Arial, sans-serif;
-  font-weight: 400;
   background: #fff;
   color: #000;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Content */
@@ -38,22 +35,23 @@ body {
   z-index: 1000;
 }
 
-/* Each cell */
+/* Table-like cells */
 .nav a {
   position: relative;
-  width: max-content;
-  min-width: 180px;
   height: 36px;
-  border: 1px solid #ccc;
+  min-width: 190px;
+  border: 1px solid #d0d0d0;
   border-bottom: none;
-  overflow: hidden;
-  text-decoration: none;
   background: #fff;
+  text-decoration: none;
+
+  /* 🔥 중요 */
+  overflow: visible;
 }
 
-/* 마지막 칸 아래 테두리 */
+/* 마지막 줄 */
 .nav a:last-child {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #d0d0d0;
 }
 
 /* Text */
@@ -61,16 +59,16 @@ body {
   position: absolute;
   left: 10px;
   top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #000;
-  transition: transform 0.35s ease;
+  transform: translateY(-50%) scale(1);
   transform-origin: left center;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
 }
 
-/* Hover effect */
+/* Hover */
 .nav a:hover span {
-  transform: translateY(-50%) scale(1.8);
+  transform: translateY(-50%) scale(1.35);
 }
 
 /* Hamburger */
@@ -82,8 +80,8 @@ body {
   font-size: 20px;
   background: none;
   border: none;
-  cursor: pointer;
   z-index: 1100;
+  cursor: pointer;
 }
 
 /* Mobile */
