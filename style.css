@@ -7,15 +7,15 @@
 
 /* Base */
 body {
-  font-family: 'Playwrite New Zealand', Arial, sans-serif;
-  font-weight: 300; /* Thin 100은 렌더링 깨짐 방지용으로 네비에서만 사용 */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Playwrite NZ Basic', Arial, sans-serif;
+  font-weight: 400;
   background: #fff;
   color: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Top spacing */
+/* Layout */
 .content {
   padding-top: 20px;
 }
@@ -24,7 +24,6 @@ body {
 .work-image {
   max-width: 900px;
   width: 100%;
-  height: auto;
   display: block;
   margin: 0 auto 80px auto;
 }
@@ -33,46 +32,60 @@ body {
 .nav {
   position: fixed;
   top: 20px;
-  right: 40px;
+  left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   z-index: 1000;
 }
 
 .nav a {
-  font-family: 'Playwrite New Zealand', Arial, sans-serif;
-  font-weight: 100;
-  font-size: 16px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
   text-decoration: none;
   color: #000;
-  transform-origin: right center;
-  transition: transform 0.35s ease, opacity 0.35s ease;
+  border: 1px solid #000;
+  padding: 6px 10px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: left top;
 }
 
-/* Hover action */
 .nav a:hover {
-  transform: scale(1.2); /* 20% 확대 */
-  opacity: 0.75;
+  transform: scale(1.2);
+  opacity: 0.7;
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+/* Hamburger */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
 }
 
 /* Mobile */
 @media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
   .nav {
-    right: 20px;
+    background: #fff;
+    padding: 60px 20px 20px;
+    border: 1px solid #000;
+    display: none;
+  }
+
+  .nav.open {
+    display: flex;
   }
 
   .nav a {
-    font-size: 14px;
-    font-weight: 300;
-  }
-
-  .work-image {
-    margin-bottom: 60px;
+    font-size: 15px;
   }
 }
