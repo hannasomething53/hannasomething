@@ -1,42 +1,57 @@
-/* ============================= */
-/* 이미지 확대 커서 효과 */
-/* ============================= */
+/* =========================
+   기본 설정
+========================= */
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: white;
+}
+
+
+/* =========================
+   이미지 갤러리
+========================= */
+
+.gallery {
+    width: 900px;
+    margin: 60px auto;
+}
 
 .zoomable {
-  cursor: zoom-in;
-  transition: transform 0.2s ease;
+    width: 100%;
+    display: block;
+    margin-bottom: 40px;
+    cursor: zoom-in;
 }
 
 
-/* ============================= */
-/* 라이트박스 전체 배경 */
-/* ============================= */
+/* =========================
+   라이트박스
+========================= */
 
 #lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-  background: rgba(0, 0, 0, 0.3); /* 검정 30% */
+    background: rgba(0,0,0,0.3);
 
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
 
-  overflow-y: auto;
-  z-index: 9999;
-  padding: 40px 0;
+    overflow-y: auto;
+    padding: 40px 0;
+
+    z-index: 9999;
 }
 
 
-/* ============================= */
-/* 확대된 이미지 */
-/* ============================= */
-
+/* 확대 이미지 */
 #lightbox img {
-  max-width: 95%;
-  height: auto;
-  display: block;
+    max-width: 95%;
+    height: auto;
 }
