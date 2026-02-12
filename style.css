@@ -1,83 +1,112 @@
-/* 기본 세팅 */
-body {
-  margin: 0;
-  padding-top: 20px;
-  font-family: 'Playwrite NZ Basic', sans-serif;
-  background: white;
-  scroll-behavior: smooth;
+body{
+margin:0;
+padding-top:20px;
+font-family:'Playwrite NZ Basic',sans-serif;
+background:white;
+scroll-behavior:smooth;
 }
 
-/* 왼쪽 네비게이션 */
-.sidebar {
-  position: fixed;
-  top: 100px;
-  left: 40px;
-  width: 200px;
+
+/* LEFT NAV */
+
+.left-nav{
+position:fixed;
+top:120px;
+left:40px;
+width:170px;
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.left-nav ul{
+list-style:none;
+margin:0;
+padding:0;
 }
 
-.sidebar li {
-  border: 1px solid #ddd;
-  border-top: none;
+.left-nav li{
+border:1px solid #ddd;
+border-top:none;
 }
 
-.sidebar li:first-child {
-  border-top: 1px solid #ddd;
+.left-nav li:first-child{
+border-top:1px solid #ddd;
 }
 
-.sidebar a {
-  display: block;
-  padding: 15px;
-  text-decoration: none;
-  color: black;
-  font-size: 16px;
-  transition: transform 0.2s ease;
+.left-nav a{
+display:block;
+padding:4px 10px;   /* 🔥 더 좁게 */
+font-size:14px;
+text-decoration:none;
+color:black;
 }
 
-/* 클릭해도 색 안 변하게 */
-.sidebar a:visited,
-.sidebar a:active {
-  color: black;
+.left-nav a:hover{
+animation:shake 0.35s ease;
 }
 
-/* 살짝 흔들림 효과 */
-.sidebar a:hover {
-  animation: shake 0.4s ease;
+@keyframes shake{
+0%{transform:translateX(0);}
+25%{transform:translateX(-3px);}
+50%{transform:translateX(3px);}
+75%{transform:translateX(-2px);}
+100%{transform:translateX(0);}
 }
 
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  50% { transform: translateX(3px); }
-  75% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
+
+
+/* CENTER CONTENT */
+
+.content{
+margin-left:370px; /* left nav + 200px 간격 */
+width:900px;
 }
 
-/* 콘텐츠 영역 */
-.content {
-  margin-left: 400px; /* 네비 200 + 간격 200 */
-  width: 900px;
+.image-section{
+margin-bottom:150px;
+opacity:0;
+transform:translateY(80px);
+transition:all 0.8s ease;
 }
 
-/* 이미지 섹션 */
-.image-section {
-  margin-bottom: 150px;
-  opacity: 0;
-  transform: translateY(80px);
-  transition: all 0.8s ease;
+.image-section.show{
+opacity:1;
+transform:translateY(0);
 }
 
-.image-section.show {
-  opacity: 1;
-  transform: translateY(0);
+.image-section img{
+width:900px;
+display:block;
 }
 
-.image-section img {
-  width: 900px;
-  display: block;
+
+
+/* RIGHT NAV (썸네일) */
+/* 이미지 오른쪽 끝과 화면 오른쪽 끝의 정확한 중간 */
+
+.right-nav{
+position:fixed;
+top:120px;
+
+/* 핵심 위치 계산 */
+left: calc(
+370px + 900px +
+(100vw - (370px + 900px)) / 2 - 150px
+);
+
+width:300px;
+}
+
+.right-nav a{
+display:block;
+}
+
+.right-nav img{
+width:300px;
+display:block;
+transition:transform 0.2s ease;
+transform-origin:center;
+}
+
+/* hover 확대 */
+.right-nav a:hover img{
+transform:scale(1.06);
 }
