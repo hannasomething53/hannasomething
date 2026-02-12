@@ -1,60 +1,65 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Hanna Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Hanna Portfolio</title>
+<link rel="stylesheet" href="style.css">
 
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- 왼쪽 네비게이션 -->
-  <nav class="sidebar">
-    <ul>
-      <li><a href="#p9001">Editorial illustration</a></li>
-      <li><a href="#personal">Personal works</a></li>
-      <li><a href="#comics">Narrative / Comics</a></li>
-      <li><a href="#me">Me me me!</a></li>
-    </ul>
-  </nav>
+<!-- LEFT NAV -->
+<nav class="left-nav">
+<ul>
+<li><a href="#p9001">Editorial illustration</a></li>
+<li><a href="#personal">Personal works</a></li>
+<li><a href="#comics">Narrative / Comics</a></li>
+<li><a href="#me">Me me me!</a></li>
+</ul>
+</nav>
 
-  <!-- 콘텐츠 영역 -->
-  <main class="content">
 
-    <section id="p9001" class="image-section">
-      <img src="images/p9001.jpg" alt="">
-    </section>
+<!-- CENTER CONTENT -->
+<main class="content">
 
-    <section id="p9002" class="image-section">
-      <img src="images/p9002.jpg" alt="">
-    </section>
+<section id="p9001" class="image-section"><img src="images/p9001.jpg"></section>
+<section id="p9002" class="image-section"><img src="images/p9002.jpg"></section>
+<section id="p9003" class="image-section"><img src="images/p9003.jpg"></section>
+<section id="p9004" class="image-section"><img src="images/p9004.jpg"></section>
+<section id="p9005" class="image-section"><img src="images/p9005.jpg"></section>
+<section id="p9006" class="image-section"><img src="images/p9006.jpg"></section>
 
-    <section id="p9003" class="image-section">
-      <img src="images/p9003.jpg" alt="">
-    </section>
+</main>
 
-  </main>
+
+<!-- RIGHT NAV (THUMBNAIL) -->
+<nav class="right-nav">
+
+<a href="#p9001"><img src="images/s3001.jpg"></a>
+<a href="#p9002"><img src="images/s3002.jpg"></a>
+<a href="#p9003"><img src="images/s3003.jpg"></a>
+<a href="#p9004"><img src="images/s3004.jpg"></a>
+<a href="#p9005"><img src="images/s3005.jpg"></a>
+<a href="#p9006"><img src="images/s3006.jpg"></a>
+
+</nav>
+
 
 <script>
-const sections = document.querySelectorAll('.image-section');
+const sections=document.querySelectorAll('.image-section');
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('show');
-    }
-  });
-}, {
-  threshold: 0.2
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('show');
+}
 });
+},{threshold:0.25});
 
-sections.forEach(section => {
-  observer.observe(section);
-});
+sections.forEach(section=>observer.observe(section));
 </script>
 
 </body>
