@@ -1,37 +1,68 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
 <meta charset="UTF-8">
 <title>Portfolio</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
 
-<!-- =======================
-     이미지 영역
-======================= -->
+<!-- =========================
+     왼쪽 카테고리 네비
+========================= -->
 
-<div class="gallery">
+<nav class="left-nav">
 
-<img src="images/p9001.jpg" class="zoomable">
-<img src="images/p9002.jpg" class="zoomable">
-<img src="images/p9003.jpg" class="zoomable">
+<div class="category">Editorial Illustration</div>
+<div class="category">Book Cover</div>
+<div class="category">Portrait</div>
 
-</div>
+</nav>
 
 
-<!-- =======================
-     라이트박스 (확대 영역)
-======================= -->
+
+<!-- =========================
+     중앙 이미지 영역
+========================= -->
+
+<main class="gallery">
+
+<img id="p9001" src="images/p9001.jpg" class="zoomable">
+<img id="p9002" src="images/p9002.jpg" class="zoomable">
+<img id="p9003" src="images/p9003.jpg" class="zoomable">
+<img id="p9004" src="images/p9004.jpg" class="zoomable">
+<img id="p9005" src="images/p9005.jpg" class="zoomable">
+<img id="p9006" src="images/p9006.jpg" class="zoomable">
+
+</main>
+
+
+
+<!-- =========================
+     오른쪽 썸네일 네비
+========================= -->
+
+<nav class="right-nav">
+
+<img src="images/s3001.jpg" data-target="p9001">
+<img src="images/s3002.jpg" data-target="p9002">
+<img src="images/s3003.jpg" data-target="p9003">
+<img src="images/s3004.jpg" data-target="p9004">
+<img src="images/s3005.jpg" data-target="p9005">
+<img src="images/s3006.jpg" data-target="p9006">
+
+</nav>
+
+
+
+<!-- =========================
+     이미지 확대 레이어
+========================= -->
 
 <div id="lightbox">
-    <img id="lightbox-img">
+<img id="lightbox-img">
 </div>
-
 
 <script src="script.js"></script>
 
