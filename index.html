@@ -2,26 +2,35 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Portfolio</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- 왼쪽 카테고리 -->
+<!-- =========================
+왼쪽 카테고리 네비
+========================= -->
 <nav class="left-nav">
 
-<a href="#p9001" class="category">Editorial illustration</a>
-<a href="#p9001" class="category">persnal works</a>
-<a href="#p9001" class="category">Narrative / Comics</a>
-<a href="#p9001" class="category">Me me me!</a>
+<a href="#p9001" class="nav-box">Editorial illustration</a>
+<a href="#" class="nav-box">Personal works</a>
+<a href="#" class="nav-box">Narrative / Comics</a>
+<a href="#" class="nav-box">Me me me!</a>
 
 </nav>
 
 
-
-<!-- 중앙 이미지 -->
-<main class="gallery">
+<!-- =========================
+중앙 콘텐츠
+========================= -->
+<main class="content-wrapper">
 
 <img id="p9001" src="images/p9001.jpg" class="art">
 <img id="p9002" src="images/p9002.jpg" class="art">
@@ -33,29 +42,29 @@
 </main>
 
 
+<!-- =========================
+오른쪽 썸네일 네비
+========================= -->
+<nav class="right-nav">
 
-<!-- 오른쪽 썸네일 -->
-<!-- RIGHT THUMB NAV -->
-<div class="right-thumb-nav">
+<a href="#p9001"><img src="images/s3001.jpg"></a>
+<a href="#p9002"><img src="images/s3002.jpg"></a>
+<a href="#p9003"><img src="images/s3003.jpg"></a>
+<a href="#p9004"><img src="images/s3004.jpg"></a>
+<a href="#p9005"><img src="images/s3005.jpg"></a>
+<a href="#p9006"><img src="images/s3006.jpg"></a>
 
-<a href="#p9001"><img src="images/S3001.jpg"></a>
-<a href="#p9002"><img src="images/S3002.jpg"></a>
-<a href="#p9003"><img src="images/S3003.jpg"></a>
-<a href="#p9004"><img src="images/S3004.jpg"></a>
-<a href="#p9005"><img src="images/S3005.jpg"></a>
-<a href="#p9006"><img src="images/S3006.jpg"></a>
-
-</div>
-
-
+</nav>
 
 
-<!-- 확대 레이어 -->
+<!-- =========================
+이미지 확대 모달
+========================= -->
 <div id="viewer">
-<img id="viewer-img">
+<img id="viewerImg">
 </div>
+
 
 <script src="script.js"></script>
-
 </body>
 </html>
