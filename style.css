@@ -100,11 +100,22 @@ display:block;
 }
 
 .right-nav img{
-width:300px;
+width:50px;
 display:block;
 transition:transform 0.2s ease;
 transform-origin:center;
 }
+/* 마우스 올리면 위아래 이동 */
+.right-nav img:hover {
+    transform: translateY(-10px);
+}
+.right-nav img {
+    width: 50px;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
 
 /* hover 확대 */
 .right-nav a:hover img{
