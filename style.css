@@ -100,7 +100,7 @@ display:block;
 }
 
 .right-nav img{
-width:50px;
+width:100px;
 display:block;
 transition:transform 0.2s ease;
 transform-origin:center;
@@ -110,7 +110,7 @@ transform-origin:center;
     transform: translateY(-10px);
 }
 .right-nav img {
-    width: 50px;
+    width: 100px;
     height: auto;
     display: block;
     object-fit: cover;
