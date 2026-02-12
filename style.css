@@ -48,28 +48,30 @@ transform:translateY(0);
 
 
 /* =========================
-왼쪽 네비
+왼쪽 네비 (중앙보다 약간 위)
 ========================= */
 
 .left-nav{
 position:fixed;
-top:40px;
+
+top:45%;
+transform:translateY(-50%);
 
 left:calc(
 50% -
 (clamp(700px,65vw,1100px) / 2)
 - 40px
-- 120px
+- 160px
 );
 
-width:120px;
+width:160px;
 }
 
 .nav-box{
 display:block;
 border:1px solid #ddd;
-padding:6px 5px;
-font-size:13px;
+padding:7px 6px;
+font-size:14px;
 background:white;
 transition:0.25s;
 }
@@ -84,7 +86,7 @@ animation:shake 0.45s infinite;
 
 
 /* =========================
-오른쪽 썸네일
+오른쪽 썸네일 (중앙보다 아래)
 ========================= */
 
 .right-nav{
@@ -97,14 +99,14 @@ right:calc(
 50% -
 (clamp(700px,65vw,1100px) / 2)
 - 40px
-- 120px
+- 160px
 );
 
-width:120px;
+width:160px;
 }
 
 .right-nav img{
-width:120px;
+width:160px;
 display:block;
 margin-bottom:10px;
 transition:0.25s;
