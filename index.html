@@ -1,73 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Google Font : Playwrite NZ Basic -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
   <title>Hanna Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- Mobile Hamburger -->
-  <button class="hamburger">☰</button>
-
-  <!-- Side Navigation -->
-  <nav class="nav">
-    <a href="#editorial"><span>Editorial illustration</span></a>
-    <a href="#personal"><span>Personal works</span></a>
-    <a href="#narrative"><span>Narrative / Comics</span></a>
-    <a href="#me"><span>Me me me!</span></a>
+  <!-- 왼쪽 네비게이션 -->
+  <nav class="sidebar">
+    <ul>
+      <li><a href="#p9001">Editorial illustration</a></li>
+      <li><a href="#personal">Personal works</a></li>
+      <li><a href="#comics">Narrative / Comics</a></li>
+      <li><a href="#me">Me me me!</a></li>
+    </ul>
   </nav>
 
-  <!-- Content -->
+  <!-- 콘텐츠 영역 -->
   <main class="content">
 
-    <section id="editorial" class="reveal">
-      <img src="images/sample1.jpg" class="work-image">
+    <section id="p9001" class="image-section">
+      <img src="images/p9001.jpg" alt="">
     </section>
 
-    <section id="personal" class="reveal">
-      <img src="images/sample2.jpg" class="work-image">
+    <section id="p9002" class="image-section">
+      <img src="images/p9002.jpg" alt="">
     </section>
 
-    <section id="narrative" class="reveal">
-      <img src="images/sample3.jpg" class="work-image">
-    </section>
-
-    <section id="me" class="reveal">
-      <img src="images/sample4.jpg" class="work-image">
+    <section id="p9003" class="image-section">
+      <img src="images/p9003.jpg" alt="">
     </section>
 
   </main>
 
-  <!-- Scroll animation -->
-  <script>
-    const reveals = document.querySelectorAll('.reveal');
+<script>
+const sections = document.querySelectorAll('.image-section');
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
-      });
-    }, {
-      threshold: 0.15
-    });
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+  });
+}, {
+  threshold: 0.2
+});
 
-    reveals.forEach(r => observer.observe(r));
-
-    // Mobile nav toggle
-    document.querySelector('.hamburger').addEventListener('click', () => {
-      document.querySelector('.nav').classList.toggle('open');
-    });
-  </script>
+sections.forEach(section => {
+  observer.observe(section);
+});
+</script>
 
 </body>
 </html>
