@@ -2,71 +2,76 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Hanna Portfolio</title>
-<link rel="stylesheet" href="style.css">
+<title>이미지 확대 테스트</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
+<style>
+
+/* 확대 커서 */
+.zoomable {
+  width: 600px;
+  display: block;
+  margin: 40px auto;
+  cursor: zoom-in;
+}
+
+/* 라이트박스 */
+#lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+
+  display: none;
+  justify-content: center;
+  align-items: flex-start;
+
+  overflow-y: auto;
+  padding: 40px 0;
+  z-index: 9999;
+}
+
+/* 확대 이미지 */
+#lightbox img {
+  max-width: 95%;
+  height: auto;
+}
+
+</style>
 </head>
+
 
 <body>
 
-<!-- LEFT NAV -->
-<nav class="left-nav">
-<ul>
-<li><a href="#p9001">Editorial illustration</a></li>
-<li><a href="#personal">Personal works</a></li>
-<li><a href="#comics">Narrative / Comics</a></li>
-<li><a href="#me">Me me me!</a></li>
-</ul>
-</nav>
-
-
-<!-- CENTER CONTENT -->
-<main class="content">
-
-<section id="p9001" class="image-section"><img src="images/p9001.jpg"></section>
-<section id="p9002" class="image-section"><img src="images/p9002.jpg"></section>
-<section id="p9003" class="image-section"><img src="images/p9003.jpg"></section>
-<section id="p9004" class="image-section"><img src="images/p9004.jpg"></section>
-<section id="p9005" class="image-section"><img src="images/p9005.jpg"></section>
-<section id="p9006" class="image-section"><img src="images/p9006.jpg"></section>
-
-</main>
-
-
-<!-- RIGHT NAV (THUMBNAIL) -->
-<nav class="right-nav">
-
-<a href="#p9001"><img src="images/S3001.jpg"></a>
-<a href="#p9002"><img src="images/S3002.jpg"></a>
-<a href="#p9003"><img src="images/S3003.jpg"></a>
-<a href="#p9004"><img src="images/S3004.jpg"></a>
-<a href="#p9005"><img src="images/S3005.jpg"></a>
-<a href="#p9006"><img src="images/S3006.jpg"></a>
-
-</nav>
-<!-- 기존 이미지 -->
 <img src="p9001.jpg" class="zoomable">
+<img src="p9002.jpg" class="zoomable">
 
-<!-- 페이지 맨 마지막 -->
+
 <div id="lightbox">
   <img id="lightbox-img">
 </div>
 
 
 <script>
-const sections=document.querySelectorAll('.image-section');
+document.addEventListener("DOMContentLoaded", function () {
 
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('show');
-}
+  const images = document.querySelectorAll(".zoomable");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+
+  images.forEach(img => {
+    img.addEventListener("click", function () {
+      lightbox.style.display = "flex";
+      lightboxImg.src = this.src;
+    });
+  });
+
+  lightbox.addEventListener("click", function () {
+    lightbox.style.display = "none";
+  });
+
 });
-},{threshold:0.25});
-
-sections.forEach(section=>observer.observe(section));
 </script>
 
 </body>
