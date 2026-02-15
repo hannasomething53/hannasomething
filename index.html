@@ -3,14 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery</title>
-
+<title>Portfolio</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="gallery" id="gallery"></div>
+<div class="layout">
+
+    <!-- LEFT NAV -->
+    <aside class="nav">
+        <div class="nav-inner">
+            <p>Editorial illust</p>
+            <p>Personal works</p>
+            <p>Narrative / comics</p>
+            <p>Me</p>
+        </div>
+    </aside>
+
+    <!-- GALLERY -->
+    <main class="gallery" id="gallery"></main>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <img id="lightbox-img">
+</div>
 
 <script src="script.js"></script>
 </body>
