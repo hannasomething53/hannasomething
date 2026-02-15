@@ -1,151 +1,87 @@
-/* =========================
-   기본 리셋
-========================= */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
+/* 전체 기본 */
 body{
-  font-family: sans-serif;
-  background:#ffffff;
-  overflow-x:hidden;
+  margin:0;
+  font-family:sans-serif;
+  background:white;
 }
 
-
-/* =========================
-   왼쪽 네비게이션
-========================= */
+/* 왼쪽 네비 */
 .left-nav{
   position:fixed;
-  top:40px;                 /* 상단 여백 */
   left:0;
-  width:400px;              /* 요청한 네비 폭 */
-  height:calc(100vh - 40px);
-  background:#d7d7d7;
-  padding:40px 30px;
-  z-index:1000;
+  top:20px;
+  width:400px;
 }
 
-.left-nav ul{
-  list-style:none;
+.nav-inner{
+  padding-left:40px;
 }
 
-.left-nav li{
-  margin:20px 0;
-  font-size:18px;
-  cursor:pointer;
+/* 메인 콘텐츠 영역 */
+.content{
+  margin-left:400px;
+  padding-top:20px;
 }
 
-
-/* =========================
-   메인 콘텐츠 영역
-========================= */
-.main{
-  margin-left:400px;        /* 네비 폭만큼 밀기 */
-  padding-top:40px;         /* 상단 여백 */
-  display:flex;
-  justify-content:center;
-}
-
-
-/* =========================
-   이미지 갤러리
-========================= */
+/* 갤러리 2열 */
 .gallery{
+
+  display:grid;
+
+  /* 핵심 */
+  grid-template-columns:
+    repeat(2, minmax(0, 900px));
+
+  gap:20px;
+
+  justify-content:center;
+
+  /* 반응형 핵심 */
   width:100%;
-  max-width:2000px;         /* 큰 화면 대응 */
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  max-width:calc(900px * 2 + 20px);
+  margin:0 auto;
 }
 
-.gallery img{
-
-  /* 기본 크기 */
-  width:900px;
-  max-width:90vw;           /* 브라우저 작아지면 축소 */
-
+/* 그림 */
+.art{
+  width:100%;
   height:auto;
-
-  /* 이미지 사이 간격 */
-  margin:20px 0;
-
-  /* 호버 효과 */
-  transition:transform 0.25s ease;
-
-  /* 돋보기 커서 */
+  display:block;
   cursor:zoom-in;
+  transition:transform 0.25s ease;
 }
 
-/* 호버 확대 30% */
-.gallery img:hover{
-  transform:scale(1.3);
+.art:hover{
+  transform:scale(1.03);
 }
 
-
-/* =========================
-   라이트박스 (확대 보기)
-========================= */
+/* 라이트박스 */
 .lightbox{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.92);   /* 어두운 배경 */
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-.lightbox.active{
+  background:rgba(0,0,0,0.88);
   display:flex;
+  align-items:center;
+  justify-content:center;
+  visibility:hidden;
+  opacity:0;
+  transition:0.3s;
 }
 
+.lightbox.show{
+  visibility:visible;
+  opacity:1;
+}
 
-/* 핵심: 화면 최대 활용 + 1200 제한 */
+/* 클릭 이미지 */
 .lightbox img{
 
-  object-fit:contain;
+  max-width:1200px;
+  max-height:90vh;
 
   width:auto;
   height:auto;
 
-  /* 브라우저 크기 최대 사용 */
-  max-width:min(1200px, 100vw);
-  max-height:100vh;
-
-  cursor:zoom-out;
-}
-
-
-/* =========================
-   반응형 보정
-========================= */
-@media (max-width:1200px){
-
-  .left-nav{
-    width:300px;
-  }
-
-  .main{
-    margin-left:300px;
-  }
-}
-
-@media (max-width:800px){
-
-  .left-nav{
-    position:relative;
-    width:100%;
-    height:auto;
-  }
-
-  .main{
-    margin-left:0;
-  }
-
-  .gallery img{
-    width:100%;
-  }
+  /* 화면 작으면 꽉 차게 */
+  object-fit:contain;
 }
