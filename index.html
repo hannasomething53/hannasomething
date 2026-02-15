@@ -2,60 +2,153 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfolio</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+/* ===== 기본 리셋 ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background:#f2f4f5;
+}
+
+/* ===== 페이지 레이아웃 ===== */
+.wrapper{
+  max-width:1400px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+/* ===== GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(320px,1fr));
+  gap:28px;
+}
+
+/* ===== 이미지 카드 ===== */
+.card{
+  background:white;
+  overflow:hidden;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  cursor:pointer;
+  transition:all .25s ease;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 40px rgba(0,0,0,0.18);
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  aspect-ratio:4/3;
+}
+
+/* ===== 깨진 이미지 숨김 ===== */
+img:where([src=""], :not([src])){
+  display:none;
+}
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+
+.modal.open{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.modal img{
+  max-width:92vw;
+  max-height:90vh;
+  border-radius:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+}
+
+.close{
+  position:absolute;
+  top:30px;
+  right:40px;
+  font-size:38px;
+  color:white;
+  cursor:pointer;
+}
+
+/* ===== 모바일 ===== */
+@media(max-width:600px){
+  .wrapper{
+    padding:20px 14px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<!-- 왼쪽 네비 -->
-<nav class="sidebar">
-  <div class="menu">
-    <div>Editorial illust</div>
-    <div>Personal works</div>
-    <div>Narrative / comics</div>
-    <div>Me</div>
-  </div>
-</nav>
+<div class="wrapper">
 
-<!-- 메인 -->
-<main class="main">
+<div class="grid">
 
-  <div class="gallery">
+<!-- 이미지 넣는 곳 (src만 바꾸면 됨) -->
 
-    <img src="images/e1.jpg" class="art">
-    <img src="images/e2.jpg" class="art">
-    <img src="images/e3.jpg" class="art">
-    <img src="images/e4.jpg" class="art">
-    <img src="images/e5.jpg" class="art">
-    <img src="images/e6.jpg" class="art">
-    <img src="images/e7.jpg" class="art">
-    <img src="images/e8.jpg" class="art">
-    <img src="images/e9.jpg" class="art">
-    <img src="images/e10.jpg" class="art">
-    <img src="images/e11.jpg" class="art">
-    <img src="images/e12.jpg" class="art">
-    <img src="images/e13.jpg" class="art">
-    <img src="images/e14.jpg" class="art">
-    <img src="images/e15.jpg" class="art">
-    <img src="images/e16.jpg" class="art">
-    <img src="images/e17.jpg" class="art">
-    <img src="images/e18.jpg" class="art">
-    <img src="images/e19.jpg" class="art">
-    <img src="images/e20.jpg" class="art">
-    <img src="images/e21.jpg" class="art">
-    <img src="images/e22.jpg" class="art">
+<div class="card"><img src="images/work1.jpg" alt=""></div>
+<div class="card"><img src="images/work2.jpg" alt=""></div>
+<div class="card"><img src="images/work3.jpg" alt=""></div>
+<div class="card"><img src="images/work4.jpg" alt=""></div>
+<div class="card"><img src="images/work5.jpg" alt=""></div>
+<div class="card"><img src="images/work6.jpg" alt=""></div>
 
-  </div>
-
-</main>
-
-<!-- 라이트박스 -->
-<div class="lightbox" id="lightbox">
-  <img id="lightbox-img">
+</div>
 </div>
 
-<script src="script.js"></script>
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <span class="close" id="close">&times;</span>
+  <img id="modalImg">
+</div>
+
+<script>
+const modal = document.getElementById('modal')
+const modalImg = document.getElementById('modalImg')
+const closeBtn = document.getElementById('close')
+
+document.querySelectorAll('.card img').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    modal.classList.add('open')
+    modalImg.src = img.src
+  })
+
+  /* 이미지 깨지면 카드 숨김 */
+  img.onerror = function(){
+    this.parentElement.style.display='none'
+  }
+})
+
+closeBtn.onclick = ()=> modal.classList.remove('open')
+modal.onclick = e=>{
+  if(e.target===modal) modal.classList.remove('open')
+}
+</script>
 
 </body>
 </html>
