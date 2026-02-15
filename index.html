@@ -6,13 +6,14 @@
 
 <style>
 
-/* ===== 기본 ===== */
+/* ===== 전체 ===== */
 body{
   margin:0;
-  font-family:Arial, sans-serif;
   display:flex;
   background:#eef2f3;
+  font-family:Arial, sans-serif;
 }
+
 
 /* ===== 왼쪽 네비 ===== */
 .sidebar{
@@ -24,7 +25,6 @@ body{
   position:sticky;
   top:0;
 
-  /* 슬라이드 등장 */
   transform:translateX(100%);
   animation:slideIn 0.6s ease forwards;
 }
@@ -33,51 +33,58 @@ body{
   to{ transform:translateX(0); }
 }
 
-.sidebar h3{
-  margin:0 0 20px;
-  font-weight:500;
-}
 
-.sidebar p{
-  margin:12px 0;
-  cursor:pointer;
-}
-
-/* ===== 오른쪽 영역 ===== */
+/* ===== 갤러리 영역 ===== */
 .gallery{
   flex:1;
   padding:40px;
 }
 
-/* ===== 이미지 그리드 ===== */
+
+/* ===== 2열 고정 그리드 ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(900px,1fr));
+
+  /* 핵심 */
+  grid-template-columns:repeat(2, 1fr);
+
   gap:40px;
 }
 
-/* 이미지 */
+
+/* ===== 이미지 ===== */
 .grid img{
-  width:100%;
+
+  /* 핵심 */
+  width:min(900px, 100%);
+
   height:auto;
   display:block;
+  margin:auto;
   cursor:pointer;
 }
+
 
 /* ===== 라이트박스 ===== */
 #lightbox{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.9);
+  background:rgba(0,0,0,0.92);
   display:none;
   justify-content:center;
   align-items:center;
   z-index:9999;
 }
 
+
+/* 확대 이미지 */
 #lightbox img{
-  max-width:min(1200px, 95vw);
-  max-height:95vh;
+
+  /* 핵심 확대 규칙 */
+  width:min(1200px, 92vw);
+  height:auto;
+
+  display:block;
 }
 
 </style>
@@ -88,7 +95,6 @@ body{
 
 <!-- 왼쪽 네비 -->
 <div class="sidebar">
-  <h3>Menu</h3>
   <p>Editorial illust</p>
   <p>Personal works</p>
   <p>Narrative / comics</p>
@@ -96,7 +102,7 @@ body{
 </div>
 
 
-<!-- 오른쪽 이미지 -->
+<!-- 이미지 영역 -->
 <div class="gallery">
   <div class="grid" id="grid"></div>
 </div>
@@ -111,14 +117,13 @@ body{
 
 <script>
 
-/* ===== 이미지 자동 생성 e1 ~ e22 ===== */
+/* ===== 이미지 자동 생성 ===== */
 
-const grid = document.getElementById("grid");
+const grid=document.getElementById("grid");
 
 for(let i=1;i<=22;i++){
   const img=document.createElement("img");
   img.src=`images/e${i}.jpg`;
-  img.alt=`e${i}`;
   grid.appendChild(img);
 }
 
@@ -128,10 +133,10 @@ for(let i=1;i<=22;i++){
 const lightbox=document.getElementById("lightbox");
 const lightImg=document.getElementById("lightbox-img");
 
-document.addEventListener("click", e=>{
-  if(e.target.matches(".grid img")){
-    lightbox.style.display="flex";
+document.addEventListener("click",e=>{
+  if(e.target.closest(".grid img")){
     lightImg.src=e.target.src;
+    lightbox.style.display="flex";
   }
 });
 
