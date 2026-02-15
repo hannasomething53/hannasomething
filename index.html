@@ -6,11 +6,14 @@
 
 <style>
 
-/* 전체 기본 */
+/* =========================
+   기본
+========================= */
+
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:#ffffff;
+  background:#fff;
 }
 
 /* =========================
@@ -31,7 +34,7 @@ body{
   flex-direction:column;
 
   transform:translateX(-100%);
-  animation:slideIn 0.7s ease forwards;
+  animation:slideIn .7s ease forwards;
 }
 
 @keyframes slideIn{
@@ -46,7 +49,7 @@ body{
 }
 
 /* =========================
-   CONTENT AREA
+   CONTENT
 ========================= */
 
 .content{
@@ -56,20 +59,31 @@ body{
   padding-right:40px;
 }
 
-/* masonry 2열 */
+/* =========================
+   GALLERY (핵심)
+========================= */
+
 .gallery{
-  width:min(900px, calc(100vw - 480px));
-  column-count:2;
-  column-gap:20px;
+
+  /* 디자인 기준 폭 */
+  max-width:1840px;
+
+  /* 반응형 */
+  width:100%;
+
+  /* 2열 masonry */
+  column-width:900px;
+  column-gap:40px;
 }
 
 /* 이미지 */
+
 .gallery img{
   width:100%;
   margin-bottom:20px;
   display:block;
   cursor:pointer;
-  transition:transform .3s;
+  transition:transform .25s ease;
 }
 
 .gallery img:hover{
@@ -83,15 +97,20 @@ body{
 .lightbox{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.88);
   display:none;
   justify-content:center;
   align-items:center;
+  z-index:999;
 }
 
 .lightbox img{
-  max-width:90%;
-  max-height:90%;
+  width:auto;
+  height:auto;
+
+  /* 핵심 조건 */
+  max-width:min(1200px, 92vw);
+  max-height:92vh;
 }
 
 </style>
@@ -109,9 +128,10 @@ body{
 
 <!-- CONTENT -->
 <div class="content">
+
   <div class="gallery">
 
-    <!-- e1 ~ e21 -->
+    <!-- 이미지 -->
     <img src="images/e1.jpg">
     <img src="images/e2.jpg">
     <img src="images/e3.jpg">
@@ -135,6 +155,7 @@ body{
     <img src="images/e21.jpg">
 
   </div>
+
 </div>
 
 <!-- LIGHTBOX -->
@@ -143,6 +164,7 @@ body{
 </div>
 
 <script>
+
 const lightbox=document.getElementById('lightbox');
 const lightImg=document.getElementById('lightbox-img');
 
@@ -156,6 +178,7 @@ document.querySelectorAll('.gallery img').forEach(img=>{
 lightbox.onclick=()=>{
   lightbox.style.display='none';
 };
+
 </script>
 
 </body>
