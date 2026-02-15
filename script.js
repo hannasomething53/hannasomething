@@ -1,10 +1,10 @@
-const images = document.querySelectorAll(".art");
+const imgs = document.querySelectorAll(".art");
 const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
+const lbImg = document.getElementById("lightbox-img");
 
-images.forEach(img=>{
+imgs.forEach(img=>{
   img.addEventListener("click",()=>{
-    lightboxImg.src = img.src;
+    lbImg.src = img.src;
     lightbox.classList.add("show");
   });
 });
