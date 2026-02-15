@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
+<title>Gallery</title>
 
 <style>
-/* ===== 기본 리셋 ===== */
+
 *{
   margin:0;
   padding:0;
@@ -14,57 +14,40 @@
 }
 
 body{
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background:#f2f4f5;
+  background:#111;
+  font-family:sans-serif;
 }
 
-/* ===== 페이지 레이아웃 ===== */
-.wrapper{
-  max-width:1400px;
-  margin:auto;
+/* ===== 전체 가운데 정렬 ===== */
+.container{
+  width:100%;
+  display:flex;
+  justify-content:center;
   padding:40px 20px;
 }
 
-/* ===== GRID ===== */
-.grid{
+/* ===== 실제 갤러리 ===== */
+/* 2개 이미지 × 900px 기준 */
+.gallery{
+  width:min(100%, 1840px);
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(320px,1fr));
-  gap:28px;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
 }
 
-/* ===== 이미지 카드 ===== */
-.card{
-  background:white;
-  overflow:hidden;
-  border-radius:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  cursor:pointer;
-  transition:all .25s ease;
-}
-
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 18px 40px rgba(0,0,0,0.18);
-}
-
-.card img{
+/* ===== 이미지 ===== */
+.gallery img{
   width:100%;
-  height:100%;
+  height:auto;
   display:block;
-  object-fit:cover;
-  aspect-ratio:4/3;
+  cursor:pointer;
 }
 
-/* ===== 깨진 이미지 숨김 ===== */
-img:where([src=""], :not([src])){
-  display:none;
-}
-
-/* ===== MODAL ===== */
-.modal{
+/* ===== 라이트박스 ===== */
+.lightbox{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.9);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -73,81 +56,94 @@ img:where([src=""], :not([src])){
   transition:.3s;
 }
 
-.modal.open{
+.lightbox.open{
   opacity:1;
   pointer-events:auto;
 }
 
-.modal img{
-  max-width:92vw;
-  max-height:90vh;
-  border-radius:10px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+.lightbox img{
+  width:min(1200px, 95vw);
+  height:auto;
 }
 
 .close{
   position:absolute;
   top:30px;
   right:40px;
-  font-size:38px;
+  font-size:40px;
   color:white;
   cursor:pointer;
 }
 
-/* ===== 모바일 ===== */
-@media(max-width:600px){
-  .wrapper{
-    padding:20px 14px;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="container">
 
-<div class="grid">
+<div class="gallery">
 
-<!-- 이미지 넣는 곳 (src만 바꾸면 됨) -->
+<img src="images/e1.jpg">
+<img src="images/e2.jpg">
 
-<div class="card"><img src="images/work1.jpg" alt=""></div>
-<div class="card"><img src="images/work2.jpg" alt=""></div>
-<div class="card"><img src="images/work3.jpg" alt=""></div>
-<div class="card"><img src="images/work4.jpg" alt=""></div>
-<div class="card"><img src="images/work5.jpg" alt=""></div>
-<div class="card"><img src="images/work6.jpg" alt=""></div>
+<img src="images/e3.jpg">
+<img src="images/e4.jpg">
+
+<img src="images/e5.jpg">
+<img src="images/e6.jpg">
+
+<img src="images/e7.jpg">
+<img src="images/e8.jpg">
+
+<img src="images/e9.jpg">
+<img src="images/e10.jpg">
+
+<img src="images/e11.jpg">
+<img src="images/e12.jpg">
+
+<img src="images/e13.jpg">
+<img src="images/e14.jpg">
+
+<img src="images/e15.jpg">
+<img src="images/e16.jpg">
+
+<img src="images/e17.jpg">
+<img src="images/e18.jpg">
+
+<img src="images/e19.jpg">
+<img src="images/e20.jpg">
+
+<img src="images/e21.jpg">
+<img src="images/e22.jpg">
 
 </div>
 </div>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox">
   <span class="close" id="close">&times;</span>
-  <img id="modalImg">
+  <img id="lightImg">
 </div>
 
 <script>
-const modal = document.getElementById('modal')
-const modalImg = document.getElementById('modalImg')
+
+const box = document.getElementById('lightbox')
+const lightImg = document.getElementById('lightImg')
 const closeBtn = document.getElementById('close')
 
-document.querySelectorAll('.card img').forEach(img=>{
-  img.addEventListener('click', ()=>{
-    modal.classList.add('open')
-    modalImg.src = img.src
-  })
-
-  /* 이미지 깨지면 카드 숨김 */
-  img.onerror = function(){
-    this.parentElement.style.display='none'
+document.querySelectorAll('.gallery img').forEach(img=>{
+  img.onclick=()=>{
+    box.classList.add('open')
+    lightImg.src=img.src
   }
 })
 
-closeBtn.onclick = ()=> modal.classList.remove('open')
-modal.onclick = e=>{
-  if(e.target===modal) modal.classList.remove('open')
+closeBtn.onclick=()=>box.classList.remove('open')
+box.onclick=e=>{
+  if(e.target===box) box.classList.remove('open')
 }
+
 </script>
 
 </body>
