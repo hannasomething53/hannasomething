@@ -1,13 +1,14 @@
-const viewer = document.getElementById("viewer");
-const viewerImg = document.getElementById("viewerImg");
+const images = document.querySelectorAll(".art");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
 
-document.querySelectorAll(".art").forEach(img=>{
-img.onclick = ()=>{
-viewer.style.display="flex";
-viewerImg.src = img.src;
-};
+images.forEach(img=>{
+  img.addEventListener("click",()=>{
+    lightboxImg.src = img.src;
+    lightbox.classList.add("show");
+  });
 });
 
-viewer.onclick = ()=>{
-viewer.style.display="none";
-};
+lightbox.addEventListener("click",()=>{
+  lightbox.classList.remove("show");
+});
