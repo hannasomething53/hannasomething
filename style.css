@@ -3,41 +3,58 @@ body{
   font-family:sans-serif;
 }
 
-/* 왼쪽 회색 패널 */
-.left-panel{
+/* ===== 왼쪽 네비 ===== */
+
+.sidebar{
   position:fixed;
   left:0;
   top:0;
   width:400px;
   height:100vh;
   background:#d7d7d7;
+
+  /* 처음에는 화면 밖 */
+  transform:translateX(100%);
+  animation:slideIn 0.7s ease forwards;
 }
 
-/* 카테고리 세로 중앙 */
+/* 오른쪽 → 왼쪽 등장 */
+@keyframes slideIn{
+  to{
+    transform:translateX(0);
+  }
+}
+
+/* 카테고리 중앙 */
 .menu{
   position:absolute;
   top:50%;
-  left:40px;
+  left:50px;
   transform:translateY(-50%);
+  font-size:18px;
+  line-height:2;
 }
 
-/* 메인 영역 */
+
+/* ===== 메인 영역 ===== */
+
 .main{
   margin-left:400px;
-  padding-top:20px;
+  padding:20px 20px;
 }
 
-/* 갤러리 */
+/* ===== 갤러리 ===== */
+
 .gallery{
 
   display:grid;
 
-  /* 핵심 */
+  /* 2열 */
   grid-template-columns: repeat(2, 1fr);
 
   gap:20px;
 
-  /* 최대 실제 폭 = 900 + 900 + gap */
+  /* 실제 최대 폭 */
   max-width:1820px;
 
   margin:0 auto;
@@ -46,7 +63,7 @@ body{
 /* 그림 */
 .art{
   width:100%;
-  max-width:900px;   /* 핵심 */
+  max-width:900px;
   height:auto;
   cursor:zoom-in;
   transition:0.25s;
@@ -56,7 +73,9 @@ body{
   transform:scale(1.03);
 }
 
-/* 라이트박스 */
+
+/* ===== 라이트박스 ===== */
+
 .lightbox{
   position:fixed;
   inset:0;
@@ -74,11 +93,10 @@ body{
   opacity:1;
 }
 
-/* 클릭 확대 */
+/* 클릭 이미지 */
 .lightbox img{
 
   /* 핵심 */
   width:min(1200px, 95vw);
-
   height:auto;
 }
