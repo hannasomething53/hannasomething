@@ -1,41 +1,77 @@
-body {
-    margin: 0;
-    background: #000;
-    font-family: sans-serif;
+body{
+    margin:0;
+    background:#fff;
+    font-family:sans-serif;
 }
 
-/* ===== GRID ===== */
+/* ===== 전체 레이아웃 ===== */
 
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-    padding: 40px;
+.layout{
+    display:flex;
 }
 
-/* ===== IMAGE ===== */
+/* ===== 왼쪽 네비 ===== */
 
-.gallery img {
-    width: 100%;
-    height: auto;
-    display: block;
-    background: #111;
-    border-radius: 6px;
-    transition: transform 0.25s ease;
+.nav{
+    width:400px;
+    min-width:400px;
+    background:#d7d7d7;
+    height:100vh;
+    position:sticky;
+    top:0;
 }
 
-.gallery img:hover {
-    transform: scale(1.02);
+.nav-inner{
+    padding-top:80px;
+    padding-left:40px;
+    line-height:2;
 }
 
-/* ===== 깨진 이미지도 표시 ===== */
+/* ===== 갤러리 ===== */
 
-.broken {
-    background: #111;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    font-size: 14px;
+.gallery{
+    margin-left:40px;
+    padding:40px;
+
+    column-count:2;
+    column-gap:20px;
+
+    max-width: calc(900px * 2 + 20px);
+}
+
+/* masonry 핵심 */
+.gallery img{
+    width:100%;
+    max-width:900px;
+    margin-bottom:20px;
+    display:block;
+    break-inside:avoid;
+    cursor:pointer;
+}
+
+/* ===== LIGHTBOX ===== */
+
+.lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+}
+
+.lightbox img{
+    max-width:1200px;
+    max-height:95vh;
+    width:auto;
+    height:auto;
+}
+
+/* ===== 반응형 ===== */
+
+@media (max-width:1500px){
+    .gallery{
+        column-count:1;
+    }
 }
