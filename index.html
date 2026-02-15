@@ -3,59 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <title>Portfolio</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* 전체 기본 */
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#ffffff;
+}
+
+/* =========================
+   LEFT NAV
+========================= */
+
+.left-nav{
+  position:fixed;
+  top:20px;
+  left:0;
+  width:400px;
+  height:calc(100vh - 20px);
+  background:#d7d7d7;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  transform:translateX(-100%);
+  animation:slideIn 0.7s ease forwards;
+}
+
+@keyframes slideIn{
+  to{ transform:translateX(0); }
+}
+
+.left-nav a{
+  text-decoration:none;
+  color:#000;
+  font-size:22px;
+  margin:18px 0;
+}
+
+/* =========================
+   CONTENT AREA
+========================= */
+
+.content{
+  margin-left:400px;
+  padding-top:40px;
+  padding-left:40px;
+  padding-right:40px;
+}
+
+/* masonry 2열 */
+.gallery{
+  width:min(900px, calc(100vw - 480px));
+  column-count:2;
+  column-gap:20px;
+}
+
+/* 이미지 */
+.gallery img{
+  width:100%;
+  margin-bottom:20px;
+  display:block;
+  cursor:pointer;
+  transition:transform .3s;
+}
+
+.gallery img:hover{
+  transform:scale(1.05);
+}
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+}
+
+</style>
 </head>
 
 <body>
 
 <!-- LEFT NAV -->
-<nav class="left-nav">
-<div class="nav-inner">
-<a href="#">Editorial illust</a>
-<a href="#">Personal works</a>
-<a href="#">Narrative / comics</a>
-<a href="#">Me</a>
+<div class="left-nav">
+  <a href="#">Editorial illust</a>
+  <a href="#">Personal works</a>
+  <a href="#">Narrative / comics</a>
+  <a href="#">Me</a>
 </div>
-</nav>
-
 
 <!-- CONTENT -->
-<main class="content">
+<div class="content">
+  <div class="gallery">
 
-<div class="grid">
+    <!-- e1 ~ e21 -->
+    <img src="images/e1.jpg">
+    <img src="images/e2.jpg">
+    <img src="images/e3.jpg">
+    <img src="images/e4.jpg">
+    <img src="images/e5.jpg">
+    <img src="images/e6.jpg">
+    <img src="images/e7.jpg">
+    <img src="images/e8.jpg">
+    <img src="images/e9.jpg">
+    <img src="images/e10.jpg">
+    <img src="images/e11.jpg">
+    <img src="images/e12.jpg">
+    <img src="images/e13.jpg">
+    <img src="images/e14.jpg">
+    <img src="images/e15.jpg">
+    <img src="images/e16.jpg">
+    <img src="images/e17.jpg">
+    <img src="images/e18.jpg">
+    <img src="images/e19.jpg">
+    <img src="images/e20.jpg">
+    <img src="images/e21.jpg">
 
-<img src="images/e1.jpg" class="art">
-<img src="images/e2.jpg" class="art">
-<img src="images/e3.jpg" class="art">
-<img src="images/e4.jpg" class="art">
-<img src="images/e5.jpg" class="art">
-<img src="images/e6.jpg" class="art">
-<img src="images/e7.jpg" class="art">
-<img src="images/e8.jpg" class="art">
-<img src="images/e9.jpg" class="art">
-<img src="images/e10.jpg" class="art">
-<img src="images/e11.jpg" class="art">
-<img src="images/e12.jpg" class="art">
-<img src="images/e13.jpg" class="art">
-<img src="images/e14.jpg" class="art">
-<img src="images/e15.jpg" class="art">
-<img src="images/e16.jpg" class="art">
-<img src="images/e17.jpg" class="art">
-<img src="images/e18.jpg" class="art">
-<img src="images/e19.jpg" class="art">
-<img src="images/e20.jpg" class="art">
-<img src="images/e21.jpg" class="art">
-
+  </div>
 </div>
-
-</main>
-
 
 <!-- LIGHTBOX -->
-<div id="viewer">
-<img id="viewerImg">
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img">
 </div>
 
-<script src="script.js"></script>
+<script>
+const lightbox=document.getElementById('lightbox');
+const lightImg=document.getElementById('lightbox-img');
+
+document.querySelectorAll('.gallery img').forEach(img=>{
+  img.onclick=()=>{
+    lightbox.style.display='flex';
+    lightImg.src=img.src;
+  }
+});
+
+lightbox.onclick=()=>{
+  lightbox.style.display='none';
+};
+</script>
+
 </body>
 </html>
