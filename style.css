@@ -1,54 +1,55 @@
-/* 전체 기본 */
 body{
   margin:0;
   font-family:sans-serif;
-  background:white;
 }
 
-/* 왼쪽 네비 */
-.left-nav{
+/* 왼쪽 회색 패널 */
+.left-panel{
   position:fixed;
   left:0;
-  top:20px;
+  top:0;
   width:400px;
+  height:100vh;
+  background:#d7d7d7;
 }
 
-.nav-inner{
-  padding-left:40px;
+/* 카테고리 세로 중앙 */
+.menu{
+  position:absolute;
+  top:50%;
+  left:40px;
+  transform:translateY(-50%);
 }
 
-/* 메인 콘텐츠 영역 */
-.content{
+/* 메인 영역 */
+.main{
   margin-left:400px;
   padding-top:20px;
 }
 
-/* 갤러리 2열 */
+/* 갤러리 */
 .gallery{
 
   display:grid;
 
   /* 핵심 */
-  grid-template-columns:
-    repeat(2, minmax(0, 900px));
+  grid-template-columns: repeat(2, 1fr);
 
   gap:20px;
 
-  justify-content:center;
+  /* 최대 실제 폭 = 900 + 900 + gap */
+  max-width:1820px;
 
-  /* 반응형 핵심 */
-  width:100%;
-  max-width:calc(900px * 2 + 20px);
   margin:0 auto;
 }
 
 /* 그림 */
 .art{
   width:100%;
+  max-width:900px;   /* 핵심 */
   height:auto;
-  display:block;
   cursor:zoom-in;
-  transition:transform 0.25s ease;
+  transition:0.25s;
 }
 
 .art:hover{
@@ -59,7 +60,7 @@ body{
 .lightbox{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.88);
+  background:rgba(0,0,0,0.92);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -73,15 +74,11 @@ body{
   opacity:1;
 }
 
-/* 클릭 이미지 */
+/* 클릭 확대 */
 .lightbox img{
 
-  max-width:1200px;
-  max-height:90vh;
+  /* 핵심 */
+  width:min(1200px, 95vw);
 
-  width:auto;
   height:auto;
-
-  /* 화면 작으면 꽉 차게 */
-  object-fit:contain;
 }
