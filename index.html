@@ -3,183 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <title>Portfolio</title>
-
-<style>
-
-/* =========================
-   기본
-========================= */
-
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#fff;
-}
-
-/* =========================
-   LEFT NAV
-========================= */
-
-.left-nav{
-  position:fixed;
-  top:20px;
-  left:0;
-  width:400px;
-  height:calc(100vh - 20px);
-  background:#d7d7d7;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-
-  transform:translateX(-100%);
-  animation:slideIn .7s ease forwards;
-}
-
-@keyframes slideIn{
-  to{ transform:translateX(0); }
-}
-
-.left-nav a{
-  text-decoration:none;
-  color:#000;
-  font-size:22px;
-  margin:18px 0;
-}
-
-/* =========================
-   CONTENT
-========================= */
-
-.content{
-  margin-left:400px;
-  padding-top:40px;
-  padding-left:40px;
-  padding-right:40px;
-}
-
-/* =========================
-   GALLERY (핵심)
-========================= */
-
-.gallery{
-
-  /* 디자인 기준 폭 */
-  max-width:1840px;
-
-  /* 반응형 */
-  width:100%;
-
-  /* 2열 masonry */
-  column-width:900px;
-  column-gap:40px;
-}
-
-/* 이미지 */
-
-.gallery img{
-  width:100%;
-  margin-bottom:20px;
-  display:block;
-  cursor:pointer;
-  transition:transform .25s ease;
-}
-
-.gallery img:hover{
-  transform:scale(1.05);
-}
-
-/* =========================
-   LIGHTBOX
-========================= */
-
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.88);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-
-.lightbox img{
-  width:auto;
-  height:auto;
-
-  /* 핵심 조건 */
-  max-width:min(1200px, 92vw);
-  max-height:92vh;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- LEFT NAV -->
-<div class="left-nav">
-  <a href="#">Editorial illust</a>
-  <a href="#">Personal works</a>
-  <a href="#">Narrative / comics</a>
-  <a href="#">Me</a>
-</div>
+<!-- 왼쪽 네비 -->
+<nav class="left-nav">
+  <div class="nav-inner">
+    <div>Editorial illust</div>
+    <div>Personal works</div>
+    <div>Narrative / comics</div>
+    <div>Me</div>
+  </div>
+</nav>
 
-<!-- CONTENT -->
-<div class="content">
+<!-- 메인 그림 영역 -->
+<main class="content">
 
   <div class="gallery">
 
-    <!-- 이미지 -->
-    <img src="images/e1.jpg">
-    <img src="images/e2.jpg">
-    <img src="images/e3.jpg">
-    <img src="images/e4.jpg">
-    <img src="images/e5.jpg">
-    <img src="images/e6.jpg">
-    <img src="images/e7.jpg">
-    <img src="images/e8.jpg">
-    <img src="images/e9.jpg">
-    <img src="images/e10.jpg">
-    <img src="images/e11.jpg">
-    <img src="images/e12.jpg">
-    <img src="images/e13.jpg">
-    <img src="images/e14.jpg">
-    <img src="images/e15.jpg">
-    <img src="images/e16.jpg">
-    <img src="images/e17.jpg">
-    <img src="images/e18.jpg">
-    <img src="images/e19.jpg">
-    <img src="images/e20.jpg">
-    <img src="images/e21.jpg">
+    <!-- 이미지 21개 -->
+    <!-- 파일 위치 images/e1.jpg 형식 -->
+
+    <img src="images/e1.jpg" class="art">
+    <img src="images/e2.jpg" class="art">
+    <img src="images/e3.jpg" class="art">
+    <img src="images/e4.jpg" class="art">
+    <img src="images/e5.jpg" class="art">
+    <img src="images/e6.jpg" class="art">
+    <img src="images/e7.jpg" class="art">
+    <img src="images/e8.jpg" class="art">
+    <img src="images/e9.jpg" class="art">
+    <img src="images/e10.jpg" class="art">
+    <img src="images/e11.jpg" class="art">
+    <img src="images/e12.jpg" class="art">
+    <img src="images/e13.jpg" class="art">
+    <img src="images/e14.jpg" class="art">
+    <img src="images/e15.jpg" class="art">
+    <img src="images/e16.jpg" class="art">
+    <img src="images/e17.jpg" class="art">
+    <img src="images/e18.jpg" class="art">
+    <img src="images/e19.jpg" class="art">
+    <img src="images/e20.jpg" class="art">
+    <img src="images/e21.jpg" class="art">
 
   </div>
 
-</div>
+</main>
 
-<!-- LIGHTBOX -->
+
+<!-- 라이트박스 -->
 <div class="lightbox" id="lightbox">
   <img id="lightbox-img">
 </div>
 
-<script>
-
-const lightbox=document.getElementById('lightbox');
-const lightImg=document.getElementById('lightbox-img');
-
-document.querySelectorAll('.gallery img').forEach(img=>{
-  img.onclick=()=>{
-    lightbox.style.display='flex';
-    lightImg.src=img.src;
-  }
-});
-
-lightbox.onclick=()=>{
-  lightbox.style.display='none';
-};
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
