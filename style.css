@@ -1,107 +1,41 @@
-body{
-  margin:0;
-  font-family:sans-serif;
+body {
+    margin: 0;
+    background: #000;
+    font-family: sans-serif;
 }
 
-/* ===== 왼쪽 네비 ===== */
+/* ===== GRID ===== */
 
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  width:400px;
-  height:100vh;
-  background:#d7d7d7;
-
-  /* 처음에는 화면 밖 */
-  transform:translateX(100%);
-  animation:slideIn 0.7s ease forwards;
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 40px;
 }
 
-/* 오른쪽 → 왼쪽 등장 */
-@keyframes slideIn{
-  to{
-    transform:translateX(0);
-  }
+/* ===== IMAGE ===== */
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #111;
+    border-radius: 6px;
+    transition: transform 0.25s ease;
 }
 
-/* 카테고리 중앙 */
-.menu{
-  position:absolute;
-  top:50%;
-  left:50px;
-  transform:translateY(-50%);
-  font-size:18px;
-  line-height:2;
+.gallery img:hover {
+    transform: scale(1.02);
 }
 
+/* ===== 깨진 이미지도 표시 ===== */
 
-/* ===== 메인 영역 ===== */
-
-.main{
-  margin-left:400px;
-  padding:20px 20px;
+.broken {
+    background: #111;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    font-size: 14px;
 }
-
-/* ===== 갤러리 ===== */
-
-.gallery{
-
-  display:grid;
-
-  /* 2열 */
-  grid-template-columns: repeat(2, 1fr);
-
-  gap:20px;
-
-  /* 실제 최대 폭 */
-  max-width:1820px;
-
-  margin:0 auto;
-}
-
-/* 그림 */
-.art{
-  width:100%;
-  max-width:900px;
-  height:auto;
-  cursor:zoom-in;
-  transition:0.25s;
-}
-
-.art:hover{
-  transform:scale(1.03);
-}
-
-
-/* ===== 라이트박스 ===== */
-
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.85);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  visibility:hidden;
-  opacity:0;
-  transition:0.3s;
-}
-
-.lightbox.show{
-  visibility:visible;
-  opacity:1;
-}
-
-/* 클릭 이미지 */
-.lightbox img{
-
-  max-width:1200px;
-  max-height:90vh;
-
-  width:auto;
-  height:auto;
-
-  display:block;
-}
-
