@@ -18,6 +18,7 @@ body{
 /* ===== 왼쪽 네비 ===== */
 .sidebar{
   width:400px;
+  min-width:400px;
   height:100vh;
   background:#d9d9d9;
   padding:60px 40px;
@@ -41,26 +42,34 @@ body{
 }
 
 
-/* ===== 2열 고정 그리드 ===== */
+/* ===== 2열 고정 + 반응형 ===== */
 .grid{
   display:grid;
 
-  /* 핵심 */
+  /* 항상 2열 */
   grid-template-columns:repeat(2, 1fr);
 
   gap:40px;
+
+  /* 최대 900px * 2 */
+  max-width:1840px;
+
+  width:100%;
 }
 
 
 /* ===== 이미지 ===== */
 .grid img{
 
-  /* 핵심 */
-  width:min(900px, 100%);
+  /* 열 전체 채우되 */
+  width:100%;
+
+  /* 최대 900px */
+  max-width:900px;
 
   height:auto;
   display:block;
-  margin:auto;
+  margin:0 auto;
   cursor:pointer;
 }
 
@@ -80,11 +89,10 @@ body{
 /* 확대 이미지 */
 #lightbox img{
 
-  /* 핵심 확대 규칙 */
-  width:min(1200px, 92vw);
-  height:auto;
-
-  display:block;
+  /* 브라우저 꽉 채움 */
+  width:min(1200px, 95vw);
+  max-height:95vh;
+  object-fit:contain;
 }
 
 </style>
@@ -93,7 +101,6 @@ body{
 
 <body>
 
-<!-- 왼쪽 네비 -->
 <div class="sidebar">
   <p>Editorial illust</p>
   <p>Personal works</p>
@@ -102,13 +109,11 @@ body{
 </div>
 
 
-<!-- 이미지 영역 -->
 <div class="gallery">
   <div class="grid" id="grid"></div>
 </div>
 
 
-<!-- 라이트박스 -->
 <div id="lightbox">
   <img id="lightbox-img">
 </div>
@@ -116,8 +121,6 @@ body{
 
 
 <script>
-
-/* ===== 이미지 자동 생성 ===== */
 
 const grid=document.getElementById("grid");
 
@@ -127,8 +130,6 @@ for(let i=1;i<=22;i++){
   grid.appendChild(img);
 }
 
-
-/* ===== 라이트박스 ===== */
 
 const lightbox=document.getElementById("lightbox");
 const lightImg=document.getElementById("lightbox-img");
