@@ -9,47 +9,50 @@
 
 body{
 margin:0;
-display:flex;
-justify-content:center;
 font-family:'Playwrite NZ Basic', cursive;
 }
 
-/* 전체 레이아웃 */
-.wrapper{
+/* ===== 중앙 정렬 영역 ===== */
+.main{
 display:flex;
-width:100%;
-max-width:1600px;
+justify-content:center;
+margin-top:20px; /* 상단 여백 */
 }
 
-/* 왼쪽 네비 */
+/* ===== 갤러리 ===== */
+.gallery{
+width:clamp(900px, 60vw, 1400px);
+display:flex;
+flex-direction:column;
+gap:40px;
+}
+
+.gallery img{
+width:100%;
+cursor:zoom-in;
+}
+
+/* ===== 왼쪽 네비 ===== */
 .left-nav{
-align-self:center;
-margin-right:clamp(20px,5vw,50px);
+position:fixed;
+left:40px;
+top:50%;
+transform:translateY(-50%);
 }
 
 .nav-box{
 border:1px solid #999;
-padding:8px 20px;
+padding:8px 24px;
 font-size:26px;
 white-space:nowrap;
 }
 
-/* 갤러리 */
-.gallery{
-display:flex;
-flex-direction:column;
-gap:30px;
-}
-
-.gallery img{
-max-width:700px;
-cursor:zoom-in;
-}
-
-/* 썸네일 */
+/* ===== 오른쪽 썸네일 ===== */
 .thumbs{
-margin-left:clamp(60px,10vw,200px);
-height:100vh;
+position:fixed;
+right:40px;
+top:20px;
+height:calc(100vh - 40px);
 overflow-y:auto;
 scrollbar-width:none;
 }
@@ -61,16 +64,16 @@ display:none;
 .thumbs img{
 width:180px;
 display:block;
-margin-bottom:10px;
+margin-bottom:12px;
 cursor:pointer;
-transition:0.3s;
+transition:0.25s;
 }
 
 .thumbs img:hover{
 opacity:0.7;
 }
 
-/* 라이트박스 */
+/* ===== 라이트박스 ===== */
 .lightbox{
 position:fixed;
 top:0;
@@ -93,8 +96,6 @@ max-width:90vw;
 
 <body>
 
-<div class="wrapper">
-
 <!-- 왼쪽 네비 -->
 <div class="left-nav">
 <div class="nav-box">Editorial illust</div>
@@ -103,13 +104,13 @@ max-width:90vw;
 <div class="nav-box">me</div>
 </div>
 
-<!-- 갤러리 -->
+<!-- 중앙 갤러리 -->
+<div class="main">
 <div class="gallery" id="gallery"></div>
-
-<!-- 썸네일 -->
-<div class="thumbs" id="thumbs"></div>
-
 </div>
+
+<!-- 오른쪽 썸네일 -->
+<div class="thumbs" id="thumbs"></div>
 
 <!-- 라이트박스 -->
 <div class="lightbox" id="lightbox">
@@ -123,34 +124,31 @@ const thumbs=document.getElementById("thumbs");
 const lightbox=document.getElementById("lightbox");
 const lightboxImg=document.getElementById("lightbox-img");
 
-/* 이미 존재하는 파일 목록 */
 const total=22;
 
 for(let i=1;i<=total;i++){
 
-const filename=`images/e${i}.jpg`;
+const src=`images/e${i}.jpg`;
 
-/* ===== 갤러리 ===== */
-const gImg=document.createElement("img");
-gImg.src=filename;
-gImg.id=`img${i}`;
-gallery.appendChild(gImg);
+/* 갤러리 */
+const g=document.createElement("img");
+g.src=src;
+g.id=`img${i}`;
+gallery.appendChild(g);
 
-/* 라이트박스 */
-gImg.onclick=()=>{
+g.onclick=()=>{
 lightbox.style.display="flex";
-lightboxImg.src=filename;
+lightboxImg.src=src;
 };
 
-/* ===== 썸네일 ===== */
-const tImg=document.createElement("img");
-tImg.src=filename;
-thumbs.appendChild(tImg);
+/* 썸네일 */
+const t=document.createElement("img");
+t.src=src;
+thumbs.appendChild(t);
 
-/* 썸네일 클릭 → 갤러리 이동 */
-tImg.onclick=()=>{
+t.onclick=()=>{
 document.getElementById(`img${i}`)
-.scrollIntoView({behavior:"smooth",block:"center"});
+.scrollIntoView({behavior:"smooth", block:"center"});
 };
 
 }
