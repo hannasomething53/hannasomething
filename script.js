@@ -1,68 +1,56 @@
-/* =========================
-스크롤 이미지 등장
-========================= */
+const gallery = document.getElementById("gallery");
+const thumbs = document.getElementById("thumbs");
 
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('show');
+/* =====================
+이미지 자동 생성
+===================== */
+
+for(let i=1;i<=22;i++){
+
+// 메인 이미지
+const img=document.createElement("img");
+img.src=`images/e${i}.jpg`;
+img.className="art";
+img.id=`e${i}`;
+gallery.appendChild(img);
+
+// 썸네일
+const t=document.createElement("img");
+t.src=`images/e${i}.jpg`;
+t.onclick=()=>img.scrollIntoView({behavior:"smooth"});
+thumbs.appendChild(t);
 }
+
+/* =====================
+스크롤 등장
+===================== */
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting) e.target.classList.add("show");
 });
 });
 
-document.querySelectorAll('.art').forEach(img=>{
+document.querySelectorAll(".art").forEach(img=>{
 observer.observe(img);
 });
 
+/* =====================
+라이트박스
+===================== */
 
-/* =========================
-이미지 클릭 확대
-========================= */
+const viewer=document.getElementById("viewer");
+const viewerImg=document.getElementById("viewerImg");
 
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewerImg');
-
-document.querySelectorAll('.art').forEach(img=>{
-img.addEventListener('click',()=>{
-viewer.style.display='flex';
+document.querySelectorAll(".art").forEach(img=>{
+img.onclick=()=>{
+viewer.style.display="flex";
 viewerImg.src=img.src;
-});
-});
-
-viewer.addEventListener('click',()=>{
-viewer.style.display='none';
+};
 });
 
+viewer.onclick=()=>viewer.style.display="none";
 
-/* =========================
-부드러운 스크롤
-========================= */
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-anchor.addEventListener('click',function(e){
-e.preventDefault();
-document.querySelector(this.getAttribute('href'))
-.scrollIntoView({behavior:'smooth'});
-});
-});
-
-
-/* =========================
-오른쪽 썸네일 자동 생성
-========================= */
-
-const thumbNav = document.getElementById('thumbNav');
-const artworks = document.querySelectorAll('.art');
-
-artworks.forEach(img=>{
-
-const thumb = document.createElement('img');
-thumb.src = img.src;
-
-thumb.addEventListener('click',()=>{
-img.scrollIntoView({behavior:'smooth'});
-});
-
-thumbNav.appendChild(thumb);
-
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape") viewer.style.display="none";
 });
