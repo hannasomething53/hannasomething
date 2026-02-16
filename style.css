@@ -1,40 +1,26 @@
-/* =========================
-기본 설정
-========================= */
-
 body{
 margin:0;
-padding-top:40px;
 background:white;
-font-family:'Playwrite NZ Basic', sans-serif;
+font-family:sans-serif;
 }
 
-a{
-text-decoration:none;
-color:black;
-}
-
-
-/* =========================
-중앙 콘텐츠
-========================= */
+/* =====================
+중앙 갤러리
+===================== */
 
 .content-wrapper{
 width:clamp(700px,65vw,1100px);
 margin:0 auto;
-position:relative;
+padding-top:40px;
 }
 
 .art{
 width:100%;
-display:block;
 margin-bottom:80px;
 cursor:zoom-in;
-opacity:0;
-transform:translateY(80px);
-transition:
-transform 0.6s ease,
-opacity 0.9s ease;
+opacity:0.4;
+transform:translateY(60px);
+transition:0.8s;
 }
 
 .art.show{
@@ -42,62 +28,37 @@ opacity:1;
 transform:translateY(0);
 }
 
-
-/* =========================
-왼쪽 네비 (절대 유지)
-========================= */
+/* =====================
+왼쪽 네비
+===================== */
 
 .left-nav{
 position:fixed;
-top:45%;
+top:50%;
 transform:translateY(-50%);
-left:calc(
-50% -
-(clamp(700px,65vw,1100px) / 2)
-- 40px
-- 160px
-);
-width:160px;
+left:40px;
+width:220px;
+font-family:'Winky Rough', sans-serif;
 }
 
 .nav-box{
 display:block;
 border:1px solid #ddd;
-padding:7px 6px;
-font-size:14px;
-background:white;
-transition:0.25s;
+padding:12px;
+font-size:24px;
+margin-bottom:-1px;
 }
 
-.nav-box + .nav-box{
-margin-top:-1px;
-}
-
-.nav-box:hover{
-animation:shake 0.45s infinite;
-}
-
-
-/* =========================
-오른쪽 썸네일 네비 (새로 추가)
-========================= */
+/* =====================
+오른쪽 썸네일
+===================== */
 
 .right-nav{
 position:fixed;
-top:40px;
-height:calc(100vh - 80px);
-overflow-y:auto;
-overflow-x:hidden;
-
-right:calc(
-50% -
-(clamp(700px,65vw,1100px)/2)
-- 50px
-- 200px
-);
-
+top:0;
+right:40px;
 width:200px;
-padding-right:5px;
+padding-top:40px;
 }
 
 .right-nav img{
@@ -105,27 +66,16 @@ width:200px;
 display:block;
 margin-bottom:12px;
 cursor:pointer;
-opacity:0.9;
-transition:0.25s;
+transition:0.2s;
 }
 
 .right-nav img:hover{
-animation:shake 0.4s infinite;
-opacity:1;
+border:2px solid black;
 }
 
-.right-nav::-webkit-scrollbar{
-width:6px;
-}
-
-.right-nav::-webkit-scrollbar-thumb{
-background:#bbb;
-border-radius:3px;
-}
-
-/* =========================
-이미지 확대 모달 (진짜 전체화면)
-========================= */
+/* =====================
+라이트박스
+===================== */
 
 #viewer{
 position:fixed;
@@ -133,7 +83,7 @@ top:0;
 left:0;
 width:100vw;
 height:100vh;
-background:rgba(0,0,0,0.85);
+background:rgba(0,0,0,0.8);
 display:none;
 align-items:center;
 justify-content:center;
@@ -141,41 +91,15 @@ z-index:9999;
 }
 
 #viewer img{
-width:auto;
-height:auto;
-
-/* 핵심 */
-max-width:1200px;
 max-height:100vh;
-
+max-width:1200px;
 object-fit:contain;
 }
 
-
-/* =========================
-흔들림 애니메이션
-========================= */
-
-@keyframes shake{
-0%{transform:translateX(0)}
-25%{transform:translateX(-2px)}
-50%{transform:translateX(2px)}
-75%{transform:translateX(-2px)}
-100%{transform:translateX(0)}
-}
-
-
-/* =========================
-모바일
-========================= */
-
-@media (max-width:768px){
-.left-nav,
-.right-nav{
-display:none;
-}
+/* =====================
+썸네일과 갤러리 간격
+===================== */
 
 .content-wrapper{
-width:92vw;
-}
+margin-right:250px; /* 썸네일 + 50px 간격 */
 }
