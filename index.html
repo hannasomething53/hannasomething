@@ -3,89 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Portfolio</title>
 
-<!-- 기존 폰트 그대로 -->
-<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Winky+Rough&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- =========================
-왼쪽 카테고리 네비 (절대 수정 안함)
-========================= -->
+<!-- 왼쪽 네비 -->
 <nav class="left-nav">
-
-<a href="#e1" class="nav-box">Editorial illustration</a>
+<a href="#e1" class="nav-box">Editorial illust</a>
 <a href="#" class="nav-box">Personal works</a>
-<a href="#" class="nav-box">Narrative / Comics</a>
-<a href="#" class="nav-box">Me me me!</a>
-
+<a href="#" class="nav-box">Comics</a>
+<a href="#" class="nav-box">Me</a>
 </nav>
 
+<!-- 중앙 갤러리 -->
+<main class="content-wrapper" id="gallery"></main>
 
-<!-- =========================
-중앙 콘텐츠 (e1 ~ e22)
-========================= -->
-<main class="content-wrapper">
+<!-- 오른쪽 썸네일 -->
+<nav class="right-nav" id="thumbs"></nav>
 
-<img id="e1" src="images/e1.jpg" class="art">
-<img id="e2" src="images/e2.jpg" class="art">
-<img id="e3" src="images/e3.jpg" class="art">
-<img id="e4" src="images/e4.jpg" class="art">
-<img id="e5" src="images/e5.jpg" class="art">
-<img id="e6" src="images/e6.jpg" class="art">
-<img id="e7" src="images/e7.jpg" class="art">
-<img id="e8" src="images/e8.jpg" class="art">
-<img id="e9" src="images/e9.jpg" class="art">
-<img id="e10" src="images/e10.jpg" class="art">
-<img id="e11" src="images/e11.jpg" class="art">
-<img id="e12" src="images/e12.jpg" class="art">
-<img id="e13" src="images/e13.jpg" class="art">
-<img id="e14" src="images/e14.jpg" class="art">
-<img id="e15" src="images/e15.jpg" class="art">
-<img id="e16" src="images/e16.jpg" class="art">
-<img id="e17" src="images/e17.jpg" class="art">
-<img id="e18" src="images/e18.jpg" class="art">
-<img id="e19" src="images/e19.jpg" class="art">
-<img id="e20" src="images/e20.jpg" class="art">
-<img id="e21" src="images/e21.jpg" class="art">
-<img id="e22" src="images/e22.jpg" class="art">
-
-</main>
-
-
-<!-- =========================
-오른쪽 썸네일 네비 (새로 추가)
-========================= -->
-<nav class="right-nav" id="thumbNav"></nav>
-
-/* =========================
-이미지 확대 모달
-========================= */
-
-#viewer{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:1000;
-}
-
-#viewer img{
-max-width:95vw;
-max-height:95vh;
-}
-
-
+<!-- 라이트박스 -->
+<div id="viewer">
+<img id="viewerImg">
+</div>
 
 <script src="script.js"></script>
 </body>
