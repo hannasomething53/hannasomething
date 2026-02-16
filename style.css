@@ -48,12 +48,11 @@ transform:translateY(0);
 
 
 /* =========================
-왼쪽 네비 (중앙보다 약간 위)
+왼쪽 네비
 ========================= */
 
 .left-nav{
 position:fixed;
-
 top:45%;
 transform:translateY(-50%);
 
@@ -61,27 +60,38 @@ left:calc(
 50% -
 (clamp(700px,65vw,1100px) / 2)
 - 40px
-- 160px
+- 220px
 );
 
-width:160px;
+/* 글자 커지니까 기본 폭도 넓힘 */
+width:220px;
 }
+
+
+/* 카테고리 박스 */
 
 .nav-box{
 display:block;
-border:1px solid #ddd;
-padding:7px 6px;
-font-size:14px;
+
+font-family:'Margarine', cursive;
+font-size:32px;
+line-height:1.15;
+
+border:1px solid #ffffff;
 background:white;
+
+padding:16px 18px;   /* 글자 커진 만큼 여백 증가 */
+box-sizing:border-box;
+
+/* 박스 자동 확장 */
+width:100%;
+
 transition:0.25s;
 }
 
+/* 박스끼리 딱 붙이기 */
 .nav-box + .nav-box{
 margin-top:-1px;
-}
-
-.nav-box:hover{
-animation:shake 0.45s infinite;
 }
 
 
