@@ -17,7 +17,7 @@ body{
 }
 
 
-/* ===== 커스텀 커서 ===== */
+/* ===== 커서 ===== */
 
 .cursor{
     width:18px;
@@ -60,32 +60,48 @@ body{
 }
 
 
-/* ===== 카테고리 박스 ===== */
+/* ===== 네비 컨테이너 ===== */
 
 .nav{
-    width:80%;
+    width:85%;
     display:flex;
     flex-direction:column;
-    gap:20px;
 }
+
+
+/* ===== 카테고리 박스 ===== */
 
 .nav-box{
-    border:2px solid black;
-    padding:18px;
-    text-align:center;
+    border:1px solid white;
+    padding:18px 16px;
     cursor:pointer;
-    transition:transform 0.3s ease;
 }
 
-.nav-box:hover{
+/* 위아래 딱 붙게 */
+.nav-box + .nav-box{
+    border-top:none;
+}
+
+
+/* ===== 텍스트 ===== */
+
+.nav-text{
+    display:inline-block;
+    text-align:left;
+    transition:transform 0.35s ease;
+}
+
+.nav-box:hover .nav-text{
     transform:rotate(-45deg);
 }
 
 
-/* me 이미지 */
+/* ===== me 이미지 ===== */
+
 .nav-box img{
-    width:100%;
-    margin-top:10px;
+    display:block;
+    width:70%;
+    margin:14px auto 0 auto;
 }
 
 
@@ -148,19 +164,26 @@ body{
 <div class="cursor" id="cursor"></div>
 
 
-<!-- 왼쪽 네비 -->
+<!-- ===== 네비 ===== -->
+
 <div class="sidebar">
 
     <div class="nav">
 
-        <div class="nav-box" id="go-e1">Editorial illust</div>
-
-        <div class="nav-box">personal works</div>
-
-        <div class="nav-box">comics</div>
+        <div class="nav-box" id="go-e1">
+            <span class="nav-text">Editorial illust</span>
+        </div>
 
         <div class="nav-box">
-            me
+            <span class="nav-text">personal works</span>
+        </div>
+
+        <div class="nav-box">
+            <span class="nav-text">comics</span>
+        </div>
+
+        <div class="nav-box">
+            <span class="nav-text">me</span>
             <img src="images/me.png">
         </div>
 
@@ -169,13 +192,15 @@ body{
 </div>
 
 
-<!-- 갤러리 -->
+<!-- ===== 갤러리 ===== -->
+
 <div class="gallery-wrap">
     <div class="gallery" id="gallery"></div>
 </div>
 
 
-<!-- 라이트박스 -->
+<!-- ===== 라이트박스 ===== -->
+
 <div class="lightbox" id="lightbox">
     <img id="lightbox-img">
 </div>
@@ -214,7 +239,7 @@ document.querySelector(".gallery").addEventListener("mouseout",()=>{
 });
 
 
-/* ===== 스크롤 fade ===== */
+/* ===== fade ===== */
 
 const observer=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
