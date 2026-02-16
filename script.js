@@ -1,35 +1,48 @@
-const gallery = document.getElementById("gallery");
 
-for(let i=1;i<=22;i++){
+/* =========================
+스크롤 이미지 등장
+========================= */
 
-    const img = document.createElement("img");
-    img.src = `images/e${i}.jpg`;
-
-    img.onclick = () => openLightbox(img.src);
-
-    gallery.appendChild(img);
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('show');
 }
+});
+});
 
-/* ===== LIGHTBOX ===== */
+document.querySelectorAll('.art').forEach(img=>{
+observer.observe(img);
+});
 
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
 
-function openLightbox(src){
+/* =========================
+이미지 클릭 확대
+========================= */
 
-    lightbox.style.display="flex";
-    lightboxImg.src = src;
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewerImg');
 
-    // viewport 기준 자동 맞춤
-    const vw = window.innerWidth * 0.9;
-    const vh = window.innerHeight * 0.95;
+document.querySelectorAll('.art').forEach(img=>{
+img.addEventListener('click',()=>{
+viewer.style.display='flex';
+viewerImg.src=img.src;
+});
+});
 
-    lightboxImg.style.maxWidth =
-        Math.min(1200, vw) + "px";
+viewer.addEventListener('click',()=>{
+viewer.style.display='none';
+});
 
-    lightboxImg.style.maxHeight = vh + "px";
-}
 
-lightbox.onclick = () => {
-    lightbox.style.display="none";
-}
+/* =========================
+부드러운 스크롤
+========================= */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+anchor.addEventListener('click',function(e){
+e.preventDefault();
+document.querySelector(this.getAttribute('href'))
+.scrollIntoView({behavior:'smooth'});
+});
+});
