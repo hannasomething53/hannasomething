@@ -12,9 +12,8 @@
 
 body{
     margin:0;
-    background:#ffffff;
-    font-family:'Offside', sans-serif;
     display:flex;
+    font-family:'Offside', sans-serif;
 }
 
 
@@ -45,9 +44,12 @@ body{
     background:#d7d7d7;
     position:sticky;
     top:0;
+
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
+
+    margin-right:min(40px, 4vw);
 
     transform:translateX(-100%);
     animation:slideIn 0.6s ease forwards;
@@ -57,18 +59,33 @@ body{
     to{ transform:translateX(0); }
 }
 
+
+/* ===== 카테고리 박스 ===== */
+
 .nav{
-    font-size:24px;
-    line-height:2.2;
+    width:80%;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
 }
 
-.nav div{
+.nav-box{
+    border:2px solid black;
+    padding:18px;
+    text-align:center;
     cursor:pointer;
-    transition:all 0.25s ease;
+    transition:transform 0.3s ease;
 }
 
-.nav div:hover{
-    font-size:40px;
+.nav-box:hover{
+    transform:rotate(-45deg);
+}
+
+
+/* me 이미지 */
+.nav-box img{
+    width:100%;
+    margin-top:10px;
 }
 
 
@@ -81,10 +98,10 @@ body{
 }
 
 .gallery{
-    padding:30px;
     display:grid;
     grid-template-columns:repeat(3, 1fr);
     gap:10px;
+    padding:30px;
 
     max-width:calc(500px * 3 + 20px);
     width:100%;
@@ -130,14 +147,25 @@ body{
 
 <div class="cursor" id="cursor"></div>
 
+
 <!-- 왼쪽 네비 -->
 <div class="sidebar">
+
     <div class="nav">
-        <div id="go-e1">Editorial illust</div>
-        <div>personal works</div>
-        <div>comics</div>
-        <div>me</div>
+
+        <div class="nav-box" id="go-e1">Editorial illust</div>
+
+        <div class="nav-box">personal works</div>
+
+        <div class="nav-box">comics</div>
+
+        <div class="nav-box">
+            me
+            <img src="images/me.png">
+        </div>
+
     </div>
+
 </div>
 
 
@@ -158,7 +186,7 @@ body{
 
 /* ===== 이미지 생성 ===== */
 
-const gallery = document.getElementById("gallery");
+const gallery=document.getElementById("gallery");
 
 for(let i=1;i<=22;i++){
     const img=document.createElement("img");
@@ -177,13 +205,12 @@ document.addEventListener("mousemove",e=>{
     cursor.style.top=e.clientY+"px";
 });
 
-document.querySelectorAll(".gallery").forEach(g=>{
-    g.addEventListener("mouseover",e=>{
-        if(e.target.tagName==="IMG") cursor.classList.add("big");
-    });
-    g.addEventListener("mouseout",()=>{
-        cursor.classList.remove("big");
-    });
+document.querySelector(".gallery").addEventListener("mouseover",e=>{
+    if(e.target.tagName==="IMG") cursor.classList.add("big");
+});
+
+document.querySelector(".gallery").addEventListener("mouseout",()=>{
+    cursor.classList.remove("big");
 });
 
 
@@ -195,7 +222,7 @@ const observer=new IntersectionObserver(entries=>{
             entry.target.classList.add("visible");
         }
     });
-},{ threshold:0.2 });
+},{threshold:0.2});
 
 document.querySelectorAll(".gallery img").forEach(img=>{
     observer.observe(img);
