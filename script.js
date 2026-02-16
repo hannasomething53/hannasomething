@@ -1,6 +1,5 @@
-
 /* =========================
-스크롤 이미지 등장
+스크롤 등장 애니메이션
 ========================= */
 
 const observer = new IntersectionObserver(entries=>{
@@ -17,32 +16,25 @@ observer.observe(img);
 
 
 /* =========================
-이미지 클릭 확대
+썸네일 자동 생성
 ========================= */
 
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewerImg');
+const thumbNav = document.getElementById('thumbNav');
+const artworks = document.querySelectorAll('.art');
 
-document.querySelectorAll('.art').forEach(img=>{
-img.addEventListener('click',()=>{
-viewer.style.display='flex';
-viewerImg.src=img.src;
+artworks.forEach(img=>{
+
+const thumb = document.createElement('img');
+
+thumb.src = img.src;
+
+/* 품질 조금 낮추기 (브라우저 리사이즈) */
+thumb.loading = "lazy";
+
+thumb.addEventListener('click',()=>{
+img.scrollIntoView({behavior:'smooth'});
 });
-});
 
-viewer.addEventListener('click',()=>{
-viewer.style.display='none';
-});
+thumbNav.appendChild(thumb);
 
-
-/* =========================
-부드러운 스크롤
-========================= */
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-anchor.addEventListener('click',function(e){
-e.preventDefault();
-document.querySelector(this.getAttribute('href'))
-.scrollIntoView({behavior:'smooth'});
-});
 });
