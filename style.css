@@ -134,3 +134,63 @@ width:92vw;
 }
 
 }
+/* =========================
+오른쪽 썸네일 네비 (고정 + 스크롤)
+========================= */
+
+.right-nav{
+position:fixed;
+
+/* 화면 안에서 시작 */
+top:40px;
+
+/* 화면 높이 안에서만 존재 */
+height:calc(100vh - 80px);
+
+overflow-y:auto;
+overflow-x:hidden;
+
+/* 갤러리에서 50px 더 멀어짐 */
+right:calc(
+50% -
+(clamp(700px,65vw,1100px)/2)
+- 50px
+- 200px
+);
+
+width:200px;
+padding-right:5px;
+}
+
+
+/* 썸네일 이미지 */
+
+.right-nav img{
+width:200px;
+display:block;
+margin-bottom:12px;
+cursor:pointer;
+opacity:0.9;
+transition:0.25s;
+}
+
+
+/* hover 흔들림 */
+
+.right-nav img:hover{
+animation:shake 0.4s infinite;
+opacity:1;
+}
+
+
+/* 스크롤바 깔끔 */
+
+.right-nav::-webkit-scrollbar{
+width:6px;
+}
+
+.right-nav::-webkit-scrollbar-thumb{
+background:#bbb;
+border-radius:3px;
+}
+
