@@ -74,34 +74,19 @@ width:280px;
 
 .nav-box{
 display:block;
-
-/* 폰트 변경 */
-font-family:'Fuzzy Bubbles', cursive;
-font-size:24px;
-line-height:1.2;
-
-/* 표 라인 복구 (얇은 그레이) */
 border:1px solid #d7d7d7;
-
-/* 배경 */
-background:white;
-
-/* 여백 (글자 크기에 맞게 확대) */
 padding:14px 18px;
-box-sizing:border-box;
 
-/* 박스 폭 네비에 맞춤 */
-width:100%;
+font-family:'Winky Rough', cursive;
+font-size:24px;
 
-/* 한 줄 강제 */
+background:white;
+text-align:left;
 white-space:nowrap;
-
-/* 넘치면 숨김 (안 깨지게) */
-overflow:hidden;
-text-overflow:ellipsis;
 
 transition:0.25s;
 }
+
 
 /* 박스끼리 딱 붙이기 */
 .nav-box + .nav-box{
