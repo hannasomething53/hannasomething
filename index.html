@@ -3,84 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Gallery Layout</title>
 
-<title>Portfolio</title>
+<style>
 
-<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+/* =========================
+   기본 리셋
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #ffffff;
+}
+
+
+/* =========================
+   전체 레이아웃
+========================= */
+.layout {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  /* 반응형 여백 */
+  gap: clamp(10px, 2vw, 50px);
+
+  padding: clamp(10px, 2vw, 40px);
+  align-items: start;
+}
+
+
+/* =========================
+   왼쪽 네비게이션
+========================= */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 14px);
+
+  /* 갤러리와 50px 기준 반응형 간격 */
+  margin-right: clamp(15px, 3vw, 50px);
+}
+
+.nav-item {
+  background: #d9d9d9;
+  padding: clamp(8px, 1vw, 14px) clamp(16px, 2vw, 28px);
+
+  /* 한 줄 유지 + 넓은 폭 */
+  white-space: nowrap;
+  min-width: max-content;
+
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   중앙 갤러리
+========================= */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(30px, 4vw, 80px);
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+
+/* =========================
+   오른쪽 썸네일
+========================= */
+.thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1vw, 16px);
+
+  /* 갤러리와 200px 기준 반응형 간격 */
+  margin-left: clamp(40px, 10vw, 200px);
+}
+
+.thumbs img {
+  width: 90px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   라이트박스
+========================= */
+.lightbox {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.85);
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+
+  /* 이미지가 브라우저에 떠있는 느낌 */
+  padding: clamp(20px, 6vh, 80px);
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+</style>
 </head>
 
 <body>
 
-<!-- 왼쪽 네비 -->
-<nav class="left-nav">
-<div class="nav-inner">
-<a href="#e1">Editorial illust</a>
-<a href="#">personal works</a>
-<a href="#">comics</a>
-<a href="#">me</a>
+<div class="layout">
+
+  <!-- 왼쪽 네비게이션 -->
+  <div class="nav">
+    <div class="nav-item">Illustration</div>
+    <div class="nav-item">Portrait Work</div>
+    <div class="nav-item">Editorial Projects</div>
+  </div>
+
+
+  <!-- 중앙 갤러리 -->
+  <div class="gallery">
+    <img src="img1.jpg" id="img1">
+    <img src="img2.jpg" id="img2">
+    <img src="img3.jpg" id="img3">
+  </div>
+
+
+  <!-- 오른쪽 썸네일 -->
+  <div class="thumbs">
+    <img src="img1.jpg" data-target="img1">
+    <img src="img2.jpg" data-target="img2">
+    <img src="img3.jpg" data-target="img3">
+  </div>
+
 </div>
-</nav>
 
-<!-- 중앙 갤러리 -->
-<main class="content-wrapper">
-
-<img id="e1" src="images/e1.jpg" class="art">
-<img src="images/e2.jpg" class="art">
-<img src="images/e3.jpg" class="art">
-<img src="images/e4.jpg" class="art">
-<img src="images/e5.jpg" class="art">
-<img src="images/e6.jpg" class="art">
-<img src="images/e7.jpg" class="art">
-<img src="images/e8.jpg" class="art">
-<img src="images/e9.jpg" class="art">
-<img src="images/e10.jpg" class="art">
-<img src="images/e11.jpg" class="art">
-<img src="images/e12.jpg" class="art">
-<img src="images/e13.jpg" class="art">
-<img src="images/e14.jpg" class="art">
-<img src="images/e15.jpg" class="art">
-<img src="images/e16.jpg" class="art">
-<img src="images/e17.jpg" class="art">
-<img src="images/e18.jpg" class="art">
-<img src="images/e19.jpg" class="art">
-<img src="images/e20.jpg" class="art">
-<img src="images/e21.jpg" class="art">
-<img src="images/e22.jpg" class="art">
-
-</main>
-
-<!-- 오른쪽 썸네일 -->
-<nav class="right-nav">
-<img src="images/e1.jpg">
-<img src="images/e2.jpg">
-<img src="images/e3.jpg">
-<img src="images/e4.jpg">
-<img src="images/e5.jpg">
-<img src="images/e6.jpg">
-<img src="images/e7.jpg">
-<img src="images/e8.jpg">
-<img src="images/e9.jpg">
-<img src="images/e10.jpg">
-<img src="images/e11.jpg">
-<img src="images/e12.jpg">
-<img src="images/e13.jpg">
-<img src="images/e14.jpg">
-<img src="images/e15.jpg">
-<img src="images/e16.jpg">
-<img src="images/e17.jpg">
-<img src="images/e18.jpg">
-<img src="images/e19.jpg">
-<img src="images/e20.jpg">
-<img src="images/e21.jpg">
-<img src="images/e22.jpg">
-</nav>
 
 <!-- 라이트박스 -->
-<div id="viewer">
-<img id="viewerImg">
+<div class="lightbox" id="lightbox">
+  <img src="">
 </div>
 
-<script src="script.js"></script>
+
+<script>
+
+/* =========================
+   썸네일 → 해당 갤러리 위치로 이동
+========================= */
+document.querySelectorAll('.thumbs img').forEach(thumb => {
+  thumb.addEventListener('click', () => {
+    const id = thumb.dataset.target;
+    document.getElementById(id).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  });
+});
+
+
+/* =========================
+   갤러리 클릭 → 라이트박스
+========================= */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+
+document.querySelectorAll('.gallery img').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightbox.classList.add('active');
+  });
+});
+
+
+/* 닫기 */
+lightbox.addEventListener('click', () => {
+  lightbox.classList.remove('active');
+});
+
+</script>
+
 </body>
 </html>
