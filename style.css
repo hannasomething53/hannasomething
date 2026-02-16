@@ -46,7 +46,6 @@ opacity:1;
 transform:translateY(0);
 }
 
-
 /* =========================
 왼쪽 네비
 ========================= */
@@ -56,35 +55,50 @@ position:fixed;
 top:45%;
 transform:translateY(-50%);
 
+/* 콘텐츠 기준 왼쪽 정렬 */
 left:calc(
 50% -
 (clamp(700px,65vw,1100px) / 2)
 - 40px
-- 220px
+- 280px
 );
 
-/* 글자 커지니까 기본 폭도 넓힘 */
-width:220px;
+/* 한줄 유지하려면 폭 충분히 확보 */
+width:280px;
 }
 
 
-/* 카테고리 박스 */
+/* =========================
+카테고리 박스
+========================= */
 
 .nav-box{
 display:block;
 
-font-family:'Margarine', cursive;
-font-size:32px;
-line-height:1.15;
+/* 폰트 변경 */
+font-family:'Fuzzy Bubbles', cursive;
+font-size:28px;
+line-height:1.2;
 
-border:1px solid #ffffff;
+/* 표 라인 복구 (얇은 그레이) */
+border:1px solid #d7d7d7;
+
+/* 배경 */
 background:white;
 
-padding:16px 18px;   /* 글자 커진 만큼 여백 증가 */
+/* 여백 (글자 크기에 맞게 확대) */
+padding:14px 18px;
 box-sizing:border-box;
 
-/* 박스 자동 확장 */
+/* 박스 폭 네비에 맞춤 */
 width:100%;
+
+/* 한 줄 강제 */
+white-space:nowrap;
+
+/* 넘치면 숨김 (안 깨지게) */
+overflow:hidden;
+text-overflow:ellipsis;
 
 transition:0.25s;
 }
