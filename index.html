@@ -2,280 +2,77 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Portfolio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Offside&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
 
-<style>
-
-/* ===== 기본 ===== */
-
-body{
-    margin:0;
-    display:flex;
-    font-family:'Offside', sans-serif;
-}
-
-
-/* ===== 커서 ===== */
-
-.cursor{
-    width:18px;
-    height:18px;
-    border:2px solid black;
-    border-radius:50%;
-    position:fixed;
-    pointer-events:none;
-    transform:translate(-50%, -50%);
-    transition:transform 0.2s ease;
-    z-index:99999;
-}
-
-.cursor.big{
-    transform:translate(-50%, -50%) scale(1.3);
-}
-
-
-/* ===== 왼쪽 네비 ===== */
-
-.sidebar{
-    width:clamp(180px, 20vw, 300px);
-    height:100vh;
-    background:#d7d7d7;
-    position:sticky;
-    top:0;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    margin-right:min(40px, 4vw);
-
-    transform:translateX(-100%);
-    animation:slideIn 0.6s ease forwards;
-}
-
-@keyframes slideIn{
-    to{ transform:translateX(0); }
-}
-
-
-/* ===== 네비 컨테이너 ===== */
-
-.nav{
-    width:85%;
-    display:flex;
-    flex-direction:column;
-}
-
-
-/* ===== 카테고리 박스 ===== */
-
-.nav-box{
-    border:1px solid white;
-    padding:18px 16px;
-    cursor:pointer;
-}
-
-/* 위아래 딱 붙게 */
-.nav-box + .nav-box{
-    border-top:none;
-}
-
-
-/* ===== 텍스트 ===== */
-
-.nav-text{
-    display:inline-block;
-    text-align:left;
-    transition:transform 0.35s ease;
-}
-
-.nav-box:hover .nav-text{
-    transform:rotate(-45deg);
-}
-
-
-/* ===== me 이미지 ===== */
-
-.nav-box img{
-    display:block;
-    width:70%;
-    margin:14px auto 0 auto;
-}
-
-
-/* ===== 갤러리 ===== */
-
-.gallery-wrap{
-    flex:1;
-    display:flex;
-    justify-content:center;
-}
-
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:10px;
-    padding:30px;
-
-    max-width:calc(500px * 3 + 20px);
-    width:100%;
-}
-
-.gallery img{
-    width:100%;
-    max-width:500px;
-    display:block;
-    opacity:0.4;
-    transition:opacity 0.8s ease;
-    cursor:pointer;
-}
-
-.gallery img.visible{
-    opacity:1;
-}
-
-
-/* ===== 라이트박스 ===== */
-
-.lightbox{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.93);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-}
-
-.lightbox img{
-    width:100%;
-    max-width:1200px;
-    height:auto;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
-<div class="cursor" id="cursor"></div>
+<!-- =========================
+왼쪽 카테고리 네비
+========================= -->
+<nav class="left-nav">
+
+<a href="#p9001" class="nav-box">Editorial illustration</a>
+<a href="#" class="nav-box">Personal works</a>
+<a href="#" class="nav-box">Narrative / Comics</a>
+<a href="#" class="nav-box">Me me me!</a>
+
+</nav>
 
 
-<!-- ===== 네비 ===== -->
+<!-- =========================
+중앙 콘텐츠
+========================= -->
+<main class="content-wrapper">
 
-<div class="sidebar">
+<img id="p9001" src="images/e1.jpg" class="art">
+<img id="p9002" src="images/e2.jpg" class="art">
+<img id="p9003" src="images/e3.jpg" class="art">
+<img id="p9004" src="images/e4.jpg" class="art">
+<img id="p9005" src="images/e5.jpg" class="art">
+<img id="p9006" src="images/e6.jpg" class="art">
+<img id="p9006" src="images/e7.jpg" class="art">
+<img id="p9006" src="images/e8.jpg" class="art">
+<img id="p9006" src="images/e9.jpg" class="art">
+<img id="p9006" src="images/e10.jpg" class="art">
+<img id="p9006" src="images/e11.jpg" class="art">
+<img id="p9006" src="images/e12.jpg" class="art">
+<img id="p9006" src="images/e13.jpg" class="art">
+<img id="p9006" src="images/e14.jpg" class="art">
 
-    <div class="nav">
+</main>
 
-        <div class="nav-box" id="go-e1">
-            <span class="nav-text">Editorial illust</span>
-        </div>
 
-        <div class="nav-box">
-            <span class="nav-text">personal works</span>
-        </div>
+<!-- =========================
+오른쪽 썸네일 네비
+========================= -->
+<nav class="right-nav">
 
-        <div class="nav-box">
-            <span class="nav-text">comics</span>
-        </div>
+<a href="#p9001"><img src="images/s3001.jpg"></a>
+<a href="#p9002"><img src="images/s3002.jpg"></a>
+<a href="#p9003"><img src="images/s3003.jpg"></a>
+<a href="#p9004"><img src="images/s3004.jpg"></a>
+<a href="#p9005"><img src="images/s3005.jpg"></a>
+<a href="#p9006"><img src="images/s3006.jpg"></a>
 
-        <div class="nav-box">
-            <span class="nav-text">me</span>
-            <img src="images/me.png">
-        </div>
+</nav>
 
-    </div>
 
+<!-- =========================
+이미지 확대 모달
+========================= -->
+<div id="viewer">
+<img id="viewerImg">
 </div>
 
 
-<!-- ===== 갤러리 ===== -->
-
-<div class="gallery-wrap">
-    <div class="gallery" id="gallery"></div>
-</div>
-
-
-<!-- ===== 라이트박스 ===== -->
-
-<div class="lightbox" id="lightbox">
-    <img id="lightbox-img">
-</div>
-
-
-
-<script>
-
-/* ===== 이미지 생성 ===== */
-
-const gallery=document.getElementById("gallery");
-
-for(let i=1;i<=22;i++){
-    const img=document.createElement("img");
-    img.src=`images/e${i}.jpg`;
-    img.id=`e${i}`;
-    gallery.appendChild(img);
-}
-
-
-/* ===== 커서 ===== */
-
-const cursor=document.getElementById("cursor");
-
-document.addEventListener("mousemove",e=>{
-    cursor.style.left=e.clientX+"px";
-    cursor.style.top=e.clientY+"px";
-});
-
-document.querySelector(".gallery").addEventListener("mouseover",e=>{
-    if(e.target.tagName==="IMG") cursor.classList.add("big");
-});
-
-document.querySelector(".gallery").addEventListener("mouseout",()=>{
-    cursor.classList.remove("big");
-});
-
-
-/* ===== fade ===== */
-
-const observer=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-        if(entry.isIntersecting){
-            entry.target.classList.add("visible");
-        }
-    });
-},{threshold:0.2});
-
-document.querySelectorAll(".gallery img").forEach(img=>{
-    observer.observe(img);
-});
-
-
-/* ===== 라이트박스 ===== */
-
-const lightbox=document.getElementById("lightbox");
-const lightImg=document.getElementById("lightbox-img");
-
-document.addEventListener("click",e=>{
-    if(e.target.matches(".gallery img")){
-        lightImg.src=e.target.src;
-        lightbox.style.display="flex";
-    }
-});
-
-lightbox.onclick=()=> lightbox.style.display="none";
-
-
-/* ===== 네비 이동 ===== */
-
-document.getElementById("go-e1").onclick=()=>{
-    document.getElementById("e1").scrollIntoView({behavior:"smooth"});
-};
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
