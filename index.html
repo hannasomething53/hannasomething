@@ -6,26 +6,29 @@
 
 <title>Portfolio</title>
 
+<!-- 기존 폰트 그대로 -->
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <!-- =========================
-왼쪽 네비게이션
+왼쪽 카테고리 네비 (절대 수정 안함)
 ========================= -->
 <nav class="left-nav">
 
 <a href="#e1" class="nav-box">Editorial illustration</a>
 <a href="#" class="nav-box">Personal works</a>
 <a href="#" class="nav-box">Narrative / Comics</a>
-<a href="#" class="nav-box">Me</a>
+<a href="#" class="nav-box">Me me me!</a>
 
 </nav>
 
 
 <!-- =========================
-중앙 갤러리 (e1 ~ e22)
+중앙 콘텐츠 (e1 ~ e22)
 ========================= -->
 <main class="content-wrapper">
 
@@ -56,10 +59,17 @@
 
 
 <!-- =========================
-오른쪽 썸네일 네비 (자동 생성)
+오른쪽 썸네일 네비 (새로 추가)
 ========================= -->
 <nav class="right-nav" id="thumbNav"></nav>
 
+
+<!-- =========================
+이미지 확대 모달 (그대로 유지)
+========================= -->
+<div id="viewer">
+<img id="viewerImg">
+</div>
 
 <script src="script.js"></script>
 </body>
