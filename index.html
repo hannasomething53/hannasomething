@@ -1,185 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Portfolio</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic&display=swap" rel="stylesheet">
 
 <style>
 
+/* =========================
+기본
+========================= */
+
 body{
 margin:0;
 background:white;
-font-family:'Playwrite NZ Basic',sans-serif;
+font-family:'Playwrite NZ Basic', sans-serif;
+padding-top:50px;
 }
 
-/* ===== 전체 구조 ===== */
+img{
+display:block;
+max-width:100%;
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+/* =========================
+전체 레이아웃
+========================= */
+
 .wrapper{
 display:flex;
 justify-content:center;
 align-items:flex-start;
-padding-top:20px;
-width:100%;
-box-sizing:border-box;
 }
 
+/* =========================
+왼쪽 정보 패널
+========================= */
 
-
-/* ===== 왼쪽 네비 ===== */
-
-.leftNav{
-position:sticky;
-top:400px;
-border-collapse:collapse;
-min-width:180px;
-align-self:flex-start;
-}
-
-.leftNav td{
-border:1px solid #aaa;
-padding:14px 24px;
-font-size:24px;
-cursor:pointer;
-position:relative;
-white-space:nowrap;
-}
-
-.leftNav td::before{
-content:"";
-position:absolute;
-inset:0;
-background:#d7d7d7;
-opacity:0;
-z-index:-1;
-transition:0.2s;
-}
-
-.leftNav td:hover::before{
-opacity:1;
-}
-
-.social{
-padding:12px;
+.leftPanel{
 display:flex;
-gap:10px;
+align-items:flex-start;
+margin-right:20px;
+position:sticky;
+top:50px;
 }
 
-.social img{
-width:40px;
+/* 세로 라인 */
+.verticalLine{
+width:5px;
+background:#d7d7d7;
+height:100vh;
+margin-right:25px;
+}
+
+/* 텍스트 영역 */
+.leftContent{
+font-size:35px;
+color:#d7d7d7;
+line-height:1.9;
+}
+
+/* 카테고리 줄 */
+.cat{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+/* 원 */
+.dot{
+width:14px;
+height:14px;
+background:#d7d7d7;
+border-radius:50%;
+}
+
+/* 이메일 */
+.email{
+margin-top:20px;
+font-size:24px;
+}
+
+/* SNS */
+.sns{
+margin-top:30px;
+display:flex;
+gap:20px;
+}
+
+.sns img{
+width:50px;
+height:50px;
 cursor:pointer;
 }
 
-/* ===== 갤러리 ===== */
+/* =========================
+갤러리
+========================= */
 
 .gallery{
-width:clamp(420px,50vw,1200px);
-min-width:320px;
-display:flex;
-flex-direction:column;
-gap:60px;
+width:clamp(500px,60vw,900px);
+margin-right:100px;
 }
 
-.gallery img{
-width:100%;
+.art{
+margin-bottom:80px;
 cursor:zoom-in;
 opacity:0;
-transform:translateY(60px);
-transition:0.7s ease;
+transform:translateY(80px);
+transition:0.6s ease;
 }
 
-.gallery img.show{
+.art.show{
 opacity:1;
 transform:translateY(0);
 }
 
-/* ===== 썸네일 ===== */
+/* =========================
+썸네일
+========================= */
 
 .thumbWrap{
 position:sticky;
-top:20px;
-width:clamp(120px,14vw,180px);
-height:calc(100vh - 40px);
-overflow:hidden;
-display:flex;
-}
-
-.thumbs{
-flex:1;
+top:50px;
+height:calc(100vh - 60px);
 overflow-y:auto;
 scrollbar-width:none;
 }
 
-.thumbs::-webkit-scrollbar{
+.thumbWrap::-webkit-scrollbar{
 display:none;
 }
 
-.thumbs img{
-width:100%;
-margin-bottom:8px;
+.thumb{
+width:180px;
+margin-bottom:6px;
 cursor:pointer;
-transition:0.2s;
+transition:0.25s;
 }
 
-.thumbs img:hover{
+.thumb:hover{
 opacity:0.7;
 }
 
-/* ===== 라이트박스 ===== */
+/* =========================
+라이트박스
+========================= */
 
-.lightbox{
+#viewer{
 position:fixed;
 inset:0;
 background:rgba(0,0,0,0.8);
 display:none;
-justify-content:center;
 align-items:center;
+justify-content:center;
 z-index:9999;
+padding:4vh 4vw;
+box-sizing:border-box;
 }
 
-.lightbox img{
-max-height:90vh;
-max-width:90vw;
-box-shadow:0 0 40px black;
-}
-
-/* ===== 작은 화면 축소 ===== */
-
-@media (max-width:1100px){
-
-.leftNav{
-transform:scale(0.9);
-transform-origin:left top;
-}
-
-.gallery{
-transform:scale(0.95);
-transform-origin:top center;
-}
-
-.thumbWrap{
-transform:scale(0.9);
-transform-origin:right top;
-}
-
+#viewer img{
+max-height:92vh;
+max-width:92vw;
+object-fit:contain;
 }
 
 </style>
 </head>
 
-
 <body>
 
 <div class="wrapper">
 
-<!-- ===== 왼쪽 네비 ===== -->
-<table class="leftNav">
-<tr><td>Editorial illust</td></tr>
-<tr><td>personal works</td></tr>
-<tr><td>comics</td></tr>
-<tr>
-<td>
-me
-<div class="social">
+<!-- =====================
+왼쪽 정보 패널
+===================== -->
+
+<div class="leftPanel">
+
+<div class="verticalLine"></div>
+
+<div class="leftContent">
+
+<div class="cat"><div class="dot"></div>Editorial illust</div>
+<div class="cat"><div class="dot"></div>Personal works</div>
+<div class="cat"><div class="dot"></div>Comix</div>
+<div class="cat"><div class="dot"></div>Me</div>
+
+<div class="email">
+mybrowncat53@gmail.com
+</div>
+
+<div class="sns">
 <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
 <img src="images/beh.png">
 </a>
@@ -187,134 +207,93 @@ me
 <img src="images/ins.png">
 </a>
 </div>
-</td>
-</tr>
-</table>
 
+</div>
+</div>
 
-<!-- ===== 갤러리 ===== -->
-<div class="gallery" id="gallery">
+<!-- =====================
+갤러리
+===================== -->
 
-<img id="e1" src="images/e1.jpg">
-<img id="e2" src="images/e2.jpg">
-<img id="e3" src="images/e3.jpg">
-<img id="e4" src="images/e4.jpg">
-<img id="e5" src="images/e5.jpg">
-<img id="e6" src="images/e6.jpg">
-<img id="p25" src="images/p25.jpg">
-<img id="e7" src="images/e7.jpg">
-<img id="e8" src="images/e8.jpg">
-<img id="e13" src="images/e13.jpg">
-<img id="p28" src="images/p28.jpg">
-<img id="p26" src="images/p26.jpg">
-<img id="p27" src="images/p27.jpg">
-<img id="p31" src="images/p31.jpg">
-<img id="p29" src="images/p29.jpg">
-<img id="p30" src="images/p30.jpg">
-<img id="e9" src="images/e9.jpg">
-<img id="e10" src="images/e10.jpg">
-<img id="e14" src="images/e14.jpg">
-<img id="e15" src="images/e15.jpg">
-<img id="e16" src="images/e16.jpg">
-<img id="e17" src="images/e17.jpg">
-<img id="e18" src="images/e18.jpg">
-<img id="e19" src="images/e19.jpg">
-<img id="e20" src="images/e20.jpg">
-<img id="e21" src="images/e21.jpg">
-<img id="e22" src="images/e22.jpg">
-<img id="e23" src="images/e23.jpg">
-<img id="e24" src="images/e24.jpg">
-<img id="p32" src="images/p32.jpg">
-<img id="e33" src="images/p33.jpg">
-<img id="e34" src="images/p34.jpg">
+<main class="gallery" id="gallery"></main>
+
+<!-- =====================
+썸네일
+===================== -->
+
+<aside class="thumbWrap" id="thumbWrap"></aside>
 
 </div>
 
-
-<!-- ===== 썸네일 ===== -->
-<div class="thumbWrap">
-<div class="thumbs" id="thumbs"></div>
+<!-- 라이트박스 -->
+<div id="viewer">
+<img id="viewerImg">
 </div>
-
-</div>
-
-
-<!-- ===== 라이트박스 ===== -->
-<div class="lightbox" id="lightbox">
-<img id="lightImg">
-</div>
-
-
 
 <script>
 
-/* ===== 썸네일 자동 생성 ===== */
+/* 이미지 순서 */
+const files = [
+"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
+"p28","p26","p27","p31","p29","p30",
+"e9","e10","e14","e15","e16","e17","e18","e19",
+"e20","e21","e22","e23","e24","p32","e33","e34"
+];
 
-const galleryImages=[...document.querySelectorAll(".gallery img")];
-const thumbContainer=document.getElementById("thumbs");
+const gallery = document.getElementById("gallery");
+const thumbWrap = document.getElementById("thumbWrap");
 
-galleryImages.forEach(img=>{
-const num=img.id.replace(/[a-z]/g,"");
-const t=document.createElement("img");
-t.src="images/s"+num+".jpg";
+/* 이미지 생성 */
+files.forEach(name=>{
 
-t.onclick=()=>{
-document.getElementById(img.id).scrollIntoView({behavior:"smooth",block:"center"});
+const img=document.createElement("img");
+img.src="images/"+name+".jpg";
+img.className="art";
+img.id=name;
+gallery.appendChild(img);
+
+const num=name.replace(/[a-z]/g,'');
+const thumb=document.createElement("img");
+thumb.src="images/s"+num+".jpg";
+thumb.className="thumb";
+
+thumb.onclick=()=>{
+document.getElementById(name).scrollIntoView({
+behavior:'smooth',
+block:'center'
+});
 };
 
-thumbContainer.appendChild(t);
+thumbWrap.appendChild(thumb);
 });
 
-
-/* ===== 갤러리 hover → 썸네일 이동 ===== */
-
-const thumbs=[...document.querySelectorAll(".thumbs img")];
-
-galleryImages.forEach((img,index)=>{
-img.addEventListener("mouseenter",()=>{
-const thumb=thumbs[index];
-const container=thumbContainer;
-
-const top=thumb.offsetTop-container.clientHeight/2+thumb.clientHeight/2;
-
-container.scrollTo({top:top,behavior:"smooth"});
-});
-});
-
-
-/* ===== 스크롤 애니메이션 ===== */
-
+/* 스크롤 등장 */
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(e=>{
-if(e.isIntersecting)e.target.classList.add("show");
+if(e.isIntersecting) e.target.classList.add("show");
 });
-},{threshold:0.2});
+});
 
-galleryImages.forEach(img=>observer.observe(img));
+document.querySelectorAll(".art").forEach(img=>{
+observer.observe(img);
+});
 
+/* 라이트박스 */
+const viewer=document.getElementById("viewer");
+const viewerImg=document.getElementById("viewerImg");
 
-/* ===== 라이트박스 ===== */
-
-const light=document.getElementById("lightbox");
-const lightImg=document.getElementById("lightImg");
-
-galleryImages.forEach(img=>{
+document.querySelectorAll(".art").forEach(img=>{
 img.onclick=()=>{
-light.style.display="flex";
-lightImg.src=img.src;
+viewer.style.display="flex";
+viewerImg.src=img.src;
 };
 });
 
-light.onclick=()=>light.style.display="none";
+viewer.onclick=()=>viewer.style.display="none";
 
 document.addEventListener("keydown",e=>{
-if(e.key==="Escape")light.style.display="none";
+if(e.key==="Escape") viewer.style.display="none";
 });
-
-
-/* ===== 우클릭 방지 ===== */
-
-document.addEventListener("contextmenu",e=>e.preventDefault());
 
 </script>
 
