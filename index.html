@@ -10,13 +10,10 @@
 
 <style>
 
-/* =========================
-기본
-========================= */
+/* ================= 기본 ================= */
 
 body{
 margin:0;
-background:white;
 font-family:'Playwrite NZ Basic', sans-serif;
 padding-top:50px;
 }
@@ -31,9 +28,7 @@ text-decoration:none;
 color:inherit;
 }
 
-/* =========================
-전체 레이아웃
-========================= */
+/* ================= 전체 레이아웃 ================= */
 
 .wrapper{
 display:flex;
@@ -41,73 +36,54 @@ justify-content:center;
 align-items:flex-start;
 }
 
-/* =========================
-왼쪽 정보 패널
-========================= */
+/* ================= 왼쪽 네비 ================= */
 
 .leftPanel{
-display:flex;
-align-items:flex-start;
 margin-right:20px;
 position:sticky;
-top:50px;
+top:0;
 }
 
-/* 세로 라인 */
-.verticalLine{
-width:5px;
-background:#d7d7d7;
-height:100vh;
-margin-right:25px;
-}
-
-/* 텍스트 영역 */
 .leftContent{
+margin-top:400px;
 font-size:35px;
-color:#d7d7d7;
+color:black;
 line-height:1.9;
 }
 
-/* 카테고리 줄 */
 .cat{
-display:flex;
-align-items:center;
-gap:15px;
+margin-bottom:10px;
 }
 
-/* 원 */
-.dot{
-width:14px;
-height:14px;
-background:#d7d7d7;
-border-radius:50%;
-}
+/* Me 박스 */
 
-/* 이메일 */
-.email{
+.meBox{
+border:5px solid #d7d7d7;
+padding:20px;
 margin-top:20px;
-font-size:24px;
+width:max-content;
 }
 
-/* SNS */
+.email{
+font-size:22px;
+margin-top:10px;
+}
+
 .sns{
-margin-top:30px;
+margin-top:15px;
 display:flex;
-gap:20px;
+gap:15px;
 }
 
 .sns img{
 width:50px;
-height:50px;
 cursor:pointer;
 }
 
-/* =========================
-갤러리
-========================= */
+/* ================= 갤러리 ================= */
 
 .gallery{
-width:clamp(500px,60vw,900px);
+width:clamp(500px,60vw,1200px);
 margin-right:100px;
 }
 
@@ -124,14 +100,12 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* =========================
-썸네일
-========================= */
+/* ================= 썸네일 ================= */
 
 .thumbWrap{
 position:sticky;
-top:50px;
-height:calc(100vh - 60px);
+top:20px;
+height:calc(100vh - 40px);
 overflow-y:auto;
 scrollbar-width:none;
 }
@@ -142,7 +116,7 @@ display:none;
 
 .thumb{
 width:180px;
-margin-bottom:6px;
+margin-bottom:5px;
 cursor:pointer;
 transition:0.25s;
 }
@@ -151,9 +125,7 @@ transition:0.25s;
 opacity:0.7;
 }
 
-/* =========================
-라이트박스
-========================= */
+/* ================= 라이트박스 ================= */
 
 #viewer{
 position:fixed;
@@ -164,7 +136,6 @@ align-items:center;
 justify-content:center;
 z-index:9999;
 padding:4vh 4vw;
-box-sizing:border-box;
 }
 
 #viewer img{
@@ -180,20 +151,16 @@ object-fit:contain;
 
 <div class="wrapper">
 
-<!-- =====================
-왼쪽 정보 패널
-===================== -->
-
+<!-- 왼쪽 네비 -->
 <div class="leftPanel">
-
-<div class="verticalLine"></div>
-
 <div class="leftContent">
 
-<div class="cat"><div class="dot"></div>Editorial illust</div>
-<div class="cat"><div class="dot"></div>Personal works</div>
-<div class="cat"><div class="dot"></div>Comix</div>
-<div class="cat"><div class="dot"></div>Me</div>
+<div class="cat">Editorial illust</div>
+<div class="cat">Personal works</div>
+<div class="cat">Comix</div>
+
+<div class="meBox">
+<div>Me</div>
 
 <div class="email">
 mybrowncat53@gmail.com
@@ -203,24 +170,20 @@ mybrowncat53@gmail.com
 <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
 <img src="images/beh.png">
 </a>
+
 <a href="https://www.instagram.com/hanna_something/" target="_blank">
 <img src="images/ins.png">
 </a>
 </div>
+</div>
 
 </div>
 </div>
 
-<!-- =====================
-갤러리
-===================== -->
-
+<!-- 갤러리 -->
 <main class="gallery" id="gallery"></main>
 
-<!-- =====================
-썸네일
-===================== -->
-
+<!-- 썸네일 -->
 <aside class="thumbWrap" id="thumbWrap"></aside>
 
 </div>
@@ -237,11 +200,13 @@ const files = [
 "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
 "p28","p26","p27","p31","p29","p30",
 "e9","e10","e14","e15","e16","e17","e18","e19",
-"e20","e21","e22","e23","e24","p32","e33","e34"
+"e20","e21","e22","e23","e24","p32","p33","p34"
 ];
 
-const gallery = document.getElementById("gallery");
-const thumbWrap = document.getElementById("thumbWrap");
+const gallery=document.getElementById("gallery");
+const thumbWrap=document.getElementById("thumbWrap");
+
+const thumbMap={};
 
 /* 이미지 생성 */
 files.forEach(name=>{
@@ -258,13 +223,23 @@ thumb.src="images/s"+num+".jpg";
 thumb.className="thumb";
 
 thumb.onclick=()=>{
-document.getElementById(name).scrollIntoView({
+img.scrollIntoView({
 behavior:'smooth',
 block:'center'
 });
 };
 
 thumbWrap.appendChild(thumb);
+thumbMap[name]=thumb;
+
+/* 🔥 갤러리 마우스 → 썸네일 따라 이동 */
+img.addEventListener("mouseenter",()=>{
+thumb.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+});
+
 });
 
 /* 스크롤 등장 */
