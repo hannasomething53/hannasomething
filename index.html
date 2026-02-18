@@ -15,6 +15,7 @@ body{
 margin:0;
 background:#faf6e6;
 font-family:'Jost', sans-serif;
+cursor:url('images/mouse.png'), auto;
 }
 
 /* =========================
@@ -78,7 +79,7 @@ width:50px;
 ========================= */
 .gallery{
 width:clamp(500px,60vw,1200px);
-cursor:url('images/dod.png'), auto;
+
 }
 
 .art-block{
@@ -337,16 +338,8 @@ if(target) target.scrollIntoView({block:"center"});
 }
 });
 
-/* =========================
-flower / me 토글
-========================= */
-const toggle=document.getElementById("toggleImg");
-let toggleState=false;
+<img src="images/me.png" class="top-toggle">
 
-toggle.onclick=()=>{
-toggleState=!toggleState;
-toggle.src=toggleState ? "images/me.png" : "images/flower.png";
-};
 
 </script>
 
