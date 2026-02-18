@@ -27,7 +27,7 @@ overflow-x:hidden;
 display:flex;
 justify-content:center;
 align-items:flex-start;
-gap:clamp(30px,4vw,130px);
+gap:40px;
 padding-top:50px;
 }
 
@@ -82,7 +82,6 @@ cursor:pointer;
 ========================= */
 .gallery{
 width:clamp(500px,60vw,1200px);
-cursor:url('images/dod.png'), auto;
 }
 
 .art-block{
@@ -136,14 +135,23 @@ max-width:92vw;
 position:sticky;
 top:50px;
 height:calc(100vh - 50px);
-overflow:hidden;
-flex-shrink:0;
+margin-left:130px;
+
+/* 스크롤 가능 */
+overflow-y:auto;
+
+/* 스크롤바 숨김 */
+scrollbar-width:none;
+-ms-overflow-style:none;
+}
+.thumbs::-webkit-scrollbar{
+display:none;
 }
 
 .thumb-list{
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:30px;
 }
 
 .thumbs img{
@@ -157,25 +165,23 @@ opacity:0.7;
 }
 
 /* =========================
-반응형 (겹침 방지)
+반응형
 ========================= */
 @media (max-width:1100px){
 .wrapper{
 flex-direction:column;
 align-items:center;
 }
-
 .left-nav{
 position:relative;
 top:auto;
 margin-right:0;
 margin-bottom:30px;
 }
-
 .thumbs{
 position:relative;
-top:auto;
 height:auto;
+margin-left:0;
 margin-top:40px;
 }
 }
@@ -187,75 +193,51 @@ margin-top:40px;
 
 <div class="wrapper">
 
-<!-- =========================
-LEFT NAV
-========================= -->
 <div class="left-nav">
-
 <img src="images/flower.png" class="flower">
-
-<div class="nav-item"><img src="images/one.png">Editorial illust</div>
-<div class="nav-item"><img src="images/one.png">Personal works</div>
-<div class="nav-item"><img src="images/one.png">Comics</div>
-<div class="nav-item"><img src="images/one.png">Me</div>
-
+<div class="nav-item"><img src="images/ong.png">Editorial illust</div>
+<div class="nav-item"><img src="images/ong.png">Personal works</div>
+<div class="nav-item"><img src="images/ong.png">Comics</div>
+<div class="nav-item"><img src="images/ong.png">Me</div>
 <div class="email">mybrowncat53@gmail.com</div>
-
 <div class="sns">
 <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-<img src="images/linebeh.png">
+<img src="images/bluebeh.png">
 </a>
 <a href="https://www.instagram.com/hanna_something/" target="_blank">
-<img src="images/lineins.png">
+<img src="images/blueins.png">
 </a>
 </div>
-
 </div>
 
-<!-- =========================
-GALLERY
-========================= -->
 <div class="gallery" id="gallery"></div>
 
-<!-- =========================
-THUMBNAILS
-========================= -->
 <div class="thumbs">
 <div class="thumb-list" id="thumbList"></div>
 </div>
 
 </div>
 
-<!-- =========================
-LIGHTBOX
-========================= -->
 <div class="lightbox" id="lightbox">
 <img id="lightboxImg">
 </div>
 
 <script>
 
-/* =========================
-이미지 순서
-========================= */
-const order = [
+/* 이미지 순서 */
+const order=[
 "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
 "p28","p26","p27","p31","p29","p30","e9","e10",
 "e14","e15","e16","e17","e18","e19","e20",
 "e21","e22","e23","e24","p32","p33","p34"
 ];
 
-/* =========================
-설명 텍스트
-========================= */
+/* 캡션 */
 const captions={
 e1:"Cover of the Sharjah International Book Fair Anthology 2023",
 e2:"Interior Pages of the Sharjah International Book Fair Anthology"
 };
 
-/* =========================
-갤러리 생성
-========================= */
 const gallery=document.getElementById("gallery");
 
 order.forEach(name=>{
@@ -280,22 +262,16 @@ block.appendChild(img);
 gallery.appendChild(block);
 });
 
-/* =========================
-스크롤 등장 애니메이션
-========================= */
+/* 등장 애니메이션 */
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(e=>{
-if(e.isIntersecting){
-e.target.classList.add("show");
-}
+if(e.isIntersecting) e.target.classList.add("show");
 });
 },{threshold:0.2});
 
 document.querySelectorAll(".art-block").forEach(el=>observer.observe(el));
 
-/* =========================
-라이트박스
-========================= */
+/* 라이트박스 */
 const lightbox=document.getElementById("lightbox");
 const lightboxImg=document.getElementById("lightboxImg");
 
@@ -304,9 +280,7 @@ document.addEventListener("keydown",e=>{
 if(e.key==="Escape") lightbox.style.display="none";
 });
 
-/* =========================
-썸네일 생성
-========================= */
+/* 썸네일 생성 */
 const thumbList=document.getElementById("thumbList");
 
 order.forEach(name=>{
@@ -315,15 +289,16 @@ const t=document.createElement("img");
 t.src=`images/s${num}.jpg`;
 
 t.onclick=()=>{
-document.getElementById(name).scrollIntoView({behavior:"smooth"});
+document.getElementById(name).scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
 };
 
 thumbList.appendChild(t);
 });
 
-/* =========================
-갤러리 스크롤 ↔ 썸네일 동기화
-========================= */
+/* 스크롤 동기화 */
 window.addEventListener("scroll",()=>{
 let closest=null;
 let min=999999;
@@ -344,12 +319,14 @@ const num=closest.replace(/[a-z]/g,"");
 const thumbs=[...thumbList.children];
 const target=thumbs.find(t=>t.src.includes(`s${num}`));
 if(target){
-target.scrollIntoView({block:"center"});
+target.scrollIntoView({
+block:"center",
+behavior:"smooth"
+});
 }
 }
 });
 
 </script>
-
 </body>
 </html>
