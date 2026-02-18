@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Gallery</title>
 
-<!-- FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@1,400&display=swap" rel="stylesheet">
 
 <style>
@@ -16,123 +15,75 @@ body{
     cursor:url('images/mouse.png'), auto;
 }
 
-/* 클릭시 커서 변화 방지 */
-a, button, img{
-    cursor:url('images/mouse.png'), auto !important;
-}
-
 /* 우클릭 방지 */
 img{
     user-select:none;
     -webkit-user-drag:none;
 }
 
-/* 전체 레이아웃 */
+/* ===== 전체 중앙 배치 ===== */
+
 .wrapper{
     display:flex;
+    justify-content:center; /* 갤러리 중심 */
     align-items:flex-start;
-    padding-left:40px;
-    padding-right:40px;
-    gap:clamp(20px,4vw,100px);
+    gap:clamp(10px,3vw,100px);
+    padding:0 20px;
 }
 
-/* 왼쪽 네비 */
+/* ===== 왼쪽 네비 ===== */
+
 .left-nav{
     margin-top:200px;
-    flex:0 0 auto;
-    width:clamp(180px,12vw,260px);
-}
-
-.left-nav ul{
-    list-style:none;
-    padding:0;
-    margin:0;
+    flex:0 1 220px;
 }
 
 .left-nav li{
-    display:flex;
-    align-items:center;
-    margin-bottom:14px;
     font-size:26px;
     font-style:italic;
-    font-weight:400;
+    margin-bottom:10px;
 }
 
-.left-nav img.icon{
-    margin-right:10px;
-    width:18px;
-}
+/* ===== 갤러리 ===== */
 
-.email{
-    margin-top:20px;
-    font-size:20px;
-}
-
-.sns{
-    margin-top:20px;
-}
-
-.sns img{
-    width:55px;
-    margin-right:10px;
-}
-
-/* 갤러리 */
 .gallery{
     margin-top:50px;
-    flex:0 1 1000px;
-    min-width:300px;
+    width:1000px;
+    max-width:60vw;
 }
 
 .gallery-item{
-    margin-bottom:60px;
-    opacity:0;
-    transform:translateY(60px);
-    transition:all 0.7s ease;
-}
-
-.gallery-item.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-.caption{
-    font-size:20px;
-    margin-bottom:6px;
+    margin-bottom:70px;
 }
 
 .gallery img{
     width:100%;
-    display:block;
 }
 
-/* 오른쪽 썸네일 */
+/* ===== 오른쪽 썸네일 ===== */
+
 .thumbnails{
-    flex:0 0 130px;
+    margin-top:50px;
+    width:130px;
+    max-height:90vh;
     overflow-y:auto;
-    max-height:100vh;
-    padding-right:10px;
-    margin-left:clamp(10px,5vw,100px);
 }
 
-/* 스크롤바 숨기기 */
-.thumbnails::-webkit-scrollbar{
-    display:none;
-}
-.thumbnails{
-    scrollbar-width:none;
-}
+.thumbnails::-webkit-scrollbar{ display:none; }
+.thumbnails{ scrollbar-width:none; }
 
 .thumb{
     width:130px;
     margin-bottom:50px;
-    transition:opacity 0.3s;
+    cursor:pointer;
 }
+
 .thumb:hover{
     opacity:0.7;
 }
 
-/* 라이트박스 */
+/* ===== 라이트박스 ===== */
+
 .lightbox{
     position:fixed;
     inset:0;
@@ -140,33 +91,10 @@ img{
     display:none;
     justify-content:center;
     align-items:center;
-    z-index:999;
 }
 
 .lightbox img{
     max-height:92vh;
-}
-
-/* 반응형 */
-@media (max-width:1200px){
-    .wrapper{
-        gap:30px;
-    }
-}
-
-@media (max-width:900px){
-    .wrapper{
-        flex-direction:column;
-    }
-    .thumbnails{
-        order:3;
-        display:flex;
-        flex-wrap:wrap;
-        max-height:none;
-    }
-    .thumb{
-        margin-right:20px;
-    }
 }
 
 </style>
@@ -176,38 +104,21 @@ img{
 
 <div class="wrapper">
 
-<!-- LEFT NAV -->
 <div class="left-nav">
 <ul>
-<li><img src="images/one.png" class="icon">Editorial illust</li>
-<li><img src="images/one.png" class="icon">Personal works</li>
-<li><img src="images/one.png" class="icon">Comics</li>
-<li><img src="images/one.png" class="icon">Me</li>
+<li>Editorial illust</li>
+<li>Personal works</li>
+<li>Comics</li>
+<li>Me</li>
 </ul>
-
-<div class="email">mybrowncat53@gmail.com</div>
-
-<div class="sns">
-<a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-<img src="images/beh.png">
-</a>
-<a href="https://www.instagram.com/hanna_something/" target="_blank">
-<img src="images/ins.png">
-</a>
-</div>
 </div>
 
-
-<!-- GALLERY -->
 <div class="gallery" id="gallery"></div>
 
-
-<!-- THUMBNAILS -->
 <div class="thumbnails" id="thumbs"></div>
 
 </div>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
 <img id="lightbox-img">
 </div>
@@ -216,46 +127,30 @@ img{
 <script>
 
 /* 이미지 순서 */
-const order = [
+const order=[
 "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13","p28","p26","p27","p31",
 "p29","p30","e9","e10","e14","e15","e16","e17","e18","e19","e20","e21","e22",
 "e23","e24","p32","p33","p34"
 ];
 
-/* 캡션 */
-const captions = {
-e1:"Cover of the Sharjah International Book Fair Anthology 2023",
-e2:"Interior Pages of the Sharjah International Book Fair Anthology"
-};
-
-const gallery = document.getElementById('gallery');
-const thumbs = document.getElementById('thumbs');
+const gallery=document.getElementById('gallery');
+const thumbs=document.getElementById('thumbs');
 
 /* 생성 */
 order.forEach(name=>{
 
-    const num = name.replace(/[a-z]/g,'');
+    const num=name.replace(/[a-z]/g,'');
 
-    /* 갤러리 */
-    const item = document.createElement('div');
-    item.className='gallery-item';
-    item.id=name;
-
-    if(captions[name]){
-        const cap=document.createElement('div');
-        cap.className='caption';
-        cap.textContent=captions[name];
-        item.appendChild(cap);
-    }
+    const wrap=document.createElement('div');
+    wrap.className='gallery-item';
+    wrap.id=name;
 
     const img=document.createElement('img');
     img.src=`images/${name}.jpg`;
-    img.dataset.name=name;
-    item.appendChild(img);
+    wrap.appendChild(img);
 
-    gallery.appendChild(item);
+    gallery.appendChild(wrap);
 
-    /* 썸네일 */
     const t=document.createElement('img');
     t.src=`images/s${num}.jpg`;
     t.className='thumb';
@@ -267,58 +162,44 @@ order.forEach(name=>{
 const lightbox=document.getElementById('lightbox');
 const lightImg=document.getElementById('lightbox-img');
 
-gallery.addEventListener('click',e=>{
+gallery.onclick=e=>{
     if(e.target.tagName==="IMG"){
         lightImg.src=e.target.src;
         lightbox.style.display="flex";
     }
+};
+
+lightbox.onclick=()=>lightbox.style.display="none";
+
+/* ===== 썸네일 클릭 이동 (확실히 작동) ===== */
+
+thumbs.addEventListener('click',e=>{
+    if(!e.target.classList.contains('thumb')) return;
+
+    const id=e.target.dataset.target;
+    const target=document.getElementById(id);
+
+    window.scrollTo({
+        top:target.getBoundingClientRect().top + window.scrollY - 40,
+        behavior:"smooth"
+    });
 });
 
-lightbox.addEventListener('click',()=>lightbox.style.display="none");
+/* ===== 스크롤 동기화 ===== */
 
-document.addEventListener('keydown',e=>{
-    if(e.key==="Escape") lightbox.style.display="none";
-});
-
-/* 스크롤 등장 애니메이션 */
 const observer=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
         if(entry.isIntersecting){
-            entry.target.classList.add('show');
+            const id=entry.target.id;
+            const thumb=document.querySelector(`.thumb[data-target="${id}"]`);
+            if(thumb){
+                thumb.scrollIntoView({block:'center',behavior:'smooth'});
+            }
         }
     });
-},{threshold:0.2});
+},{rootMargin:"-45% 0px -45% 0px"});
 
 document.querySelectorAll('.gallery-item').forEach(el=>observer.observe(el));
-
-/* 썸네일 클릭 이동 */
-thumbs.addEventListener('click',e=>{
-    if(e.target.classList.contains('thumb')){
-        const target=document.getElementById(e.target.dataset.target);
-        target.scrollIntoView({behavior:'smooth',block:'center'});
-    }
-});
-
-/* 갤러리 스크롤 ↔ 썸네일 자동 위치 */
-window.addEventListener('scroll',()=>{
-
-    let closest=null;
-    let min=999999;
-
-    document.querySelectorAll('.gallery-item').forEach(item=>{
-        const rect=item.getBoundingClientRect();
-        const d=Math.abs(rect.top-200);
-        if(d<min){
-            min=d;
-            closest=item.id;
-        }
-    });
-
-    const thumb=document.querySelector(`.thumb[data-target="${closest}"]`);
-    if(thumb){
-        thumb.scrollIntoView({block:'center'});
-    }
-});
 
 /* 우클릭 방지 */
 document.addEventListener('contextmenu',e=>e.preventDefault());
