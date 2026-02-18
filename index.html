@@ -2,63 +2,118 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Gallery</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
 <style>
 
-/* 전체 배경 */
+/* =========================
+기본 설정
+========================= */
+
 body{
 margin:0;
 background:#faf6e6;
-font-family:Arial, sans-serif;
+font-family:'Jost', sans-serif;
+cursor:url("images/mouse.png"), auto;
 }
 
-/* 전체 3단 구조 */
 .wrapper{
 display:flex;
 justify-content:center;
-gap:60px;
+gap:clamp(30px,5vw,130px);
 padding-top:50px;
+align-items:flex-start;
 }
 
-/* 왼쪽 네비 */
+/* =========================
+왼쪽 네비
+========================= */
+
 .nav{
 position:sticky;
-top:40vh;
-width:180px;
+top:300px;
+width:clamp(160px,15vw,260px);
+margin-right:30px;
+text-align:left;
 }
 
-.nav div{
-margin:12px 0;
-font-size:24px;
-cursor:pointer;
+.nav img.top{
+width:100%;
+margin-bottom:20px;
 }
 
-/* 갤러리 */
+.nav-item{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:28px;
+font-style:italic;
+margin:8px 0;
+}
+
+.nav-item img{
+width:18px;
+}
+
+.email{
+margin-top:15px;
+font-size:22px;
+}
+
+.sns{
+margin-top:10px;
+}
+
+.sns img{
+width:55px;
+margin-right:10px;
+}
+
+/* =========================
+갤러리
+========================= */
+
 .gallery{
 width:min(1200px,60vw);
 }
 
-.gallery img{
-width:100%;
-margin:80px 0;
-cursor:zoom-in;
+.art{
+margin-bottom:80px;
 opacity:0;
 transform:translateY(40px);
 transition:.6s;
 }
 
-.gallery img.show{
+.art.show{
 opacity:1;
 transform:none;
 }
 
-/* 오른쪽 썸네일 */
+.caption{
+font-size:20px;
+margin-bottom:5px;
+}
+
+.art img{
+width:100%;
+cursor:zoom-in;
+}
+
+/* =========================
+오른쪽 썸네일
+========================= */
+
 .thumbs{
 position:sticky;
 top:50px;
-height:90vh;
-overflow:hidden;
+height:calc(100vh - 50px);
+overflow:auto;
+scrollbar-width:none;
+}
+
+.thumbs::-webkit-scrollbar{
+display:none;
 }
 
 .thumbs img{
@@ -73,7 +128,10 @@ transition:.2s;
 opacity:.7;
 }
 
-/* 라이트박스 */
+/* =========================
+라이트박스
+========================= */
+
 #lightbox{
 position:fixed;
 inset:0;
@@ -85,35 +143,70 @@ z-index:999;
 }
 
 #lightbox img{
-max-height:90vh;
-max-width:90vw;
+max-height:92vh;
+max-width:92vw;
+}
+
+/* =========================
+반응형 겹침 방지
+========================= */
+
+@media (max-width:1100px){
+.wrapper{
+gap:30px;
+}
+.gallery{
+width:55vw;
+}
+.thumbs img{
+width:100px;
+}
 }
 
 </style>
 </head>
 
-
 <body>
+
 
 <div class="wrapper">
 
 <!-- 왼쪽 네비 -->
 <div class="nav">
-<div>Editorial illust</div>
-<div>Personal works</div>
-<div>Comics</div>
-<div>Me</div>
+
+<img src="images/me.png" class="top">
+
+<div class="nav-item"><img src="images/one.png">Editorial illust</div>
+<div class="nav-item"><img src="images/one.png">Personal works</div>
+<div class="nav-item"><img src="images/one.png">Comics</div>
+<div class="nav-item"><img src="images/one.png">Me</div>
+
+<div class="email">mybrowncat53@gmail.com</div>
+
+<div class="sns">
+<a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
+<img src="images/bluebeh.png">
+</a>
+
+<a href="https://www.instagram.com/hanna_something/" target="_blank">
+<img src="images/blueins.png">
+</a>
 </div>
+
+</div>
+
 
 
 <!-- 갤러리 -->
 <div class="gallery" id="gallery"></div>
 
 
-<!-- 오른쪽 썸네일 -->
+
+<!-- 썸네일 -->
 <div class="thumbs" id="thumbs"></div>
 
 </div>
+
 
 
 <!-- 라이트박스 -->
@@ -131,13 +224,22 @@ max-width:90vw;
 
 const order=[
 "e1","e2","e3","e4","e5","e6",
-"p25",
-"e7","e8","e13",
+"p25","e7","e8","e13",
 "p28","p26","p27","p31","p29","p30",
 "e9","e10","e14","e15","e16","e17",
 "e18","e19","e20","e21","e22","e23","e24",
 "p32","p33","p34"
 ];
+
+
+/* ======================
+설명 텍스트
+====================== */
+
+const captions={
+e1:"Cover of the Sharjah International Book Fair Anthology 2023",
+e2:"Interior Pages of the Sharjah International Book Fair Anthology"
+};
 
 
 /* ======================
@@ -147,10 +249,24 @@ const order=[
 const gallery=document.getElementById("gallery");
 
 order.forEach(name=>{
+
+const wrap=document.createElement("div");
+wrap.className="art";
+
+if(captions[name]){
+const cap=document.createElement("div");
+cap.className="caption";
+cap.textContent=captions[name];
+wrap.appendChild(cap);
+}
+
 const img=document.createElement("img");
 img.src="images/"+name+".jpg";
 img.id=name;
-gallery.appendChild(img);
+
+wrap.appendChild(img);
+gallery.appendChild(wrap);
+
 });
 
 
@@ -173,6 +289,7 @@ document.getElementById(name)
 };
 
 thumbs.appendChild(img);
+
 });
 
 
@@ -198,7 +315,7 @@ if(e.key==="Escape") lightbox.style.display="none";
 
 
 /* ======================
-스크롤 등장 애니메이션
+등장 애니메이션
 ====================== */
 
 const observer=new IntersectionObserver(entries=>{
@@ -207,9 +324,7 @@ if(entry.isIntersecting) entry.target.classList.add("show");
 });
 },{threshold:0.1});
 
-document.querySelectorAll(".gallery img").forEach(img=>{
-observer.observe(img);
-});
+document.querySelectorAll(".art").forEach(el=>observer.observe(el));
 
 
 /* ======================
@@ -217,7 +332,6 @@ observer.observe(img);
 ====================== */
 
 let current=null;
-let ticking=false;
 
 function sync(){
 
@@ -244,19 +358,11 @@ target.scrollIntoView({block:"center"});
 
 }
 
-window.addEventListener("scroll",()=>{
-if(!ticking){
-requestAnimationFrame(()=>{
-sync();
-ticking=false;
-});
-ticking=true;
-}
-},{passive:true});
+window.addEventListener("scroll",sync,{passive:true});
 
 
 /* ======================
-이미지 우클릭 방지
+우클릭 방지
 ====================== */
 
 document.addEventListener("contextmenu",e=>{
@@ -264,7 +370,6 @@ if(e.target.tagName==="IMG") e.preventDefault();
 });
 
 </script>
-
 
 </body>
 </html>
