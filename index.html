@@ -2,207 +2,365 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
 <style>
+
+/* =========================
+기본 설정
+========================= */
 
 body{
     margin:0;
     background:#fffff4;
-    font-family:'Jost', sans-serif;
-    cursor:url('images/mouse.png'), auto;
+    font-family:'Jost',sans-serif;
+    overflow-y:scroll;
 }
 
-/* 우클릭 방지 */
+body::-webkit-scrollbar{ display:none; }
+
 img{
     user-select:none;
     -webkit-user-drag:none;
 }
 
-/* ===== 전체 중앙 배치 ===== */
+*{ box-sizing:border-box; }
+
+
+/* =========================
+전체 레이아웃 (갤러리 중앙)
+========================= */
 
 .wrapper{
     display:flex;
-    justify-content:center; /* 갤러리 중심 */
+    justify-content:center;
     align-items:flex-start;
+    padding-top:50px;
     gap:clamp(10px,3vw,100px);
-    padding:0 20px;
 }
 
-/* ===== 왼쪽 네비 ===== */
 
-.left-nav{
-    margin-top:200px;
-    flex:0 1 220px;
-}
+/* =========================
+왼쪽 네비
+========================= */
 
-.left-nav li{
+.nav{
+    position:sticky;
+    top:200px;
     font-size:26px;
     font-style:italic;
-    margin-bottom:10px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    min-width:180px;
 }
 
-/* ===== 갤러리 ===== */
+.nav a{
+    color:black;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav img{
+    width:18px;
+}
+
+.sns{
+    margin-top:12px;
+}
+
+.sns img{
+    width:55px;
+    margin-right:6px;
+}
+
+
+/* =========================
+갤러리
+========================= */
 
 .gallery{
-    margin-top:50px;
-    width:1000px;
-    max-width:60vw;
+    width:min(1000px,60vw);
 }
 
-.gallery-item{
-    margin-bottom:70px;
+.item{
+    margin-bottom:80px;
+    opacity:0;
+    transform:translateY(60px);
+    transition:1s ease;
 }
 
-.gallery img{
+.item.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.caption{
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+.item img{
     width:100%;
-}
-
-/* ===== 오른쪽 썸네일 ===== */
-
-.thumbnails{
-    margin-top:50px;
-    width:130px;
-    max-height:90vh;
-    overflow-y:auto;
-}
-
-.thumbnails::-webkit-scrollbar{ display:none; }
-.thumbnails{ scrollbar-width:none; }
-
-.thumb{
-    width:130px;
-    margin-bottom:50px;
     cursor:pointer;
 }
 
-.thumb:hover{
-    opacity:0.7;
+
+/* =========================
+오른쪽 썸네일
+========================= */
+
+.thumbs{
+    position:sticky;
+    top:50px;
+    height:85vh;
+    overflow:auto;
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+    padding-right:10px;
 }
 
-/* ===== 라이트박스 ===== */
+.thumbs::-webkit-scrollbar{ display:none; }
+
+.thumb{
+    width:130px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.thumb:hover{
+    opacity:.7;
+}
+
+
+/* =========================
+라이트박스
+========================= */
 
 .lightbox{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.9);
+    background:rgba(0,0,0,.9);
     display:none;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+    z-index:999;
 }
 
 .lightbox img{
     max-height:92vh;
+    max-width:92vw;
+}
+
+
+/* =========================
+반응형 (겹침 방지)
+========================= */
+
+@media (max-width:1100px){
+
+    .wrapper{
+        gap:20px;
+    }
+
+    .nav{
+        font-size:22px;
+        min-width:140px;
+    }
+
+    .thumb{
+        width:100px;
+    }
+
 }
 
 </style>
 </head>
 
-<body>
+<body oncontextmenu="return false">
 
 <div class="wrapper">
 
-<div class="left-nav">
-<ul>
-<li>Editorial illust</li>
-<li>Personal works</li>
-<li>Comics</li>
-<li>Me</li>
-</ul>
+<!-- =========================
+왼쪽 네비
+========================= -->
+
+<div class="nav">
+
+<a href="#"><img src="images/one.png">Editorial illust</a>
+<a href="#"><img src="images/one.png">Personal works</a>
+<a href="#"><img src="images/one.png">Comics</a>
+
+<div>
+<a href="#"><img src="images/one.png">Me</a>
+<div style="margin-left:26px;">mybrowncat53@gmail.com</div>
+<div class="sns">
+<a href="https://www.behance.net/hibyhanna3e0f" target="_blank"><img src="images/beh.png"></a>
+<a href="https://www.instagram.com/hanna_something/" target="_blank"><img src="images/ins.png"></a>
 </div>
+</div>
+
+</div>
+
+
+<!-- =========================
+갤러리
+========================= -->
 
 <div class="gallery" id="gallery"></div>
 
-<div class="thumbnails" id="thumbs"></div>
+
+<!-- =========================
+썸네일
+========================= -->
+
+<div class="thumbs" id="thumbs"></div>
 
 </div>
+
+
+<!-- =========================
+라이트박스
+========================= -->
 
 <div class="lightbox" id="lightbox">
-<img id="lightbox-img">
+<img id="lightImg">
 </div>
+
 
 
 <script>
 
-/* 이미지 순서 */
-const order=[
-"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13","p28","p26","p27","p31",
-"p29","p30","e9","e10","e14","e15","e16","e17","e18","e19","e20","e21","e22",
+/* =========================
+이미지 목록
+========================= */
+
+const list=[
+"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
+"p28","p26","p27","p31","p29","p30","e9","e10","e14",
+"e15","e16","e17","e18","e19","e20","e21","e22",
 "e23","e24","p32","p33","p34"
 ];
 
-const gallery=document.getElementById('gallery');
-const thumbs=document.getElementById('thumbs');
+const gallery=document.getElementById("gallery");
+const thumbs=document.getElementById("thumbs");
 
-/* 생성 */
-order.forEach(name=>{
 
-    const num=name.replace(/[a-z]/g,'');
+/* =========================
+갤러리 생성
+========================= */
 
-    const wrap=document.createElement('div');
-    wrap.className='gallery-item';
-    wrap.id=name;
+list.forEach(name=>{
 
-    const img=document.createElement('img');
-    img.src=`images/${name}.jpg`;
-    wrap.appendChild(img);
+const div=document.createElement("div");
+div.className="item";
+div.id=name;
 
-    gallery.appendChild(wrap);
+let caption="";
+if(name==="e1") caption="Cover of the Sharjah International Book Fair Anthology 2023";
+if(name==="e2") caption="Interior Pages of the Sharjah International Book Fair Anthology";
 
-    const t=document.createElement('img');
-    t.src=`images/s${num}.jpg`;
-    t.className='thumb';
-    t.dataset.target=name;
-    thumbs.appendChild(t);
+div.innerHTML=`
+<div class="caption">${caption}</div>
+<img src="images/${name}.jpg">
+`;
+
+gallery.appendChild(div);
+
+
+/* 썸네일 */
+const num=name.replace(/\D/g,"");
+const t=document.createElement("img");
+t.src=`images/s${num}.jpg`;
+t.className="thumb";
+t.dataset.target=name;
+thumbs.appendChild(t);
+
 });
 
-/* 라이트박스 */
-const lightbox=document.getElementById('lightbox');
-const lightImg=document.getElementById('lightbox-img');
 
-gallery.onclick=e=>{
-    if(e.target.tagName==="IMG"){
-        lightImg.src=e.target.src;
-        lightbox.style.display="flex";
-    }
-};
+/* =========================
+라이트박스
+========================= */
 
-lightbox.onclick=()=>lightbox.style.display="none";
+const lightbox=document.getElementById("lightbox");
+const lightImg=document.getElementById("lightImg");
 
-/* ===== 썸네일 클릭 이동 (확실히 작동) ===== */
-
-thumbs.addEventListener('click',e=>{
-    if(!e.target.classList.contains('thumb')) return;
-
-    const id=e.target.dataset.target;
-    const target=document.getElementById(id);
-
-    window.scrollTo({
-        top:target.getBoundingClientRect().top + window.scrollY - 40,
-        behavior:"smooth"
-    });
+gallery.addEventListener("click",e=>{
+if(e.target.tagName==="IMG"){
+lightbox.style.display="flex";
+lightImg.src=e.target.src;
+}
 });
 
-/* ===== 스크롤 동기화 ===== */
+lightbox.onclick=()=> lightbox.style.display="none";
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape") lightbox.style.display="none";
+});
 
-const observer=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-        if(entry.isIntersecting){
-            const id=entry.target.id;
-            const thumb=document.querySelector(`.thumb[data-target="${id}"]`);
-            if(thumb){
-                thumb.scrollIntoView({block:'center',behavior:'smooth'});
-            }
-        }
-    });
+
+/* =========================
+스크롤 등장 애니메이션
+========================= */
+
+const appearObserver=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting) e.target.classList.add("show");
+});
+},{threshold:.2});
+
+document.querySelectorAll(".item").forEach(el=>appearObserver.observe(el));
+
+
+/* =========================
+썸네일 클릭 이동 (흔들림 해결)
+========================= */
+
+let autoScrolling=false;
+
+thumbs.addEventListener("click",e=>{
+
+if(!e.target.classList.contains("thumb")) return;
+
+const id=e.target.dataset.target;
+const target=document.getElementById(id);
+
+autoScrolling=true;
+
+window.scrollTo({
+top:target.getBoundingClientRect().top + window.scrollY - 40,
+behavior:"smooth"
+});
+
+setTimeout(()=> autoScrolling=false,700);
+
+});
+
+
+/* =========================
+현재 위치 썸네일 자동 추적
+========================= */
+
+const trackObserver=new IntersectionObserver(entries=>{
+
+if(autoScrolling) return;
+
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+const id=entry.target.id;
+const t=document.querySelector(`.thumb[data-target="${id}"]`);
+if(t) t.scrollIntoView({block:"center"});
+}
+});
+
 },{rootMargin:"-45% 0px -45% 0px"});
 
-document.querySelectorAll('.gallery-item').forEach(el=>observer.observe(el));
-
-/* 우클릭 방지 */
-document.addEventListener('contextmenu',e=>e.preventDefault());
+document.querySelectorAll(".item").forEach(el=>trackObserver.observe(el));
 
 </script>
 
