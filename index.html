@@ -3,340 +3,351 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
+<title>Gallery</title>
+
 <style>
 
-/* ==========================
-   RESET
-========================== */
-*{margin:0;padding:0;box-sizing:border-box}
+/* =========================
+전체 배경
+========================= */
 body{
-    background:#faf6e6;
-    font-family:'Jost',sans-serif;
-    overflow-y:scroll;
+margin:0;
+background:#faf6e6;
+font-family:'Jost', sans-serif;
+overflow-x:hidden;
 }
 
-/* ==========================
-   LAYOUT GRID
-========================== */
-.page{
-    display:grid;
-    grid-template-columns:
-        minmax(220px,18vw)
-        minmax(600px,1200px)
-        130px;
-    gap:0;
-    min-height:100vh;
+/* =========================
+전체 레이아웃
+========================= */
+.wrapper{
+display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:clamp(30px,4vw,130px);
+padding-top:50px;
 }
 
-/* ==========================
-   LEFT NAV
-========================== */
-.nav{
-    padding-top:300px;
-    padding-left:30px;
-    position:relative;
+/* =========================
+왼쪽 네비게이션
+========================= */
+.left-nav{
+position:sticky;
+top:400px;
+width:clamp(160px,15vw,260px);
+flex-shrink:0;
+text-align:left;
+margin-right:30px;
 }
 
-.nav-inner{
-    position:sticky;
-    top:0;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:20px;
+.left-nav img.flower{
+width:100%;
+margin-bottom:20px;
 }
 
-.me-img{
-    width:100%;
-    border-radius:16px;
+.nav-item{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:28px;
+font-style:italic;
+margin:10px 0;
 }
 
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-    font-size:28px;
-    font-weight:400;
-    font-style:italic;
-}
-
-.menu-item{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    cursor:pointer;
-}
-
-.menu-item img{
-    height:24px;
+.nav-item img{
+height:20px;
 }
 
 .email{
-    margin-top:10px;
-    font-size:18px;
+margin-top:20px;
+font-size:20px;
 }
 
-.social{
-    margin-top:20px;
-    display:flex;
-    gap:12px;
+.sns{
+margin-top:10px;
+display:flex;
+gap:12px;
 }
 
-.social img{
-    width:55px;
-    cursor:pointer;
+.sns img{
+width:40px;
+cursor:pointer;
 }
 
-/* ==========================
-   GALLERY
-========================== */
+/* =========================
+갤러리
+========================= */
 .gallery{
-    padding-top:50px;
-    padding-left:30px;
-    padding-right:130px;
+width:clamp(500px,60vw,1200px);
+cursor:url('images/dod.png'), auto;
 }
 
-.art{
-    margin-bottom:80px;
-    opacity:0;
-    transform:translateY(80px);
-    transition:1s ease;
+.art-block{
+margin-bottom:60px;
+opacity:0;
+transform:translateY(40px);
+transition:all 0.6s ease;
 }
 
-.art.visible{
-    opacity:1;
-    transform:translateY(0);
+.art-block.show{
+opacity:1;
+transform:translateY(0);
 }
 
 .caption{
-    font-size:20px;
-    margin-bottom:4px;
+font-size:20px;
+margin-bottom:8px;
 }
 
-.art img{
-    width:100%;
-    max-width:1200px;
-    cursor:pointer;
-    transition:.2s;
+.gallery img{
+width:100%;
+display:block;
+cursor:zoom-in;
 }
 
-.art img:hover{
-    transform:scale(1.03);
-}
-
-/* ==========================
-   THUMBNAILS
-========================== */
-.thumbs{
-    position:sticky;
-    top:50px;
-    height:calc(100vh - 50px);
-    overflow-y:auto;
-    padding-left:130px;
-}
-
-.thumbs::-webkit-scrollbar{display:none}
-
-.thumb{
-    width:130px;
-    margin-bottom:10px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.thumb:hover{opacity:.7}
-
-/* ==========================
-   LIGHTBOX
-========================== */
+/* =========================
+라이트박스
+========================= */
 .lightbox{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.8);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
 }
 
 .lightbox img{
-    max-height:90vh;
+max-height:92vh;
+max-width:92vw;
 }
 
-/* ==========================
-   RESPONSIVE SAFETY
-========================== */
-@media (max-width:1200px){
-    .page{
-        grid-template-columns:
-        minmax(200px,22vw)
-        1fr
-        130px;
-    }
+/* =========================
+오른쪽 썸네일
+========================= */
+.thumbs{
+position:sticky;
+top:50px;
+height:calc(100vh - 50px);
+overflow:hidden;
+flex-shrink:0;
 }
 
-@media (max-width:900px){
-    .thumbs{display:none}
+.thumb-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.thumbs img{
+width:130px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.thumbs img:hover{
+opacity:0.7;
+}
+
+/* =========================
+반응형 (겹침 방지)
+========================= */
+@media (max-width:1100px){
+.wrapper{
+flex-direction:column;
+align-items:center;
+}
+
+.left-nav{
+position:relative;
+top:auto;
+margin-right:0;
+margin-bottom:30px;
+}
+
+.thumbs{
+position:relative;
+top:auto;
+height:auto;
+margin-top:40px;
+}
 }
 
 </style>
 </head>
 
-<body>
+<body oncontextmenu="return false">
 
-<div class="page">
+<div class="wrapper">
 
-<!-- ==========================
+<!-- =========================
 LEFT NAV
-========================== -->
-<div class="nav">
-<div class="nav-inner">
+========================= -->
+<div class="left-nav">
 
-<img src="me.png" class="me-img">
+<img src="images/flower.png" class="flower">
 
-<div class="menu">
-<div class="menu-item"><img src="one.png">Editorial illust</div>
-<div class="menu-item"><img src="one.png">Personal works</div>
-<div class="menu-item"><img src="one.png">Comics</div>
-<div class="menu-item"><img src="one.png">Me</div>
-</div>
+<div class="nav-item"><img src="images/one.png">Editorial illust</div>
+<div class="nav-item"><img src="images/one.png">Personal works</div>
+<div class="nav-item"><img src="images/one.png">Comics</div>
+<div class="nav-item"><img src="images/one.png">Me</div>
 
 <div class="email">mybrowncat53@gmail.com</div>
 
-<div class="social">
-<a href="https://www.behance.net/hibyhanna3e0f" target="_blank"><img src="bluebeh.png"></a>
-<a href="https://www.instagram.com/hanna_something/" target="_blank"><img src="blueins.png"></a>
+<div class="sns">
+<a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
+<img src="images/linebeh.png">
+</a>
+<a href="https://www.instagram.com/hanna_something/" target="_blank">
+<img src="images/lineins.png">
+</a>
 </div>
 
 </div>
-</div>
 
-
-<!-- ==========================
+<!-- =========================
 GALLERY
-========================== -->
-<div class="gallery" id="gallery">
+========================= -->
+<div class="gallery" id="gallery"></div>
 
-<div class="art" id="e1">
-<div class="caption">Cover of the Sharjah International Book Fair Anthology 2023</div>
-<img src="e1.jpg">
-</div>
-
-<div class="art" id="e2">
-<div class="caption">Interior Pages of the Sharjah International Book Fair Anthology</div>
-<img src="e2.jpg">
-</div>
-
-<script>
-const order=[
-'e3','e4','e5','e6','p25','e7','e8','e13','p28','p26','p27','p31','p29','p30','e9','e10','e14','e15','e16','e17','e18','e19','e20','e21','e22','e23','e24','p32','p33','p34'
-];
-const gallery=document.getElementById('gallery');
-order.forEach(id=>{
-const wrap=document.createElement('div');
-wrap.className='art';
-wrap.id=id;
-const img=document.createElement('img');
-img.src=id+'.jpg';
-wrap.appendChild(img);
-gallery.appendChild(wrap);
-});
-</script>
-
-</div>
-
-
-<!-- ==========================
+<!-- =========================
 THUMBNAILS
-========================== -->
-<div class="thumbs" id="thumbs"></div>
+========================= -->
+<div class="thumbs">
+<div class="thumb-list" id="thumbList"></div>
+</div>
 
 </div>
 
-
-<!-- ==========================
+<!-- =========================
 LIGHTBOX
-========================== -->
+========================= -->
 <div class="lightbox" id="lightbox">
-<img id="lightbox-img">
+<img id="lightboxImg">
 </div>
-
 
 <script>
 
-/* ==========================
-CREATE THUMBNAILS
-========================== */
-const thumbs=document.getElementById('thumbs');
-const all=[ 'e1','e2', ...order ];
+/* =========================
+이미지 순서
+========================= */
+const order = [
+"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
+"p28","p26","p27","p31","p29","p30","e9","e10",
+"e14","e15","e16","e17","e18","e19","e20",
+"e21","e22","e23","e24","p32","p33","p34"
+];
 
-all.forEach(id=>{
-const img=document.createElement('img');
-img.src='s'+id.replace(/[a-z]/,'')+'.jpg';
-img.className='thumb';
-img.onclick=()=>{
- document.getElementById(id).scrollIntoView({behavior:'smooth'});
+/* =========================
+설명 텍스트
+========================= */
+const captions={
+e1:"Cover of the Sharjah International Book Fair Anthology 2023",
+e2:"Interior Pages of the Sharjah International Book Fair Anthology"
 };
-thumbs.appendChild(img);
-});
 
+/* =========================
+갤러리 생성
+========================= */
+const gallery=document.getElementById("gallery");
 
-/* ==========================
-LIGHTBOX
-========================== */
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=document.getElementById('lightbox-img');
+order.forEach(name=>{
+const block=document.createElement("div");
+block.className="art-block";
+block.id=name;
 
-document.querySelectorAll('.art img').forEach(img=>{
+const cap=document.createElement("div");
+cap.className="caption";
+cap.innerText=captions[name]||"";
+
+const img=document.createElement("img");
+img.src=`images/${name}.jpg`;
+
 img.onclick=()=>{
-lightbox.style.display='flex';
+lightbox.style.display="flex";
 lightboxImg.src=img.src;
 };
+
+block.appendChild(cap);
+block.appendChild(img);
+gallery.appendChild(block);
 });
 
-lightbox.onclick=()=>lightbox.style.display='none';
-
-document.addEventListener('keydown',e=>{
-if(e.key==='Escape') lightbox.style.display='none';
-});
-
-
-/* ==========================
-SCROLL REVEAL
-========================== */
+/* =========================
+스크롤 등장 애니메이션
+========================= */
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(e=>{
-if(e.isIntersecting) e.target.classList.add('visible');
+if(e.isIntersecting){
+e.target.classList.add("show");
+}
 });
-},{threshold:.15});
+},{threshold:0.2});
 
-document.querySelectorAll('.art').forEach(el=>observer.observe(el));
+document.querySelectorAll(".art-block").forEach(el=>observer.observe(el));
 
+/* =========================
+라이트박스
+========================= */
+const lightbox=document.getElementById("lightbox");
+const lightboxImg=document.getElementById("lightboxImg");
 
-/* ==========================
-SYNC THUMB SCROLL
-========================== */
-const galleryEl=document.getElementById('gallery');
-window.addEventListener('scroll',()=>{
-const ratio=window.scrollY/(document.body.scrollHeight-window.innerHeight);
-thumbs.scrollTop=ratio*(thumbs.scrollHeight-thumbs.clientHeight);
+lightbox.onclick=()=>lightbox.style.display="none";
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape") lightbox.style.display="none";
 });
 
+/* =========================
+썸네일 생성
+========================= */
+const thumbList=document.getElementById("thumbList");
 
-/* ==========================
-DISABLE RIGHT CLICK
-========================== */
-document.addEventListener('contextmenu',e=>e.preventDefault());
+order.forEach(name=>{
+const num=name.replace(/[a-z]/g,"");
+const t=document.createElement("img");
+t.src=`images/s${num}.jpg`;
 
+t.onclick=()=>{
+document.getElementById(name).scrollIntoView({behavior:"smooth"});
+};
 
-/* ==========================
-CUSTOM CURSOR
-========================== */
-document.body.style.cursor="url('mouse.png'), auto";
+thumbList.appendChild(t);
+});
+
+/* =========================
+갤러리 스크롤 ↔ 썸네일 동기화
+========================= */
+window.addEventListener("scroll",()=>{
+let closest=null;
+let min=999999;
+
+order.forEach(name=>{
+const el=document.getElementById(name);
+const rect=el.getBoundingClientRect();
+const dist=Math.abs(rect.top);
+
+if(dist<min){
+min=dist;
+closest=name;
+}
+});
+
+if(closest){
+const num=closest.replace(/[a-z]/g,"");
+const thumbs=[...thumbList.children];
+const target=thumbs.find(t=>t.src.includes(`s${num}`));
+if(target){
+target.scrollIntoView({block:"center"});
+}
+}
+});
 
 </script>
 
