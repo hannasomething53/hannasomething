@@ -2,331 +2,328 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-
 <title>Gallery</title>
+
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@1,400&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================
-전체 배경
-========================= */
 body{
-margin:0;
-background:#faf6e6;
-font-family:'Jost', sans-serif;
-overflow-x:hidden;
+    margin:0;
+    background:#fffff4;
+    font-family:'Jost', sans-serif;
+    cursor:url('images/mouse.png'), auto;
 }
 
-/* =========================
-전체 레이아웃
-========================= */
+/* 클릭시 커서 변화 방지 */
+a, button, img{
+    cursor:url('images/mouse.png'), auto !important;
+}
+
+/* 우클릭 방지 */
+img{
+    user-select:none;
+    -webkit-user-drag:none;
+}
+
+/* 전체 레이아웃 */
 .wrapper{
-display:flex;
-justify-content:center;
-align-items:flex-start;
-gap:40px;
-padding-top:50px;
+    display:flex;
+    align-items:flex-start;
+    padding-left:40px;
+    padding-right:40px;
+    gap:clamp(20px,4vw,100px);
 }
 
-/* =========================
-왼쪽 네비게이션
-========================= */
+/* 왼쪽 네비 */
 .left-nav{
-position:sticky;
-top:400px;
-width:clamp(160px,15vw,260px);
-flex-shrink:0;
-text-align:left;
-margin-right:30px;
+    margin-top:200px;
+    flex:0 0 auto;
+    width:clamp(180px,12vw,260px);
 }
 
-.left-nav img.flower{
-width:100%;
-margin-bottom:20px;
+.left-nav ul{
+    list-style:none;
+    padding:0;
+    margin:0;
 }
 
-.nav-item{
-display:flex;
-align-items:center;
-gap:8px;
-font-size:28px;
-font-style:italic;
-margin:10px 0;
+.left-nav li{
+    display:flex;
+    align-items:center;
+    margin-bottom:14px;
+    font-size:26px;
+    font-style:italic;
+    font-weight:400;
 }
 
-.nav-item img{
-height:20px;
+.left-nav img.icon{
+    margin-right:10px;
+    width:18px;
 }
 
 .email{
-margin-top:20px;
-font-size:20px;
+    margin-top:20px;
+    font-size:20px;
 }
 
 .sns{
-margin-top:10px;
-display:flex;
-gap:12px;
+    margin-top:20px;
 }
 
 .sns img{
-width:40px;
-cursor:pointer;
+    width:55px;
+    margin-right:10px;
 }
 
-/* =========================
-갤러리
-========================= */
+/* 갤러리 */
 .gallery{
-width:clamp(500px,60vw,1200px);
+    margin-top:50px;
+    flex:0 1 1000px;
+    min-width:300px;
 }
 
-.art-block{
-margin-bottom:60px;
-opacity:0;
-transform:translateY(40px);
-transition:all 0.6s ease;
+.gallery-item{
+    margin-bottom:60px;
+    opacity:0;
+    transform:translateY(60px);
+    transition:all 0.7s ease;
 }
 
-.art-block.show{
-opacity:1;
-transform:translateY(0);
+.gallery-item.show{
+    opacity:1;
+    transform:translateY(0);
 }
 
 .caption{
-font-size:20px;
-margin-bottom:8px;
+    font-size:20px;
+    margin-bottom:6px;
 }
 
 .gallery img{
-width:100%;
-display:block;
-cursor:zoom-in;
+    width:100%;
+    display:block;
 }
 
-/* =========================
-라이트박스
-========================= */
+/* 오른쪽 썸네일 */
+.thumbnails{
+    flex:0 0 130px;
+    overflow-y:auto;
+    max-height:100vh;
+    padding-right:10px;
+    margin-left:clamp(10px,5vw,100px);
+}
+
+/* 스크롤바 숨기기 */
+.thumbnails::-webkit-scrollbar{
+    display:none;
+}
+.thumbnails{
+    scrollbar-width:none;
+}
+
+.thumb{
+    width:130px;
+    margin-bottom:50px;
+    transition:opacity 0.3s;
+}
+.thumb:hover{
+    opacity:0.7;
+}
+
+/* 라이트박스 */
 .lightbox{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:999;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
 }
 
 .lightbox img{
-max-height:92vh;
-max-width:92vw;
+    max-height:92vh;
 }
 
-/* =========================
-오른쪽 썸네일
-========================= */
-.thumbs{
-position:sticky;
-top:50px;
-height:calc(100vh - 50px);
-margin-left:130px;
-
-/* 스크롤 가능 */
-overflow-y:auto;
-
-/* 스크롤바 숨김 */
-scrollbar-width:none;
--ms-overflow-style:none;
-}
-.thumbs::-webkit-scrollbar{
-display:none;
+/* 반응형 */
+@media (max-width:1200px){
+    .wrapper{
+        gap:30px;
+    }
 }
 
-.thumb-list{
-display:flex;
-flex-direction:column;
-gap:30px;
-}
-
-.thumbs img{
-width:130px;
-cursor:pointer;
-transition:0.2s;
-}
-
-.thumbs img:hover{
-opacity:0.7;
-}
-
-/* =========================
-반응형
-========================= */
-@media (max-width:1100px){
-.wrapper{
-flex-direction:column;
-align-items:center;
-}
-.left-nav{
-position:relative;
-top:auto;
-margin-right:0;
-margin-bottom:30px;
-}
-.thumbs{
-position:relative;
-height:auto;
-margin-left:0;
-margin-top:40px;
-}
+@media (max-width:900px){
+    .wrapper{
+        flex-direction:column;
+    }
+    .thumbnails{
+        order:3;
+        display:flex;
+        flex-wrap:wrap;
+        max-height:none;
+    }
+    .thumb{
+        margin-right:20px;
+    }
 }
 
 </style>
 </head>
 
-<body oncontextmenu="return false">
+<body>
 
 <div class="wrapper">
 
+<!-- LEFT NAV -->
 <div class="left-nav">
-<img src="images/flower.png" class="flower">
-<div class="nav-item"><img src="images/one.png">Editorial illust</div>
-<div class="nav-item"><img src="images/one.png">Personal works</div>
-<div class="nav-item"><img src="images/one.png">Comics</div>
-<div class="nav-item"><img src="images/one.png">Me</div>
+<ul>
+<li><img src="images/one.png" class="icon">Editorial illust</li>
+<li><img src="images/one.png" class="icon">Personal works</li>
+<li><img src="images/one.png" class="icon">Comics</li>
+<li><img src="images/one.png" class="icon">Me</li>
+</ul>
+
 <div class="email">mybrowncat53@gmail.com</div>
+
 <div class="sns">
 <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-<img src="images/bluebeh.png">
+<img src="images/beh.png">
 </a>
 <a href="https://www.instagram.com/hanna_something/" target="_blank">
-<img src="images/blueins.png">
+<img src="images/ins.png">
 </a>
 </div>
 </div>
 
+
+<!-- GALLERY -->
 <div class="gallery" id="gallery"></div>
 
-<div class="thumbs">
-<div class="thumb-list" id="thumbList"></div>
-</div>
+
+<!-- THUMBNAILS -->
+<div class="thumbnails" id="thumbs"></div>
 
 </div>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-<img id="lightboxImg">
+<img id="lightbox-img">
 </div>
+
 
 <script>
 
 /* 이미지 순서 */
-const order=[
-"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
-"p28","p26","p27","p31","p29","p30","e9","e10",
-"e14","e15","e16","e17","e18","e19","e20",
-"e21","e22","e23","e24","p32","p33","p34"
+const order = [
+"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13","p28","p26","p27","p31",
+"p29","p30","e9","e10","e14","e15","e16","e17","e18","e19","e20","e21","e22",
+"e23","e24","p32","p33","p34"
 ];
 
 /* 캡션 */
-const captions={
+const captions = {
 e1:"Cover of the Sharjah International Book Fair Anthology 2023",
 e2:"Interior Pages of the Sharjah International Book Fair Anthology"
 };
 
-const gallery=document.getElementById("gallery");
+const gallery = document.getElementById('gallery');
+const thumbs = document.getElementById('thumbs');
 
+/* 생성 */
 order.forEach(name=>{
-const block=document.createElement("div");
-block.className="art-block";
-block.id=name;
 
-const cap=document.createElement("div");
-cap.className="caption";
-cap.innerText=captions[name]||"";
+    const num = name.replace(/[a-z]/g,'');
 
-const img=document.createElement("img");
-img.src=`images/${name}.jpg`;
+    /* 갤러리 */
+    const item = document.createElement('div');
+    item.className='gallery-item';
+    item.id=name;
 
-img.onclick=()=>{
-lightbox.style.display="flex";
-lightboxImg.src=img.src;
-};
+    if(captions[name]){
+        const cap=document.createElement('div');
+        cap.className='caption';
+        cap.textContent=captions[name];
+        item.appendChild(cap);
+    }
 
-block.appendChild(cap);
-block.appendChild(img);
-gallery.appendChild(block);
+    const img=document.createElement('img');
+    img.src=`images/${name}.jpg`;
+    img.dataset.name=name;
+    item.appendChild(img);
+
+    gallery.appendChild(item);
+
+    /* 썸네일 */
+    const t=document.createElement('img');
+    t.src=`images/s${num}.jpg`;
+    t.className='thumb';
+    t.dataset.target=name;
+    thumbs.appendChild(t);
 });
-
-/* 등장 애니메이션 */
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting) e.target.classList.add("show");
-});
-},{threshold:0.2});
-
-document.querySelectorAll(".art-block").forEach(el=>observer.observe(el));
 
 /* 라이트박스 */
-const lightbox=document.getElementById("lightbox");
-const lightboxImg=document.getElementById("lightboxImg");
+const lightbox=document.getElementById('lightbox');
+const lightImg=document.getElementById('lightbox-img');
 
-lightbox.onclick=()=>lightbox.style.display="none";
-document.addEventListener("keydown",e=>{
-if(e.key==="Escape") lightbox.style.display="none";
+gallery.addEventListener('click',e=>{
+    if(e.target.tagName==="IMG"){
+        lightImg.src=e.target.src;
+        lightbox.style.display="flex";
+    }
 });
 
-/* 썸네일 생성 */
-const thumbList=document.getElementById("thumbList");
+lightbox.addEventListener('click',()=>lightbox.style.display="none");
 
-order.forEach(name=>{
-const num=name.replace(/[a-z]/g,"");
-const t=document.createElement("img");
-t.src=`images/s${num}.jpg`;
-
-t.onclick=()=>{
-document.getElementById(name).scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
-};
-
-thumbList.appendChild(t);
+document.addEventListener('keydown',e=>{
+    if(e.key==="Escape") lightbox.style.display="none";
 });
 
-/* 스크롤 동기화 */
-window.addEventListener("scroll",()=>{
-let closest=null;
-let min=999999;
+/* 스크롤 등장 애니메이션 */
+const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add('show');
+        }
+    });
+},{threshold:0.2});
 
-order.forEach(name=>{
-const el=document.getElementById(name);
-const rect=el.getBoundingClientRect();
-const dist=Math.abs(rect.top);
+document.querySelectorAll('.gallery-item').forEach(el=>observer.observe(el));
 
-if(dist<min){
-min=dist;
-closest=name;
-}
+/* 썸네일 클릭 이동 */
+thumbs.addEventListener('click',e=>{
+    if(e.target.classList.contains('thumb')){
+        const target=document.getElementById(e.target.dataset.target);
+        target.scrollIntoView({behavior:'smooth',block:'center'});
+    }
 });
 
-if(closest){
-const num=closest.replace(/[a-z]/g,"");
-const thumbs=[...thumbList.children];
-const target=thumbs.find(t=>t.src.includes(`s${num}`));
-if(target){
-target.scrollIntoView({
-block:"center",
-behavior:"smooth"
+/* 갤러리 스크롤 ↔ 썸네일 자동 위치 */
+window.addEventListener('scroll',()=>{
+
+    let closest=null;
+    let min=999999;
+
+    document.querySelectorAll('.gallery-item').forEach(item=>{
+        const rect=item.getBoundingClientRect();
+        const d=Math.abs(rect.top-200);
+        if(d<min){
+            min=d;
+            closest=item.id;
+        }
+    });
+
+    const thumb=document.querySelector(`.thumb[data-target="${closest}"]`);
+    if(thumb){
+        thumb.scrollIntoView({block:'center'});
+    }
 });
-}
-}
-});
+
+/* 우클릭 방지 */
+document.addEventListener('contextmenu',e=>e.preventDefault());
 
 </script>
+
 </body>
 </html>
