@@ -135,3 +135,30 @@ mobile.onclick=()=>mobile.style.display="none";
 /* right click block */
 
 document.addEventListener("contextmenu",e=>e.preventDefault());
+
+/* ===== ME POPUP ===== */
+
+const meBtn = document.querySelectorAll(".cat")[3]; // Me 버튼
+const mePopup = document.getElementById("mePopup");
+const meClose = document.querySelector(".me-close");
+
+meBtn.onclick = () => {
+  mePopup.style.display = "flex";
+};
+
+meClose.onclick = () => {
+  mePopup.style.display = "none";
+};
+
+mePopup.onclick = (e) => {
+  if (e.target === mePopup) {
+    mePopup.style.display = "none";
+  }
+};
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    mePopup.style.display = "none";
+  }
+});
+
