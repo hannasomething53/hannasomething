@@ -23,11 +23,20 @@ width:clamp(140px,15vw,200px);
 font-size:22px;
 }
 
-.home-btn{
-width:100%;
-margin-bottom:20px;
-cursor:pointer;
+.home-wrap{
+   width:100%;
+   display:flex;
+   justify-content:center;   /* 가로 중앙 */
+   margin-bottom:20px;       /* 카테고리와 간격 */
 }
+
+.home-btn{
+   display:block;
+   width:auto;               /* 원래 크기 유지 */
+   height:auto;
+   cursor:pointer;
+}
+
 
 .cat{
    display:flex;
