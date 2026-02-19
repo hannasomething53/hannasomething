@@ -60,10 +60,17 @@ font-size:18px;
 margin-top:20px;
 }
 
+.sns-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;          /* 아이콘 사이 간격 */
+  margin-top:12px;   /* 이메일 아래 여백 */
+}
+
 .sns{
-width:55px;
-display:block;
-margin-top:12px;
+  width:55px;        /* 원래 너가 원한 크기 */
+  height:auto;
+  display:block;     /* 이건 있어도 됨 (flex 안에서 문제 없음) */
 }
 
 
