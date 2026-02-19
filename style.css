@@ -33,7 +33,7 @@ font-size:22px;
 .home-btn{
    display:block;
 
-   width:80px;      /* 원하는 크기 지정 */
+   width:60px;      /* 원하는 크기 지정 */
    height:auto;      /* 비율 유지 */
 
    object-fit:contain;
