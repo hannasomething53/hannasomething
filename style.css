@@ -231,4 +231,54 @@ button:hover,
 img:hover{
   cursor: url("images/click.png") 16 16, pointer !important;
 }
+/* ===== ME POPUP ===== */
+
+#mePopup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+}
+
+.me-box{
+  background:#fffff4;
+  padding:40px 50px;
+  border-radius:14px;
+  box-shadow:0 10px 40px rgba(0,0,0,.2);
+  text-align:center;
+  position:relative;
+  animation:pop .3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.me-close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.me-email{
+  margin-top:15px;
+  font-size:18px;
+}
+
+.me-sns{
+  margin-top:20px;
+  display:flex;
+  gap:20px;
+  justify-content:center;
+}
+
+.me-sns img{
+  width:55px;
+}
 
