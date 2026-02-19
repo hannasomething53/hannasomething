@@ -45,13 +45,15 @@ font-size:22px;
 
 .cat{
    display:flex;
-   align-items:center;   /* 핵심 : 세로 중앙 정렬 */
-   gap:23px;             /* 원과 글자 사이 거리 */
-  margin-bottom:10px;   /* ← 여기 숫자만 바꾸면 간격 조절 */
+   align-items:center;
+   margin-bottom:10px;
 }
 
+.cat img{
+   height:16px;
+   margin-right:23px;   /* ⭐ 여기서 조절 */
+}
 
-.cat img{ height:16px; }
 
 .email{
 font-size:18px;
