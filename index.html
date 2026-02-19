@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
+<title>hanna_something</title>
 
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="images/e1.jpg">
+
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
 </head>
 
@@ -16,30 +18,7 @@
 <div class="mobile-me">
 <div class="mobile-inner">
 <p>Me</p>
-<p>mybrowncat53@gmail.com</p>
-
-<a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-<img src="beh.png">
-</a>
-
-<a href="https://www.instagram.com/hanna_something/" target="_blank">
-<img src="ins.png">
-</a>
-</div>
-</div>
-
-
-<div class="layout">
-
-<aside class="category">
-
-<div class="cat-item" data-type="e"><img src="one.png">Editorial illust</div>
-<div class="cat-item" data-type="p"><img src="one.png">Personal works</div>
-<div class="cat-item" data-type="c"><img src="one.png">Comics</div>
-<div class="cat-item"><img src="one.png">Me</div>
-
-<div class="me-info">
-<p>mybrowncat53@gmail.com</p>
+<p class="email">mybrowncat53@gmail.com</p>
 
 <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
 <img src="linebeh.png">
@@ -49,6 +28,29 @@
 <img src="lineins.png">
 </a>
 </div>
+</div>
+
+
+<div class="layout">
+
+<aside class="category">
+
+<img src="flower.png" class="home-btn">
+
+<div class="cat" data-open="e"><img src="one.png">Editorial illust</div>
+<div class="cat" data-open="p"><img src="one.png">Personal works</div>
+<div class="cat" data-open="c"><img src="one.png">Comics</div>
+<div class="cat"><img src="one.png">Me</div>
+
+<p class="email">mybrowncat53@gmail.com</p>
+
+<a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
+<img src="linebeh.png" class="sns">
+</a>
+
+<a href="https://www.instagram.com/hanna_something/" target="_blank">
+<img src="lineins.png" class="sns">
+</a>
 
 </aside>
 
@@ -60,11 +62,10 @@
 </div>
 
 
-<div id="lightbox"><img id="lightbox-img"></div>
+<div id="lightbox"><img></div>
 
-<div id="gridModal">
-<div class="grid-close">✕</div>
-<div class="grid-wrap"></div>
+<div id="categoryModal">
+<div class="modal-inner"></div>
 </div>
 
 <script src="script.js"></script>
