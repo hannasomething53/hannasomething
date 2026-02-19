@@ -1,3 +1,5 @@
+alert("script loaded");
+
 const order=[
 "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
 "p28","p26","p27","p31","p29","p30","e9","e10",
