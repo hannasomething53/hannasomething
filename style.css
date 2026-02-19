@@ -30,11 +30,12 @@ cursor:pointer;
 }
 
 .cat{
-display:flex;
-gap:8px;
-margin-bottom:18px;
-cursor:pointer;
+   display:flex;
+   align-items:center;   /* 핵심 : 세로 중앙 정렬 */
+   gap:12px;             /* 원과 글자 사이 거리 */
+  margin-bottom:18px;   /* ← 여기 숫자만 바꾸면 간격 조절 */
 }
+
 
 .cat img{ height:16px; }
 
