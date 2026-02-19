@@ -20,19 +20,19 @@ const thumbsInner=document.querySelector(".thumbs-inner");
 order.forEach(id=>{
 
 const box=document.createElement("div");
-box.className="gallery-item";
+box.className="item";
 box.id=id;
 
 if(captions[id]){
 const c=document.createElement("div");
-c.className="caption";
+c.className="cap";
 c.textContent=captions[id];
 box.appendChild(c);
 }
 
 if(["e3","e4","e5","e6"].includes(id)){
 const c=document.createElement("div");
-c.className="caption small";
+c.className="cap small";
 c.textContent="magazin pleasant place";
 box.appendChild(c);
 }
@@ -50,10 +50,7 @@ const t=document.createElement("img");
 t.src="images/s"+num+".jpg";
 
 t.onclick=()=>{
-document.getElementById(id).scrollIntoView({
-behavior:"smooth",
-block:"center"
-});
+document.getElementById(id).scrollIntoView({behavior:"smooth",block:"center"});
 };
 
 thumbsInner.appendChild(t);
@@ -63,95 +60,78 @@ thumbsInner.appendChild(t);
 
 img.onclick=()=>{
 lightbox.style.display="flex";
-lightboxImg.src=img.src;
+lightbox.querySelector("img").src=img.src;
 };
 
 });
 
 
-/* ===== reveal ===== */
+/* reveal */
 
 const io=new IntersectionObserver(e=>{
-e.forEach(v=>{
-if(v.isIntersecting) v.target.classList.add("show");
-});
+e.forEach(v=>{ if(v.isIntersecting) v.target.classList.add("show"); });
 },{threshold:.1});
 
-document.querySelectorAll(".gallery-item").forEach(el=>io.observe(el));
+document.querySelectorAll(".item").forEach(el=>io.observe(el));
 
 
-/* ===== thumb sync ===== */
+/* thumb sync */
 
-const items=document.querySelectorAll(".gallery-item");
+const items=document.querySelectorAll(".item");
 const thumbs=document.querySelectorAll(".thumbs-inner img");
 
 window.addEventListener("scroll",()=>{
-
 let idx=0;
-
 items.forEach((it,i)=>{
 if(it.getBoundingClientRect().top<window.innerHeight/2) idx=i;
 });
-
-const target=thumbs[idx];
-if(!target) return;
-
-thumbsInner.scrollTo({
-top:target.offsetTop - thumbsInner.clientHeight/2,
-behavior:"smooth"
-});
-
+const t=thumbs[idx];
+if(!t)return;
+thumbsInner.scrollTo({top:t.offsetTop - thumbsInner.clientHeight/2,behavior:"smooth"});
 });
 
 
-/* ===== lightbox ===== */
+/* lightbox */
 
 const lightbox=document.getElementById("lightbox");
-const lightboxImg=document.getElementById("lightbox-img");
-
 lightbox.onclick=()=>lightbox.style.display="none";
-document.addEventListener("keydown",e=>{
-if(e.key==="Escape") lightbox.style.display="none";
-});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")lightbox.style.display="none";});
 
 
-/* ===== category grid ===== */
+/* category modal */
 
-const modal=document.getElementById("gridModal");
-const wrap=document.querySelector(".grid-wrap");
+const modal=document.getElementById("categoryModal");
+const inner=document.querySelector(".modal-inner");
 
-document.querySelectorAll(".cat-item[data-type]").forEach(el=>{
-el.onclick=()=>{
-const type=el.dataset.type;
-wrap.innerHTML="";
-
+document.querySelectorAll(".cat[data-open]").forEach(c=>{
+c.onclick=()=>{
+inner.innerHTML="";
+const type=c.dataset.open;
 order.filter(v=>v.startsWith(type)).forEach(id=>{
 const img=document.createElement("img");
 img.src="images/"+id+".jpg";
-img.onclick=()=>{
-lightbox.style.display="flex";
-lightboxImg.src=img.src;
-};
-wrap.appendChild(img);
+inner.appendChild(img);
 });
-
 modal.style.display="block";
 };
 });
 
-document.querySelector(".grid-close").onclick=()=>modal.style.display="none";
-modal.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
+modal.onclick=e=>{if(e.target===modal)modal.style.display="none";};
 
 
-/* ===== mobile ===== */
+/* home */
+
+document.querySelector(".home-btn").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+
+
+/* mobile */
 
 const ham=document.querySelector(".hamburger");
 const mobile=document.querySelector(".mobile-me");
-
 ham.onclick=()=>mobile.style.display="block";
 mobile.onclick=()=>mobile.style.display="none";
 
 
-/* ===== block right click ===== */
+/* right click block */
 
 document.addEventListener("contextmenu",e=>e.preventDefault());
