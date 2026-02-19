@@ -1,98 +1,124 @@
-const order=[
+const order = [
 "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
 "p28","p26","p27","p31","p29","p30","e9","e10",
-"e14","e15","e16","e17","e18","e19","e20",
-"e21","e22","e23","e24","p32","p33","p34"
+"e14","e15","e16","e17","e18","e19","e20","e21",
+"e22","e23","e24","p32","p33","p34"
 ];
 
+const captions={
+e1:"Cover of the Sharjah International Book Fair Anthology 2023",
+e2:"Interior Pages of the Sharjah International Book Fair Anthology",
+e7:"Purunsoop Publishing Book cover.",
+e3:"magazin pleasant place",
+e4:"magazin pleasant place",
+e5:"magazin pleasant place",
+e6:"magazin pleasant place"
+};
+
 const gallery=document.getElementById("gallery");
-const thumbList=document.getElementById("thumbList");
-const thumbContainer=document.querySelector(".thumbs");
+const thumbs=document.getElementById("thumbs");
 
-let autoScrolling=false;
+const thumbsInner=document.createElement("div");
+thumbsInner.className="thumbs-inner";
+thumbs.appendChild(thumbsInner);
 
-/* ======================
-갤러리 생성
-====================== */
-order.forEach(name=>{
-const block=document.createElement("div");
-block.className="art-block";
-block.id=name;
+order.forEach(id=>{
+
+const item=document.createElement("div");
+item.className="gallery-item";
+item.id=id;
+
+if(captions[id]){
+const cap=document.createElement("div");
+cap.className="caption";
+cap.textContent=captions[id];
+item.appendChild(cap);
+}
 
 const img=document.createElement("img");
-img.src=`images/${name}.jpg`;
+img.src=`images/${id}.jpg`;
+item.appendChild(img);
+
+gallery.appendChild(item);
+
+/* 썸네일 */
+
+const num=id.replace(/[a-z]/g,"");
+const t=document.createElement("img");
+t.src=`images/s${num}.jpg`;
+
+t.onclick=()=>{
+document.getElementById(id).scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+};
+
+thumbsInner.appendChild(t);
+
+/* 라이트박스 */
 
 img.onclick=()=>{
 lightbox.style.display="flex";
 lightboxImg.src=img.src;
 };
 
-block.appendChild(img);
-gallery.appendChild(block);
 });
 
-/* ======================
-썸네일 생성
-====================== */
-order.forEach(name=>{
-const num=name.replace(/[a-z]/g,"");
+/* 라이트박스 닫기 */
 
-const t=document.createElement("img");
-t.src=`images/s${num}.jpg`;
-t.dataset.target=name;
+const lightbox=document.getElementById("lightbox");
+const lightboxImg=document.getElementById("lightbox-img");
 
-t.onclick=()=>{
-autoScrolling=true;
-
-document.getElementById(name).scrollIntoView({
-behavior:"smooth",
-block:"start"
+lightbox.onclick=()=> lightbox.style.display="none";
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape") lightbox.style.display="none";
 });
 
-setTimeout(()=>autoScrolling=false,600);
-};
+/* 등장 애니메이션 */
 
-thumbList.appendChild(t);
+const io=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting) e.target.classList.add("show");
 });
+},{threshold:0.1});
 
-/* ======================
-갤러리 스크롤 → 썸네일 동기화
-(페이지 스크롤 절대 안 움직임)
-====================== */
+document.querySelectorAll(".gallery-item").forEach(el=>io.observe(el));
+
+/* 갤러리 → 썸네일 동기화 */
+
+const items=document.querySelectorAll(".gallery-item");
+const thumbImgs=thumbsInner.querySelectorAll("img");
+
 window.addEventListener("scroll",()=>{
 
-if(autoScrolling) return;
-
-let closest=null;
-let min=999999;
-
-order.forEach(name=>{
-const el=document.getElementById(name);
-const rect=el.getBoundingClientRect();
-const dist=Math.abs(rect.top);
-
-if(dist<min){
-min=dist;
-closest=name;
-}
+let index=0;
+items.forEach((item,i)=>{
+const rect=item.getBoundingClientRect();
+if(rect.top<window.innerHeight/2) index=i;
 });
 
-if(!closest) return;
+const target=thumbImgs[index];
+if(!target) return;
 
-const thumb=[...thumbList.children]
-.find(t=>t.dataset.target===closest);
-
-if(!thumb) return;
-
-/* 썸네일 컨테이너 내부만 스크롤 */
-const offset=
-thumb.offsetTop
-- thumbContainer.clientHeight/2
-+ thumb.clientHeight/2;
-
-thumbContainer.scrollTo({
-top:offset,
-behavior:"smooth"
-});
+const offset=target.offsetTop - thumbs.clientHeight/2 + target.clientHeight/2;
+thumbs.scrollTo({top:offset,behavior:"smooth"});
 
 });
+
+/* 우클릭 방지 */
+
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+/* 모바일 햄버거 */
+
+const ham=document.querySelector(".hamburger");
+const panel=document.querySelector(".mobile-me");
+
+ham.onclick=()=>{
+panel.style.display="block";
+};
+
+panel.onclick=()=>{
+panel.style.display="none";
+};
