@@ -2,78 +2,169 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gallery</title>
 
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
 
+<style>
+body{
+    margin:0;
+    font-family:'Space Grotesk', sans-serif;
+    background:#fff;
+}
+
+/* ===== 전체 중앙 정렬 ===== */
+.wrapper{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    padding-top:100px;
+}
+
+/* ===== 왼쪽 카테고리 ===== */
+.left-nav{
+    position:fixed;
+    top:200px;
+    left:calc(50% - 600px); /* 중앙 기준 위치 */
+    width:200px;
+}
+
+.me-box{
+    border:5px solid #d7d7d7;
+    border-radius:14px;
+    padding:15px;
+}
+
+.me-title{
+    margin-bottom:10px;
+}
+
+.me-email{
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.me-links img{
+    width:50px;
+    margin-right:8px;
+}
+
+/* ===== 갤러리 ===== */
+.gallery{
+    width:600px;
+}
+
+.gallery img{
+    width:100%;
+    margin-bottom:80px;
+}
+
+/* ===== 오른쪽 썸네일 ===== */
+.thumbnail{
+    position:fixed;
+    top:0;
+    right:calc(50% - 800px);
+    width:120px;
+    height:100vh;
+    overflow-y:auto;
+    padding-top:120px;
+}
+
+.thumbnail img{
+    width:100%;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width:1200px){
+    .left-nav{
+        left:20px;
+    }
+    .thumbnail{
+        right:20px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<!-- 모바일 햄버거 -->
-<div class="hamburger">☰</div>
+<div class="wrapper">
 
-<!-- 모바일 Me 패널 -->
-<div class="mobile-me">
-  <div>Me</div>
-  <div class="email">mybrowncat53@gmail.com</div>
-  <img src="images/linebeh.png">
-  <img src="images/lineins.png">
-  <div class="sns">
-    <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-      <img src="images/beh.png">
-    </a>
-    <a href="https://www.instagram.com/hanna_something/" target="_blank">
-      <img src="images/ins.png">
-    </a>
-  </div>
-</div>
+    <!-- ===== LEFT NAV ===== -->
+    <div class="left-nav">
+        <div class="me-box">
+            <div class="me-title">Me</div>
 
+            <div class="me-email">
+                mybrowncat53@gmail.com
+            </div>
 
-<div class="layout">
+            <div class="me-links">
+                <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
+                    <img src="linebeh.png">
+                </a>
 
-  <!-- 왼쪽 카테고리 -->
-  <aside class="category">
-
-    <div class="cat-item"><img src="images/one.png">Editorial illust</div>
-    <div class="cat-item"><img src="images/one.png">Personal works</div>
-    <div class="cat-item"><img src="images/one.png">Comics</div>
-
-    <div class="me-block">
-      <div>Me</div>
-      <div class="email">mybrowncat53@gmail.com</div>
-      <img src="images/linebeh.png">
-      <img src="images/lineins.png">
-      <div class="sns">
-        <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-          <img src="images/beh.png">
-        </a>
-        <a href="https://www.instagram.com/hanna_something/" target="_blank">
-          <img src="images/ins.png">
-        </a>
-      </div>
+                <a href="https://www.instagram.com/hanna_something/" target="_blank">
+                    <img src="lineins.png">
+                </a>
+            </div>
+        </div>
     </div>
 
-  </aside>
+    <!-- ===== GALLERY ===== -->
+    <div class="gallery" id="gallery">
 
+        <!-- 이미지 개수 자유롭게 추가 -->
+        <img id="img1" src="img1.jpg">
+        <img id="img2" src="img2.jpg">
+        <img id="img3" src="img3.jpg">
+        <img id="img4" src="img4.jpg">
+        <img id="img5" src="img5.jpg">
+        <img id="img6" src="img6.jpg">
+        <img id="img7" src="img7.jpg">
+        <img id="img8" src="img8.jpg">
+        <img id="img9" src="img9.jpg">
+        <img id="img10" src="img10.jpg">
 
-  <!-- 갤러리 -->
-  <main class="gallery" id="gallery"></main>
+    </div>
 
+</div>
 
-  <!-- 썸네일 -->
-  <aside class="thumbs" id="thumbs"></aside>
+<!-- ===== THUMBNAIL ===== -->
+<div class="thumbnail">
+
+    <img data-target="img1" src="img1.jpg">
+    <img data-target="img2" src="img2.jpg">
+    <img data-target="img3" src="img3.jpg">
+    <img data-target="img4" src="img4.jpg">
+    <img data-target="img5" src="img5.jpg">
+    <img data-target="img6" src="img6.jpg">
+    <img data-target="img7" src="img7.jpg">
+    <img data-target="img8" src="img8.jpg">
+    <img data-target="img9" src="img9.jpg">
+    <img data-target="img10" src="img10.jpg">
 
 </div>
 
 
-<!-- 라이트박스 -->
-<div class="lightbox" id="lightbox">
-  <img id="lightbox-img">
-</div>
+<script>
 
-<script src="script.js"></script>
+/* ===== 썸네일 클릭 이동 ===== */
+document.querySelectorAll('.thumbnail img').forEach(thumb=>{
+    thumb.addEventListener('click',()=>{
+        const id = thumb.dataset.target;
+        const target = document.getElementById(id);
+
+        target.scrollIntoView({
+            behavior:'smooth',
+            block:'start'
+        });
+    });
+});
+
+</script>
+
 </body>
 </html>
