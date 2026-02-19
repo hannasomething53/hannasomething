@@ -18,9 +18,53 @@ e6:"magazin pleasant place"
 const gallery=document.getElementById("gallery");
 const thumbs=document.getElementById("thumbs");
 
+/* 썸네일 내부 스크롤 컨테이너 */
 const thumbsInner=document.createElement("div");
 thumbsInner.className="thumbs-inner";
 thumbs.appendChild(thumbsInner);
+
+
+/* =========================
+   SNS 링크 (Me 아래 추가)
+========================= */
+
+const meBox=document.querySelector(".me-box"); // Me 박스 클래스
+
+if(meBox){
+
+const behLink=document.createElement("a");
+behLink.href="https://www.behance.net/hibyhanna3e0f";
+behLink.target="_blank";
+
+const behImg=document.createElement("img");
+behImg.src="linebeh.png";
+behImg.style.width="50px";
+behImg.style.display="block";
+behImg.style.marginTop="20px";
+
+behLink.appendChild(behImg);
+meBox.appendChild(behLink);
+
+
+const insLink=document.createElement("a");
+insLink.href="https://www.instagram.com/hanna_something/";
+insLink.target="_blank";
+
+const insImg=document.createElement("img");
+insImg.src="lineins.png";
+insImg.style.width="50px";
+insImg.style.display="block";
+insImg.style.marginTop="10px";
+
+insLink.appendChild(insImg);
+meBox.appendChild(insLink);
+
+}
+
+
+/* =========================
+   갤러리 생성
+========================= */
 
 order.forEach(id=>{
 
@@ -41,6 +85,7 @@ item.appendChild(img);
 
 gallery.appendChild(item);
 
+
 /* 썸네일 */
 
 const num=id.replace(/[a-z]/g,"");
@@ -56,6 +101,7 @@ block:"center"
 
 thumbsInner.appendChild(t);
 
+
 /* 라이트박스 */
 
 img.onclick=()=>{
@@ -65,7 +111,10 @@ lightboxImg.src=img.src;
 
 });
 
-/* 라이트박스 닫기 */
+
+/* =========================
+   라이트박스
+========================= */
 
 const lightbox=document.getElementById("lightbox");
 const lightboxImg=document.getElementById("lightbox-img");
@@ -75,7 +124,10 @@ document.addEventListener("keydown",e=>{
 if(e.key==="Escape") lightbox.style.display="none";
 });
 
-/* 등장 애니메이션 */
+
+/* =========================
+   등장 애니메이션
+========================= */
 
 const io=new IntersectionObserver(entries=>{
 entries.forEach(e=>{
@@ -85,7 +137,10 @@ if(e.isIntersecting) e.target.classList.add("show");
 
 document.querySelectorAll(".gallery-item").forEach(el=>io.observe(el));
 
-/* 갤러리 → 썸네일 동기화 */
+
+/* =========================
+   갤러리 → 썸네일 동기화
+========================= */
 
 const items=document.querySelectorAll(".gallery-item");
 const thumbImgs=thumbsInner.querySelectorAll("img");
@@ -93,6 +148,7 @@ const thumbImgs=thumbsInner.querySelectorAll("img");
 window.addEventListener("scroll",()=>{
 
 let index=0;
+
 items.forEach((item,i)=>{
 const rect=item.getBoundingClientRect();
 if(rect.top<window.innerHeight/2) index=i;
@@ -101,24 +157,27 @@ if(rect.top<window.innerHeight/2) index=i;
 const target=thumbImgs[index];
 if(!target) return;
 
-const offset=target.offsetTop - thumbs.clientHeight/2 + target.clientHeight/2;
-thumbs.scrollTo({top:offset,behavior:"smooth"});
+thumbsInner.scrollTo({
+top:target.offsetTop - thumbsInner.clientHeight/2 + target.clientHeight/2,
+behavior:"smooth"
+});
 
 });
 
-/* 우클릭 방지 */
+
+/* =========================
+   우클릭 방지
+========================= */
 
 document.addEventListener("contextmenu",e=>e.preventDefault());
 
-/* 모바일 햄버거 */
+
+/* =========================
+   모바일 햄버거
+========================= */
 
 const ham=document.querySelector(".hamburger");
 const panel=document.querySelector(".mobile-me");
 
-ham.onclick=()=>{
-panel.style.display="block";
-};
-
-panel.onclick=()=>{
-panel.style.display="none";
-};
+ham.onclick=()=> panel.style.display="block";
+panel.onclick=()=> panel.style.display="none";
