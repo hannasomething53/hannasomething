@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="images/e1.jpg">
-
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
 </head>
 
@@ -15,63 +14,69 @@
 
 <div class="hamburger">☰</div>
 
+<!-- ✅ 모바일 패널 -->
 <div class="mobile-me">
-<div class="mobile-inner">
-<p>Me</p>
-<p class="email">mybrowncat53@gmail.com</p>
+  <div class="mobile-inner">
+    <p>Me</p>
+    <p class="email">mybrowncat53@gmail.com</p>
 
-<div class="sns-wrap">
-  <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
-    <img src="images/linebeh.png" class="sns" alt="Behance">
-  </a>
+    <div class="sns-wrap">
+      <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
+        <img src="images/linebeh.png" class="sns" alt="Behance">
+      </a>
 
-  <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
-    <img src="images/lineins.png" class="sns" alt="Instagram">
-  </a>
+      <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
+        <img src="images/lineins.png" class="sns" alt="Instagram">
+      </a>
+    </div>
+  </div>
 </div>
+<!-- ✅ 모바일 패널 끝 -->
 
-
-
+<!-- ✅ 메인 레이아웃 (반드시 mobile-me 밖!) -->
 <div class="layout">
 
-<aside class="category">
+  <aside class="category">
 
-<div class="home-wrap">
-  <a href="index.html">
-    <img src="images/hoome.png" class="home-btn">
-  </a>
+    <div class="home-wrap">
+      <a href="index.html">
+        <!-- ✅ 파일명이 hoome.png 맞는지 꼭 확인! (오타면 깨짐) -->
+        <img src="images/hoome.png" class="home-btn" alt="Home">
+      </a>
+    </div>
+
+    <div class="cat" data-open="e"><img src="images/one.png" alt="">Editorial illust</div>
+    <div class="cat" data-open="p"><img src="images/one.png" alt="">Personal works</div>
+    <div class="cat" data-open="c"><img src="images/one.png" alt="">Comics</div>
+    <div class="cat"><img src="images/one.png" alt="">Me</div>
+
+    <p class="email">mybrowncat53@gmail.com</p>
+
+    <!-- ✅ PC에서도 아이콘 2개를 가로 정렬하려면 wrap 필요 -->
+    <div class="sns-wrap">
+      <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
+        <img src="images/linebeh.png" class="sns" alt="Behance">
+      </a>
+
+      <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
+        <img src="images/lineins.png" class="sns" alt="Instagram">
+      </a>
+    </div>
+
+  </aside>
+
+  <main id="gallery"></main>
+
+  <aside id="thumbs">
+    <div class="thumbs-inner"></div>
+  </aside>
+
 </div>
 
-
-<div class="cat" data-open="e"><img src="images/one.png">Editorial illust</div>
-<div class="cat" data-open="p"><img src="images/one.png">Personal works</div>
-<div class="cat" data-open="c"><img src="images/one.png">Comics</div>
-<div class="cat"><img src="images/one.png">Me</div>
-
-<p class="email">mybrowncat53@gmail.com</p>
-
-<a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-<img src="images/linebeh.png" class="sns">
-</a>
-
-<a href="https://www.instagram.com/hanna_something/" target="_blank">
-<img src="images/lineins.png" class="sns">
-</a>
-
-</aside>
-
-
-<main id="gallery"></main>
-
-<aside id="thumbs"><div class="thumbs-inner"></div></aside>
-
-</div>
-
-
-<div id="lightbox"><img></div>
+<div id="lightbox"><img alt=""></div>
 
 <div id="categoryModal">
-<div class="modal-inner"></div>
+  <div class="modal-inner"></div>
 </div>
 
 <script src="script.js"></script>
