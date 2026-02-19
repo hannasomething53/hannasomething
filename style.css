@@ -32,8 +32,13 @@ font-size:22px;
 
 .home-btn{
    display:block;
-   width:auto;               /* 원래 크기 유지 */
-   height:auto;
+
+   width:80px;      /* 원하는 크기 지정 */
+   height:auto;      /* 비율 유지 */
+
+   object-fit:contain;
+}
+
    cursor:pointer;
 }
 
