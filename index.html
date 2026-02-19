@@ -3,366 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
 
-<style>
-
-/* =========================
-기본 설정
-========================= */
-
-body{
-    margin:0;
-    background:#fffff4;
-    font-family:'Jost',sans-serif;
-    overflow-y:scroll;
-}
-
-body::-webkit-scrollbar{ display:none; }
-
-img{
-    user-select:none;
-    -webkit-user-drag:none;
-}
-
-*{ box-sizing:border-box; }
-
-
-/* =========================
-전체 레이아웃 (갤러리 중앙)
-========================= */
-
-.wrapper{
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    padding-top:50px;
-    gap:clamp(10px,3vw,100px);
-}
-
-
-/* =========================
-왼쪽 네비
-========================= */
-
-.nav{
-    position:sticky;
-    top:200px;
-    font-size:26px;
-    font-style:italic;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    min-width:180px;
-}
-
-.nav a{
-    color:black;
-    text-decoration:none;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.nav img{
-    width:18px;
-}
-
-.sns{
-    margin-top:12px;
-}
-
-.sns img{
-    width:55px;
-    margin-right:6px;
-}
-
-
-/* =========================
-갤러리
-========================= */
-
-.gallery{
-    width:min(1000px,60vw);
-}
-
-.item{
-    margin-bottom:80px;
-    opacity:0;
-    transform:translateY(60px);
-    transition:1s ease;
-}
-
-.item.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-.caption{
-    font-size:20px;
-    margin-bottom:6px;
-}
-
-.item img{
-    width:100%;
-    cursor:pointer;
-}
-
-
-/* =========================
-오른쪽 썸네일
-========================= */
-
-.thumbs{
-    position:sticky;
-    top:50px;
-    height:85vh;
-    overflow:auto;
-    display:flex;
-    flex-direction:column;
-    gap:50px;
-    padding-right:10px;
-}
-
-.thumbs::-webkit-scrollbar{ display:none; }
-
-.thumb{
-    width:130px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.thumb:hover{
-    opacity:.7;
-}
-
-
-/* =========================
-라이트박스
-========================= */
-
-.lightbox{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.9);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:999;
-}
-
-.lightbox img{
-    max-height:92vh;
-    max-width:92vw;
-}
-
-
-/* =========================
-반응형 (겹침 방지)
-========================= */
-
-@media (max-width:1100px){
-
-    .wrapper{
-        gap:20px;
-    }
-
-    .nav{
-        font-size:22px;
-        min-width:140px;
-    }
-
-    .thumb{
-        width:100px;
-    }
-
-}
-
-</style>
 </head>
 
-<body oncontextmenu="return false">
+<body>
 
-<div class="wrapper">
+<!-- 모바일 햄버거 -->
+<div class="hamburger">☰</div>
 
-<!-- =========================
-왼쪽 네비
-========================= -->
-
-<div class="nav">
-
-<a href="#"><img src="images/one.png">Editorial illust</a>
-<a href="#"><img src="images/one.png">Personal works</a>
-<a href="#"><img src="images/one.png">Comics</a>
-
-<div>
-<a href="#"><img src="images/one.png">Me</a>
-<div style="margin-left:26px;">mybrowncat53@gmail.com</div>
-<div class="sns">
-<a href="https://www.behance.net/hibyhanna3e0f" target="_blank"><img src="images/beh.png"></a>
-<a href="https://www.instagram.com/hanna_something/" target="_blank"><img src="images/ins.png"></a>
-</div>
-</div>
-
+<!-- 모바일 Me 패널 -->
+<div class="mobile-me">
+  <div>Me</div>
+  <div class="email">mybrowncat53@gmail.com</div>
+  <img src="images/linebeh.png">
+  <img src="images/lineins.png">
+  <div class="sns">
+    <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
+      <img src="images/beh.png">
+    </a>
+    <a href="https://www.instagram.com/hanna_something/" target="_blank">
+      <img src="images/ins.png">
+    </a>
+  </div>
 </div>
 
 
-<!-- =========================
-갤러리
-========================= -->
+<div class="layout">
 
-<div class="gallery" id="gallery"></div>
+  <!-- 왼쪽 카테고리 -->
+  <aside class="category">
+
+    <div class="cat-item"><img src="images/one.png">Editorial illust</div>
+    <div class="cat-item"><img src="images/one.png">Personal works</div>
+    <div class="cat-item"><img src="images/one.png">Comics</div>
+
+    <div class="me-block">
+      <div>Me</div>
+      <div class="email">mybrowncat53@gmail.com</div>
+      <img src="images/linebeh.png">
+      <img src="images/lineins.png">
+      <div class="sns">
+        <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
+          <img src="images/beh.png">
+        </a>
+        <a href="https://www.instagram.com/hanna_something/" target="_blank">
+          <img src="images/ins.png">
+        </a>
+      </div>
+    </div>
+
+  </aside>
 
 
-<!-- =========================
-썸네일
-========================= -->
+  <!-- 갤러리 -->
+  <main class="gallery" id="gallery"></main>
 
-<div class="thumbs" id="thumbs"></div>
+
+  <!-- 썸네일 -->
+  <aside class="thumbs" id="thumbs"></aside>
 
 </div>
 
 
-<!-- =========================
-라이트박스
-========================= -->
-
+<!-- 라이트박스 -->
 <div class="lightbox" id="lightbox">
-<img id="lightImg">
+  <img id="lightbox-img">
 </div>
 
-
-
-<script>
-
-/* =========================
-이미지 목록
-========================= */
-
-const list=[
-"e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
-"p28","p26","p27","p31","p29","p30","e9","e10","e14",
-"e15","e16","e17","e18","e19","e20","e21","e22",
-"e23","e24","p32","p33","p34"
-];
-
-const gallery=document.getElementById("gallery");
-const thumbs=document.getElementById("thumbs");
-
-
-/* =========================
-갤러리 생성
-========================= */
-
-list.forEach(name=>{
-
-const div=document.createElement("div");
-div.className="item";
-div.id=name;
-
-let caption="";
-if(name==="e1") caption="Cover of the Sharjah International Book Fair Anthology 2023";
-if(name==="e2") caption="Interior Pages of the Sharjah International Book Fair Anthology";
-
-div.innerHTML=`
-<div class="caption">${caption}</div>
-<img src="images/${name}.jpg">
-`;
-
-gallery.appendChild(div);
-
-
-/* 썸네일 */
-const num=name.replace(/\D/g,"");
-const t=document.createElement("img");
-t.src=`images/s${num}.jpg`;
-t.className="thumb";
-t.dataset.target=name;
-thumbs.appendChild(t);
-
-});
-
-
-/* =========================
-라이트박스
-========================= */
-
-const lightbox=document.getElementById("lightbox");
-const lightImg=document.getElementById("lightImg");
-
-gallery.addEventListener("click",e=>{
-if(e.target.tagName==="IMG"){
-lightbox.style.display="flex";
-lightImg.src=e.target.src;
-}
-});
-
-lightbox.onclick=()=> lightbox.style.display="none";
-document.addEventListener("keydown",e=>{
-if(e.key==="Escape") lightbox.style.display="none";
-});
-
-
-/* =========================
-스크롤 등장 애니메이션
-========================= */
-
-const appearObserver=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting) e.target.classList.add("show");
-});
-},{threshold:.2});
-
-document.querySelectorAll(".item").forEach(el=>appearObserver.observe(el));
-
-
-/* =========================
-썸네일 클릭 이동 (흔들림 해결)
-========================= */
-
-let autoScrolling=false;
-
-thumbs.addEventListener("click",e=>{
-
-if(!e.target.classList.contains("thumb")) return;
-
-const id=e.target.dataset.target;
-const target=document.getElementById(id);
-
-autoScrolling=true;
-
-window.scrollTo({
-top:target.getBoundingClientRect().top + window.scrollY - 40,
-behavior:"smooth"
-});
-
-setTimeout(()=> autoScrolling=false,700);
-
-});
-
-
-/* =========================
-현재 위치 썸네일 자동 추적
-========================= */
-
-const trackObserver=new IntersectionObserver(entries=>{
-
-if(autoScrolling) return;
-
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-const id=entry.target.id;
-const t=document.querySelector(`.thumb[data-target="${id}"]`);
-if(t) t.scrollIntoView({block:"center"});
-}
-});
-
-},{rootMargin:"-45% 0px -45% 0px"});
-
-document.querySelectorAll(".item").forEach(el=>trackObserver.observe(el));
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
