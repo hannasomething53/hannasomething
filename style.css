@@ -204,33 +204,7 @@ display:block;
 .hamburger{display:block;}
 
 }
-/* =========================
-커스텀 마우스
-========================= */
 
-/* 기본 커서 */
-html, body{
-  cursor: url("images/mouse.png") 26 26, auto;
-}
-
-/* 클릭 가능한 곳 */
-a,
-button,
-.cat,
-img,
-.home-btn,
-.sns,
-.hamburger{
-  cursor: url("images/click.png") 26 26, pointer !important;
-}
-
-/* 클릭 가능한 hover 상태 유지 */
-a:hover,
-button:hover,
-.cat:hover,
-img:hover{
-  cursor: url("images/click.png") 26 26, pointer !important;
-}
 /* ===== ME POPUP ===== */
 
 #mePopup{
