@@ -89,20 +89,14 @@ img{
 .home-link{
   display:block;
   margin-bottom: 16px;
-
-  /* ✅ 첫 메뉴와 같은 좌측 시작점(원 자리) 확보 */
-  padding-left: calc(16px + 16px); 
-  /* 설명:
-     - dot(원) 높이 16px 정도 + gap 16px = 32px 정도 공간
-     - 위에서 gap을 16으로 했으니 맞춰준 것
-  */
+  padding-left: calc(16px + 16px);
 }
 
 .home-btn{
   display:block;
   width:60px;
   height:auto;
-  margin: 0 auto; /* ✅ home-link 박스 안에서 중앙 */
+  margin: 0 auto;
 }
 
 /* 카테고리 리스트 */
