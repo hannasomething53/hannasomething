@@ -221,7 +221,7 @@ img,
 .home-btn,
 .sns,
 .hamburger{
-  cursor: url("images/click.png") 16 16, pointer !important;
+  cursor: url("images/click.png") 24 24, pointer !important;
 }
 
 /* 클릭 가능한 hover 상태 유지 */
@@ -229,7 +229,7 @@ a:hover,
 button:hover,
 .cat:hover,
 img:hover{
-  cursor: url("images/click.png") 16 16, pointer !important;
+  cursor: url("images/click.png") 24 24, pointer !important;
 }
 /* ===== ME POPUP ===== */
 
