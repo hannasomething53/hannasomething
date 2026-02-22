@@ -210,7 +210,7 @@ display:block;
 
 /* 기본 커서 */
 html, body{
-  cursor: url("images/mouse.png") 16 16, auto;
+  cursor: url("images/mouse.png") 24 24, auto;
 }
 
 /* 클릭 가능한 곳 */
