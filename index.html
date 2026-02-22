@@ -1,111 +1,119 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hanna_something</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hanna_something</title>
 
-<link rel="stylesheet" href="style.css">
-<link rel="icon" href="images/e1.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
+  <!-- favicon: 갤러리 첫 이미지 -->
+  <link rel="icon" href="images/e1.jpg" />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- 모바일 햄버거 -->
+  <button class="hamburger" aria-label="menu">☰</button>
 
-<div class="hamburger">☰</div>
+  <!-- 모바일 Me 패널 -->
+  <div class="mobile-me" id="mobileMe" aria-hidden="true">
+    <div class="mobile-inner">
+      <div class="mobile-title">Me</div>
+      <div class="mobile-email">mybrowncat53@gmail.com</div>
 
-<!-- ✅ 모바일 패널 -->
-<div class="mobile-me">
-  <div class="mobile-inner">
-    <p>Me</p>
-    <p class="email">mybrowncat53@gmail.com</p>
-
-    <div class="sns-wrap">
-      <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
-        <img src="images/linebeh.png" class="sns" alt="Behance">
-      </a>
-
-      <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
-        <img src="images/lineins.png" class="sns" alt="Instagram">
-      </a>
+      <div class="mobile-sns">
+        <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
+          <img src="images/linebeh.png" alt="Behance" />
+        </a>
+        <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
+          <img src="images/lineins.png" alt="Instagram" />
+        </a>
+      </div>
     </div>
   </div>
-</div>
-<!-- ✅ 모바일 패널 끝 -->
 
-<!-- ✅ 메인 레이아웃 (반드시 mobile-me 밖!) -->
-<div class="layout">
+  <!-- 데스크탑 레이아웃 -->
+  <div class="page">
+    <div class="layout" id="layoutRoot">
+      <!-- LEFT: Category -->
+      <aside class="category" aria-label="category">
+        <a class="home-link" href="#top" title="home">
+          <img src="images/bome.png" class="home-btn" alt="home" />
+        </a>
 
-  <aside class="category">
+        <div class="cat-list">
+          <button class="cat" data-open="e" type="button">
+            <img class="dot" src="images/one.png" alt="" />
+            <span>Editorial illust</span>
+          </button>
 
-    <div class="home-wrap">
-      <a href="index.html">
-        <!-- ✅ 파일명이 hoome.png 맞는지 꼭 확인! (오타면 깨짐) -->
-        <img src="images/bome.png" class="home-btn" alt="Home">
-      </a>
+          <button class="cat" data-open="p" type="button">
+            <img class="dot" src="images/one.png" alt="" />
+            <span>Personal works</span>
+          </button>
+
+          <button class="cat" data-open="c" type="button">
+            <img class="dot" src="images/one.png" alt="" />
+            <span>Comics</span>
+          </button>
+
+          <div class="cat me">
+            <img class="dot" src="images/one.png" alt="" />
+            <span>Me</span>
+          </div>
+        </div>
+
+        <div class="email">mybrowncat53@gmail.com</div>
+
+        <div class="sns-wrap">
+          <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
+            <img src="images/linebeh.png" class="sns" alt="Behance" />
+          </a>
+          <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
+            <img src="images/lineins.png" class="sns" alt="Instagram" />
+          </a>
+        </div>
+      </aside>
+
+      <!-- CENTER: Gallery -->
+      <main class="gallery" id="top">
+        <div id="gallery"></div>
+      </main>
+
+      <!-- RIGHT: Thumbs -->
+      <aside class="thumbs" aria-label="thumbs">
+        <div class="thumbs-inner" id="thumbsInner"></div>
+      </aside>
     </div>
+  </div>
 
-    <div class="cat" data-open="e"><img src="images/one.png" alt="">Editorial illust</div>
-    <div class="cat" data-open="p"><img src="images/one.png" alt="">Personal works</div>
-    <div class="cat" data-open="c"><img src="images/one.png" alt="">Comics</div>
-    <div class="cat"><img src="images/one.png" alt="">Me</div>
+  <!-- Lightbox (갤러리 클릭 확대) -->
+  <div id="lightbox" aria-hidden="true">
+    <img id="lightboxImg" alt="" />
+  </div>
 
-    <p class="email">mybrowncat53@gmail.com</p>
+  <!-- Category Modal (카테고리 클릭 슬라이드) -->
+  <div id="categoryModal" aria-hidden="true">
+    <div class="catmodal">
+      <button class="catmodal-close" id="catModalClose" aria-label="close">✕</button>
 
-    <!-- ✅ PC에서도 아이콘 2개를 가로 정렬하려면 wrap 필요 -->
-    <div class="sns-wrap">
-      <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
-        <img src="images/linebeh.png" class="sns" alt="Behance">
-      </a>
+      <button class="catmodal-arrow left" id="catPrev" aria-label="prev">‹</button>
+      <button class="catmodal-arrow right" id="catNext" aria-label="next">›</button>
 
-      <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
-        <img src="images/lineins.png" class="sns" alt="Instagram">
-      </a>
+      <div class="catmodal-stage">
+        <img id="catModalImg" alt="" />
+        <div class="catmodal-caption" id="catModalCaption"></div>
+      </div>
+
+      <div class="catmodal-thumbs-wrap">
+        <div class="catmodal-thumbs" id="catModalThumbs"></div>
+      </div>
     </div>
+  </div>
 
-  </aside>
-
-  <main id="gallery"></main>
-
-  <aside id="thumbs">
-    <div class="thumbs-inner"></div>
-  </aside>
-
-</div>
-
-<div id="lightbox"><img alt=""></div>
-
-<div id="categoryModal">
-  <div class="modal-inner"></div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
-  <!-- ME POPUP -->
-<div id="mePopup">
-
-  <div class="me-box">
-
-    <div class="me-close">✕</div>
-
-    <h2>Me</h2>
-
-    <p class="me-email">mybrowncat53@gmail.com</p>
-
-    <div class="me-sns">
-
-      <a href="https://www.behance.net/hibyhanna3e0f" target="_blank">
-        <img src="images/linebeh.png">
-      </a>
-
-      <a href="https://www.instagram.com/hanna_something/" target="_blank">
-        <img src="images/lineins.png">
-      </a>
-
-    </div>
-
-  </div>
-
-</div>
-
 </html>
