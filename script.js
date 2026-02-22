@@ -8,6 +8,10 @@ const order=[
 const captions={
 e1:"Cover of the Sharjah International Book Fair Anthology 2023",
 e2:"Interior Pages of the Sharjah International Book Fair Anthology",
+e3: "magazin pleasant place",
+e4: "magazin pleasant place",
+e5: "magazin pleasant place",
+e6: "magazin pleasant place",
 e7:"Purunsoop Publishing Book cover."
 };
 
@@ -23,19 +27,14 @@ const box=document.createElement("div");
 box.className="item";
 box.id=id;
 
-if(captions[id]){
-const c=document.createElement("div");
-c.className="cap";
-c.textContent=captions[id];
-box.appendChild(c);
+if (captions[id]) {
+  const c = document.createElement("div");
+  c.className = "cap" + (["e3","e4","e5","e6"].includes(id) ? " small" : "");
+  c.textContent = captions[id];
+  box.appendChild(c);
 }
 
-if(["e3","e4","e5","e6"].includes(id)){
-const c=document.createElement("div");
-c.className="cap small";
-c.textContent="magazin pleasant place";
-box.appendChild(c);
-}
+
 
 const img=document.createElement("img");
 img.src="images/"+id+".jpg";
