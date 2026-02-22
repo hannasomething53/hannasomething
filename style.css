@@ -51,7 +51,7 @@ font-size:22px;
 
 .cat img{
    height:16px;
-   margin-right:22px;   /* ⭐ 여기서 조절 */
+   margin-right:24px;   /* ⭐ 여기서 조절 */
 }
 
 
@@ -210,7 +210,7 @@ display:block;
 
 /* 기본 커서 */
 html, body{
-  cursor: url("images/mouse.png") 24 24, auto;
+  cursor: url("images/mouse.png") 26 26, auto;
 }
 
 /* 클릭 가능한 곳 */
@@ -221,7 +221,7 @@ img,
 .home-btn,
 .sns,
 .hamburger{
-  cursor: url("images/click.png") 24 24, pointer !important;
+  cursor: url("images/click.png") 26 26, pointer !important;
 }
 
 /* 클릭 가능한 hover 상태 유지 */
@@ -229,7 +229,7 @@ a:hover,
 button:hover,
 .cat:hover,
 img:hover{
-  cursor: url("images/click.png") 24 24, pointer !important;
+  cursor: url("images/click.png") 26 26, pointer !important;
 }
 /* ===== ME POPUP ===== */
 
