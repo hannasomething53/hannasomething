@@ -93,11 +93,18 @@ opacity:1;
 transform:none;
 }
 
-.item img{ width:100%; cursor:pointer; }
+/* ===== captions (여기서 캡션 폰트/스타일을 한 번에 통일 관리) ===== */
+.cap{
+  font-family: "Jost", sans-serif; /* ✅ 캡션 폰트 통일 */
+  font-weight: 400;
+  font-size: 20px;                 /* ✅ 기본 캡션 크기 */
+  line-height: 1.25;
+  color: #000;
+  margin: 0 0 6px 0;               /* ✅ 이미지에 딱 붙게: 아래 여백만 */
+}
 
-.cap{ font-size:20px; margin-bottom:6px; }
-.cap.small{ font-size:16px; }
 
+}
 
 /* ===== thumbs ===== */
 
