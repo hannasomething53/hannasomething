@@ -149,7 +149,7 @@ max-height:95vh;
 
 /* 기본 커서 */
 html, body{
-  cursor: url("images/mouse.png") 26 26, auto;
+  cursor: url("images/mouse.png") 0 0, auto;
 }
 
 /* 클릭 가능한 곳 */
@@ -160,7 +160,7 @@ img,
 .home-btn,
 .sns,
 .hamburger{
-  cursor: url("images/click.png") 26 26, pointer !important;
+  cursor: url("images/click.png") 0 0, pointer !important;
 }
 
 /* 클릭 가능한 hover 상태 유지 */
@@ -168,7 +168,7 @@ a:hover,
 button:hover,
 .cat:hover,
 img:hover{
-  cursor: url("images/click.png") 26 26, pointer !important;
+  cursor: url("images/click.png") 0 0, pointer !important;
 }
 
 /* ===== category modal ===== */
