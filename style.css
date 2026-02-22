@@ -245,119 +245,136 @@ img{
   height:auto;
   display:block;
 }
-
-/* =========================
-카테고리 모달(슬라이드)
-========================= */
+/* ===== category modal (카테고리 오버레이 뷰어) ===== */
 
 #categoryModal{
   position:fixed;
   inset:0;
-  background: rgba(255,255,244,.95);
   display:none;
-  z-index: 3500;
+  z-index:1200;
 }
 
-.catmodal{
+/* 배경 (fffff4 95% 느낌) */
+#categoryModal .cm-backdrop{
   position:absolute;
   inset:0;
-  padding: 24px var(--edge);
+  background: rgba(255,255,244,.95);
 }
 
-/* X 버튼 */
-.catmodal-close{
-  position:fixed;
-  top: 18px;
-  right: 18px;
-  font-size: 42px;
-  line-height:1;
-  background: transparent;
-  border:0;
-  color:#000;
+/* 이미지/썸네일을 담는 무대 */
+#categoryModal .cm-stage{
+  position:relative;
+  width: min(900px, 92vw);
+  margin: 60px auto;
+  padding-bottom: 0; /* 썸네일은 absolute로 깔거라 stage padding 불필요 */
 }
 
-/* 좌/우 화살표 */
-.catmodal-arrow{
-  position:fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 80px;
-  font-size: 60px;
-  background: transparent;
-  border:0;
-  color:#000;
-  opacity:.9;
-}
-.catmodal-arrow.left{ left: 18px; }
-.catmodal-arrow.right{ right: 18px; }
-
-/* 메인 스테이지 */
-.catmodal-stage{
-  width: 100%;
-  height: calc(100vh - 160px); /* 아래 썸네일바/여백 감안 */
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap: 10px;
-  padding-top: 40px;
+/* 이미지 박스 */
+#categoryModal .cm-media{
+  position:relative;
+  width:100%;
 }
 
-#catModalImg{
-  max-width: 94vw;
-  max-height: 72vh; /* 아래 썸네일바+캡션 감안 */
-  width:auto;
+/* 이미지 */
+#categoryModal .cm-img{
+  width:100%;
   height:auto;
   display:block;
 }
 
-/* 하단 캡션 */
-.catmodal-caption{
-  font-size: 20px;
-  line-height:1.25;
-  text-align:center;
-  padding: 0 8px;
+/* ✅ X 버튼: “그림 상단 오른쪽에 바로 붙게” */
+#categoryModal .cm-close{
+  position:absolute;
+  top: 6px;      /* 이미지 상단에 거의 붙게 */
+  right: 6px;    /* 이미지 오른쪽에 거의 붙게 */
+  border:0;
+  background: transparent;
+  font-size: 44px;
+  line-height:1;
+  color:#000;
+  padding:0;
+  cursor: url("images/click.png") 0 0, pointer !important;
 }
 
-/* 하단 썸네일바 */
-.catmodal-thumbs-wrap{
-  position:fixed;
+/* ✅ 썸네일 바: 맨 아래에 딱 붙지 않고 10px 떠 있게 */
+#categoryModal .cm-thumbs{
+  position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 100px;
+  bottom: 10px;        /* ✅ 여기 10px “떠있게” */
+  height: 100px;       /* 너가 원하던 높이 */
+  display:flex;
+  justify-content:center;
+  pointer-events:none; /* 내부만 클릭 가능하게 */
+}
+
+#categoryModal .cm-thumbs-inner{
+  width: min(900px, 92vw);
+  height: 100%;
   display:flex;
   align-items:center;
-  background: transparent;
-  padding-left: 80px; /* ✅ 요구: 왼쪽 80px 여백 후 시작 */
-}
-
-.catmodal-thumbs{
-  display:flex;
-  gap: 50px;            /* ✅ 썸네일 간 50px */
+  gap: 50px;           /* ✅ 썸네일 간격 50px */
   overflow-x:auto;
   overflow-y:hidden;
+  padding-left: 80px;  /* ✅ 왼쪽 80px 여백 시작 */
   scrollbar-width:none;
-  width: 100%;
-  padding-right: 20px;
+  pointer-events:auto;
 }
-.catmodal-thumbs::-webkit-scrollbar{ display:none; }
 
-.catmodal-thumbs img{
-  height: 100px;
+#categoryModal .cm-thumbs-inner::-webkit-scrollbar{ display:none; }
+
+#categoryModal .cm-thumbs-inner img{
+  height:100px;
   width:auto;
   display:block;
-  opacity:1;
-  transition: opacity .2s ease;
+  cursor: url("images/click.png") 0 0, pointer !important;
+  transition:.2s;
 }
-.catmodal-thumbs img:hover{ opacity:.7; }
 
-.catmodal-thumbs img.active{
+#categoryModal .cm-thumbs-inner img:hover{
+  opacity:.7;
+}
+
+/* 현재 선택된 썸네일 표시(살짝 진하게) */
+#categoryModal .cm-thumbs-inner img.is-active{
+  opacity: 1;
   outline: 2px solid rgba(0,0,0,.25);
   outline-offset: 4px;
 }
 
+/* ✅ 좌/우 클릭 영역: 화살표 없이 화면 좌우 눌러 이동 */
+#categoryModal .cm-hit{
+  position:fixed;
+  top:0;
+  bottom:0;
+  width: 35vw;
+  border:0;
+  background: transparent;
+  cursor: url("images/click.png") 0 0, pointer !important;
+}
+
+#categoryModal .cm-hit-left{ left:0; }
+#categoryModal .cm-hit-right{ right:0; }
+
+/* 썸네일 바 위를 누르면 “이동 클릭”이 막히지 않게 */
+#categoryModal .cm-hit{
+  z-index: 1;
+}
+#categoryModal .cm-thumbs{
+  z-index: 2;
+}
+#categoryModal .cm-stage{
+  z-index: 3;
+}
+#categoryModal .cm-close{
+  z-index: 4;
+}
+.cm-caption{
+  font-size:20px;
+  line-height:1.25;
+  text-align:center;
+  margin-top:10px;
+}
 /* =========================
 모바일(썸네일/카테고리 숨기고 갤러리만)
 ========================= */
