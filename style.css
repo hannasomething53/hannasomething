@@ -11,14 +11,16 @@ cursor:url(images/mouse.png),auto;
 display:flex;
 justify-content:center;
 padding:0 clamp(5px,1vw,10px);
+position:relative;   /* ⭐ 추가 */
 }
 
 /* ===== category ===== */
 
 .category{
-position:fixed;
+position:absolute;
 top:250px;
-left:calc(50% - min(1000px,60vw)/2 - 220px);
+right:100%;
+margin-right:30px;
 width:clamp(140px,15vw,200px);
 font-size:22px;
 }
@@ -109,9 +111,10 @@ transform:none;
 /* ===== thumbs ===== */
 
 #thumbs{
-position:fixed;
+position:absolute;
 top:50px;
-right:calc(50% - min(1000px,60vw)/2 - 220px);
+left:100%;
+margin-left:100px;
 width:clamp(70px,9vw,130px);
 height:calc(100vh - 50px);
 overflow:hidden;
