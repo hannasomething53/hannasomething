@@ -95,24 +95,24 @@
     <img id="lightboxImg" alt="" />
   </div>
 
-  <!-- Category Modal (카테고리 클릭 슬라이드) -->
-  <div id="categoryModal" aria-hidden="true">
-    <div class="catmodal">
-      <button class="catmodal-close" id="catModalClose" aria-label="close">✕</button>
+<div id="categoryModal" aria-hidden="true">
+  <div class="cm-backdrop"></div>
 
-      <button class="catmodal-arrow left" id="catPrev" aria-label="prev">‹</button>
-      <button class="catmodal-arrow right" id="catNext" aria-label="next">›</button>
+  <div class="cm-stage" role="dialog" aria-modal="true">
+    <button class="cm-close" aria-label="Close">✕</button>
 
-      <div class="catmodal-stage">
-        <img id="catModalImg" alt="" />
-        <div class="catmodal-caption" id="catModalCaption"></div>
-      </div>
-
-      <div class="catmodal-thumbs-wrap">
-        <div class="catmodal-thumbs" id="catModalThumbs"></div>
-      </div>
+    <div class="cm-media">
+      <img class="cm-img" alt="">
     </div>
+
+    <div class="cm-thumbs">
+      <div class="cm-thumbs-inner"></div>
+    </div>
+
+    <button class="cm-hit cm-hit-left"></button>
+    <button class="cm-hit cm-hit-right"></button>
   </div>
+</div>
 
   <script src="script.js"></script>
 </body>
