@@ -1,287 +1,435 @@
-body{
-margin:0;
-background:#fffff4;
-font-family:'Jost',sans-serif;
-cursor:url(images/mouse.png),auto;
+:root{
+  --bg:#fffff4;
+
+  /* 갤러리 기본 폭(최대 1000) + 화면에 따라 줄어듦 */
+  --galleryW: min(1000px, 60vw);
+
+  /* 여백: 화면이 작아지면 같이 줄어듦(하지만 최소 10px 유지) */
+  --gapL: clamp(10px, 3vw, 30px);   /* category - gallery */
+  --gapR: clamp(10px, 6vw, 100px);  /* gallery - thumbs */
+
+  /* 좌우 바깥 여백: 5~10px 유지 */
+  --edge: clamp(5px, 1vw, 10px);
+
+  /* 상단 여백 */
+  --galleryTop: 50px;
+
+  /* category 위치 */
+  --catTop: 250px;
+
+  font-family: "Jost", sans-serif;
 }
 
-/* ===== layout ===== */
+*{ box-sizing:border-box; }
+
+html, body{
+  height:100%;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:#000;
+
+  /* 기본 커서 */
+  cursor: url("images/mouse.png") 0 0, auto;
+}
+
+/* 클릭 가능 영역 커서(손 모양 X, 이미지 커서만 변경) */
+a, button, .cat, img, .home-link, .sns, .hamburger{
+  cursor: url("images/click.png") 0 0, auto !important;
+}
+
+img{
+  -webkit-user-drag:none;
+  user-select:none;
+}
+
+/* =========================
+전체 레이아웃: 갤러리 중앙 기준
+[category] [gallery] [thumbs]
+========================= */
+
+.page{
+  width:100%;
+  padding: 0 var(--edge);
+}
 
 .layout{
-display:flex;
-justify-content:center;
-padding:0 clamp(5px,1vw,10px);
-position:relative;   /* ⭐ 추가 */
+  /* 3열 grid */
+  display:grid;
+  grid-template-columns:
+    minmax(140px, 200px)
+    var(--galleryW)
+    minmax(70px, 130px);
+
+  column-gap:0;
+  justify-content:center; /* ✅ 전체를 중앙정렬 (갤러리 중심) */
+
+  /* 세 영역 사이 여백은 각 컬럼 사이 "가짜 spacer"로 구현 */
+  position:relative;
+
+  /* “겹치지 않음”을 강제: 창이 작아지면 grid가 줄어들고,
+     최소 edge는 유지됨. */
 }
 
-/* ===== category ===== */
+/* category와 gallery 사이 여백(30px 기본, 줄어듦) */
+.category{
+  margin-right: var(--gapL);
+}
+
+/* gallery와 thumbs 사이 여백(100px 기본, 줄어듦) */
+.gallery{
+  margin-right: var(--gapR);
+}
+
+/* =========================
+왼쪽 카테고리
+========================= */
 
 .category{
-position:fixed;
-top:250px;
-right:100%;
-margin-right:30px;
-width:clamp(140px,15vw,200px);
-font-size:22px;
+  position: sticky;
+  top: var(--catTop); /* ✅ 스크롤 내려도 같은 위치 유지 */
+  align-self:start;
+
+  font-size: clamp(16px, 1.6vw, 22px);
+  line-height:1.2;
+
+  text-align:left;
 }
 
-.home-wrap{
-   width:100%;
-   display:flex;
-   justify-content:center;   /* 가로 중앙 */
-   margin-bottom:20px;       /* 카테고리와 간격 */
+.home-link{
+  display:inline-block;
+  margin-bottom: 16px;
 }
 
 .home-btn{
   display:block;
-  width:60px;      /* 원하는 크기 */
+  max-width: 100%;
   height:auto;
-  object-fit:contain;
-  cursor:pointer;  /* ✅ 커서는 여기 안에 */
 }
 
+/* 카테고리 리스트 */
+.cat-list{
+  display:flex;
+  flex-direction:column;
+  gap: 10px; /* 카테고리 간격 */
+}
+
+/* cat는 버튼/디브 공통 스타일 */
 .cat{
-   display:flex;
-   align-items:center;
-   margin-bottom:10px;
+  display:flex;
+  align-items:center; /* ✅ one.png 세로 중앙 정렬 */
+  gap: 22px;          /* ✅ one.png와 글자 사이 간격 */
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color:#000;
+  text-align:left;
+  font: inherit;
 }
 
-.cat img{
-   height:16px;
-   margin-right:24px;   /* ⭐ 여기서 조절 */
+.cat span{
+  display:inline-block;
 }
 
+/* one.png */
+.dot{
+  height: 16px;
+  width:auto;
+  display:block;
+}
 
+/* 이메일만 18px */
 .email{
-font-size:18px;
-margin-top:20px;
+  margin-top: 18px;
+  font-size: 18px;
 }
 
+/* sns는 양옆으로 */
 .sns-wrap{
+  margin-top: 14px;
   display:flex;
   align-items:center;
-  gap:12px;          /* 아이콘 사이 간격 */
-  margin-top:12px;   /* 이메일 아래 여백 */
+  gap: 12px;
 }
 
 .sns{
-  width:55px;        /* 원래 너가 원한 크기 */
+  width: 55px;
   height:auto;
-  display:block;     /* 이건 있어도 됨 (flex 안에서 문제 없음) */
+  display:block;
 }
 
+/* =========================
+갤러리
+========================= */
 
-/* ===== gallery ===== */
+.gallery{
+  align-self:start;
+}
 
 #gallery{
-width:min(1000px,60vw);
-margin-top:50px;
+  width:100%;
+  margin-top: var(--galleryTop);
 }
 
+/* 아이템 등장 애니메이션 */
 .item{
-margin-bottom:120px;
-opacity:0;
-transform:translateY(60px);
-transition:1s;
+  margin-bottom: 120px;
+  opacity:0;
+  transform: translateY(60px);
+  transition: opacity .9s ease, transform .9s ease;
 }
-
 .item.show{
-opacity:1;
-transform:none;
+  opacity:1;
+  transform:none;
 }
 
-/* ===== captions (여기서 캡션 폰트/스타일을 한 번에 통일 관리) ===== */
+/* 캡션 */
 .cap{
-  font-family: "Jost", sans-serif; /* ✅ 캡션 폰트 통일 */
-  font-weight: 400;
-  font-size: 20px;                 /* ✅ 기본 캡션 크기 */
+  font-size: 20px;
   line-height: 1.25;
-  color: #000;
-  margin: 0 0 6px 0;               /* ✅ 이미지에 딱 붙게: 아래 여백만 */
+  margin: 0 0 6px 0; /* 이미지에 딱 붙게 */
 }
 
+.item img{
+  width:100%;
+  height:auto;
+  display:block;
+}
 
-/* ===== thumbs ===== */
+/* =========================
+오른쪽 썸네일(페이지용)
+========================= */
 
-#thumbs{
-position:fixed;
-top:50px;
-left:100%;
-margin-left:100px;
-width:clamp(70px,9vw,130px);
-height:calc(100vh - 50px);
-overflow:hidden;
+.thumbs{
+  position: sticky;
+  top: var(--galleryTop); /* ✅ 갤러리 상단과 맞춤 */
+  align-self:start;
+
+  height: calc(100vh - var(--galleryTop));
+  overflow:hidden; /* 바깥 스크롤바 숨김 */
 }
 
 .thumbs-inner{
-height:100%;
-overflow-y:auto;
-scrollbar-width:none;
+  height:100%;
+  overflow-y:auto;        /* 내부에서만 스크롤 */
+  scrollbar-width:none;   /* firefox */
+  padding-top: 0;         /* 상단 50은 sticky top으로 맞춤 */
 }
-
-.thumbs-inner::-webkit-scrollbar{display:none;}
+.thumbs-inner::-webkit-scrollbar{ display:none; }
 
 .thumbs-inner img{
-width:100%;
-margin-bottom:50px;
-cursor:pointer;
-transition:.3s;
+  width: 100%;
+  display:block;
+  margin-bottom: 50px;
+  opacity:1;
+  transition: opacity .2s ease;
+}
+.thumbs-inner img:hover{
+  opacity: .7; /* 30% 낮아짐 */
 }
 
-.thumbs-inner img:hover{opacity:.7;}
-
-
-/* ===== lightbox ===== */
-
-#lightbox{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.9);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:1000;
-}
-
-#lightbox img{
-max-height:95vh;
-}
 /* =========================
-커스텀 마우스
+라이트박스(갤러리 클릭 확대)
 ========================= */
 
-/* 기본 커서 */
-html, body{
-  cursor: url("images/mouse.png") 0 0, auto;
-}
-
-/* 클릭 가능한 곳 */
-a,
-button,
-.cat,
-img,
-.home-btn,
-.sns,
-.hamburger{
-  cursor: url("images/click.png") 0 0, pointer !important;
-}
-
-/* 클릭 가능한 hover 상태 유지 */
-a:hover,
-button:hover,
-.cat:hover,
-img:hover{
-  cursor: url("images/click.png") 0 0, pointer !important;
-}
-
-/* ===== category modal ===== */
-
-#categoryModal{
-position:fixed;
-inset:0;
-background:rgba(255,255,244,.9);
-display:none;
-overflow:auto;
-z-index:1200;
-}
-
-.modal-inner{
-width:900px;
-margin:100px auto;
-}
-
-.modal-inner img{
-width:100%;
-margin-bottom:80px;
-}
-
-
-/* ===== mobile ===== */
-
-.hamburger{
-display:none;
-position:fixed;
-top:10px;
-left:10px;
-font-size:32px;
-z-index:2000;
-}
-
-.mobile-me{
-display:none;
-position:fixed;
-inset:0;
-background:#fffff4;
-z-index:1500;
-}
-
-.mobile-inner{
-padding:100px 40px;
-font-size:22px;
-}
-
-.mobile-inner img{
-width:60px;
-margin-top:20px;
-display:block;
-}
-
-@media(max-width:900px){
-
-.category,#thumbs{display:none;}
-#gallery{width:95vw;}
-.hamburger{display:block;}
-
-}
-
-/* ===== ME POPUP ===== */
-
-#mePopup{
+#lightbox{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.4);
+  background: rgba(0,0,0,.9);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:2000;
+  z-index: 3000;
+
+  /* 위/아래 여백 조금(떠있는 느낌) */
+  padding: 3vh 2vw;
 }
 
-.me-box{
-  background:#fffff4;
-  padding:40px 50px;
-  border-radius:14px;
-  box-shadow:0 10px 40px rgba(0,0,0,.2);
-  text-align:center;
-  position:relative;
-  animation:pop .3s ease;
+#lightboxImg{
+  max-width: 96vw;
+  max-height: 94vh;
+  width:auto;
+  height:auto;
+  display:block;
 }
 
-@keyframes pop{
-  from{transform:scale(.8);opacity:0}
-  to{transform:scale(1);opacity:1}
+/* =========================
+카테고리 모달(슬라이드)
+========================= */
+
+#categoryModal{
+  position:fixed;
+  inset:0;
+  background: rgba(255,255,244,.95);
+  display:none;
+  z-index: 3500;
 }
 
-.me-close{
+.catmodal{
   position:absolute;
-  top:10px;
-  right:15px;
-  font-size:22px;
-  cursor:pointer;
+  inset:0;
+  padding: 24px var(--edge);
 }
 
-.me-email{
-  margin-top:15px;
-  font-size:18px;
+/* X 버튼 */
+.catmodal-close{
+  position:fixed;
+  top: 18px;
+  right: 18px;
+  font-size: 42px;
+  line-height:1;
+  background: transparent;
+  border:0;
+  color:#000;
 }
 
-.me-sns{
-  margin-top:20px;
+/* 좌/우 화살표 */
+.catmodal-arrow{
+  position:fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 80px;
+  font-size: 60px;
+  background: transparent;
+  border:0;
+  color:#000;
+  opacity:.9;
+}
+.catmodal-arrow.left{ left: 18px; }
+.catmodal-arrow.right{ right: 18px; }
+
+/* 메인 스테이지 */
+.catmodal-stage{
+  width: 100%;
+  height: calc(100vh - 160px); /* 아래 썸네일바/여백 감안 */
   display:flex;
-  gap:20px;
+  flex-direction:column;
+  align-items:center;
   justify-content:center;
+  gap: 10px;
+  padding-top: 40px;
 }
 
-.me-sns img{
+#catModalImg{
+  max-width: 94vw;
+  max-height: 72vh; /* 아래 썸네일바+캡션 감안 */
+  width:auto;
+  height:auto;
+  display:block;
+}
+
+/* 하단 캡션 */
+.catmodal-caption{
+  font-size: 20px;
+  line-height:1.25;
+  text-align:center;
+  padding: 0 8px;
+}
+
+/* 하단 썸네일바 */
+.catmodal-thumbs-wrap{
+  position:fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100px;
+  display:flex;
+  align-items:center;
+  background: transparent;
+  padding-left: 80px; /* ✅ 요구: 왼쪽 80px 여백 후 시작 */
+}
+
+.catmodal-thumbs{
+  display:flex;
+  gap: 50px;            /* ✅ 썸네일 간 50px */
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  width: 100%;
+  padding-right: 20px;
+}
+.catmodal-thumbs::-webkit-scrollbar{ display:none; }
+
+.catmodal-thumbs img{
+  height: 100px;
+  width:auto;
+  display:block;
+  opacity:1;
+  transition: opacity .2s ease;
+}
+.catmodal-thumbs img:hover{ opacity:.7; }
+
+.catmodal-thumbs img.active{
+  outline: 2px solid rgba(0,0,0,.25);
+  outline-offset: 4px;
+}
+
+/* =========================
+모바일(썸네일/카테고리 숨기고 갤러리만)
+========================= */
+
+.hamburger{
+  display:none;
+  position:fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 32px;
+  background: transparent;
+  border:0;
+  z-index: 5000;
+}
+
+.mobile-me{
+  display:none;
+  position:fixed;
+  inset:0;
+  background: var(--bg);
+  z-index: 5200;
+}
+
+.mobile-inner{
+  padding: 90px 24px;
+  font-size: 22px;
+}
+
+.mobile-title{
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.mobile-email{
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.mobile-sns{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+}
+
+.mobile-sns img{
   width:55px;
+  height:auto;
+  display:block;
 }
 
+@media (max-width: 900px){
+  .category, .thumbs{ display:none; }
+  .hamburger{ display:block; }
+  .layout{
+    grid-template-columns: 1fr;
+    justify-content:center;
+  }
+  .gallery{
+    margin-right:0;
+  }
+  #gallery{
+    width: min(1000px, 95vw);
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
