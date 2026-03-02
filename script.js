@@ -1,312 +1,574 @@
 /* =========================
-데이터
+  데이터: 한 곳에서 관리
 ========================= */
 
-const order = [
+// 갤러리 전체 순서(요구 순서 그대로)
+const GALLERY_ORDER = [
   "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
   "p28","p26","p27","p31","p29","p30","e9","e10",
   "e14","e15","e16","e17","e18","e19","e20","e21",
   "e22","e23","e24","p32","p33","p34"
 ];
 
-const captions = {
+// 캡션(갤러리 상단, 카테고리 뷰어 하단에도 동일 사용)
+const CAPTIONS = {
   e1: "Cover of the Sharjah International Book Fair Anthology 2023",
-  e2: "Interior Pages of the Sharjah International Book Fair Anthology",
-  e7: "Purunsoop Publishing Book cover.",
-  e3: "magazin pleasant place",
-  e4: "magazin pleasant place",
-  e5: "magazin pleasant place",
-  e6: "magazin pleasant place"
+  e2: "Interior Pages of the Sharjah International Book Fair Anthology 2023",
+  e3: "magazin pleasant place 2023",
+  e4: "magazin pleasant place 2023",
+  e5: "magazin pleasant place 2023",
+  e6: "magazin pleasant place 2023",
+  p25:"personal work",
+  e7: "Purunsoop Publishing Book cover. 2023",
+  e8: "산울림(Sanullim)’s 50th-anniversary remake project 2025",
+  e13:"magazine tools Interior Illustrations 2024",
+  p28:"personal work",
+  p26:"personal work",
+  p27:"personal work",
+  p31:"personal work",
+  p29:"personal work",
+  p30:"personal work",
+  e9: "Amorepacific beauty curation book on 70 years of Korean beauty./rawpressbooks 2022",
+  e10:"Amorepacific beauty curation book on 70 years of Korean beauty./rawpressbooks 2022",
+  e14:"Maybooks Publishing Interior Illustrations/Column Illustrations for BEMINOR 2023",
+  e15:"Maybooks Publishing Interior Illustrations/Column Illustrations for BEMINOR 2023",
+  e16:"Maybooks Publishing Interior Illustrations/Column Illustrations for BEMINOR 2023",
+  e17:"Maybooks Publishing Interior Illustrations/Column Illustrations for BEMINOR 2023",
+  e18:"Maybooks Publishing Interior Illustrations/Column Illustrations for BEMINOR 2023",
+  e19:"Minumsa Publishing Book Cover and Interior 2021",
+  e20:"Minumsa Publishing Book Cover and Interior 2021",
+  e21:"McSweeney's Interior Illustrations 2021",
+  e22:"FFL Publishing mind graph magazine article. 2021",
+  e23:"Mimesis. The cover and illustrations for the novel 2018",
+  e24:"Mimesis. The cover and illustrations for the novel 2018",
+  p32:"personal work",
+  p33:"personal work",
+  p34:"personal work"
 };
 
-/* =========================
-DOM
-========================= */
+// 카테고리별 뷰어 순서(요구 순서 그대로)
+const EDITORIAL_ORDER = ["e1","e2","e3","e4","e5","e6","e7","e8","e13","e9","e10","e14","e15","e16","e17","e18","e19","e20","e21","e22","e23","e24"];
+const PERSONAL_ORDER   = ["p25","p28","p26","p27","p31","p29","p30","p32","p33","p34"];
 
-const galleryEl = document.getElementById("gallery");
-const thumbsInner = document.getElementById("thumbsInner");
+// Comics 페이지(표지) 순서
+const COMICS_COVERS = ["c1","c8","c15","c23"];
 
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
+// Comics 책 넘김 범위
+const COMICS_BOOKS = [
+  { cover: "c1",  pages: rangeIds("c", 2, 7)  },
+  { cover: "c8",  pages: rangeIds("c", 9, 14) },
+  { cover: "c15", pages: rangeIds("c", 16, 22)},
+  { cover: "c23", pages: rangeIds("c", 24, 42)}
+];
 
-const modal = document.getElementById("categoryModal");
-const modalClose = document.getElementById("catModalClose");
-const modalImg = document.getElementById("catModalImg");
-const modalCaption = document.getElementById("catModalCaption");
-const modalThumbs = document.getElementById("catModalThumbs");
-const modalPrev = document.getElementById("catPrev");
-const modalNext = document.getElementById("catNext");
-
-const ham = document.querySelector(".hamburger");
-const mobileMe = document.getElementById("mobileMe");
-
-/* =========================
-우클릭 다운로드 방지
-========================= */
-document.addEventListener("contextmenu", (e) => e.preventDefault(), { passive:false });
-
-/* =========================
-갤러리 생성 + 썸네일 생성
-========================= */
-
-function numFromId(id){
-  // e13 -> 13, p25 -> 25
-  return id.replace(/[a-z]/gi, "");
+function rangeIds(prefix, start, end){
+  const out = [];
+  for(let i=start;i<=end;i++) out.push(prefix + i);
+  return out;
 }
 
-order.forEach((id) => {
-  // gallery item
-  const box = document.createElement("section");
-  box.className = "item";
-  box.id = id;
-
-  const capText = captions[id];
-  if (capText) {
-    const cap = document.createElement("div");
-    cap.className = "cap";
-    cap.textContent = capText;
-    box.appendChild(cap);
-  }
-
-  const img = document.createElement("img");
-  img.src = `images/${id}.jpg`;
-  img.alt = id;
-  img.loading = "lazy";
-  box.appendChild(img);
-
-  galleryEl.appendChild(box);
-
-  // gallery click -> lightbox
-  img.addEventListener("click", () => {
-    lightboxImg.src = img.src;
-    lightbox.style.display = "flex";
-    lightbox.setAttribute("aria-hidden", "false");
-  });
-
-  // thumbs (right column)
-  const n = numFromId(id);
-  const t = document.createElement("img");
-  t.src = `images/s${n}.jpg`;
-  t.alt = `s${n}`;
-  t.loading = "lazy";
-
-  t.addEventListener("click", () => {
-    const target = document.getElementById(id);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
-
-  thumbsInner.appendChild(t);
-});
-
 /* =========================
-라이트박스 닫기
+  파일 경로 규칙(확장자)
+  - 여기만 바꾸면 전체 적용
 ========================= */
-
-function closeLightbox(){
-  lightbox.style.display = "none";
-  lightbox.setAttribute("aria-hidden", "true");
-  lightboxImg.src = "";
+function imgSrc(id){
+  // 예: e1.jpg, p25.jpg, c1.jpg
+  return `${id}.jpg`;
+}
+function thumbSrc(id){
+  // 예: s13.jpg, s25.jpg
+  const num = id.replace(/[^\d]/g, "");
+  return `s${num}.jpg`;
 }
 
-lightbox.addEventListener("click", () => closeLightbox());
+/* =========================
+  DOM
+========================= */
+const $ = (sel, parent=document) => parent.querySelector(sel);
+const $$ = (sel, parent=document) => Array.from(parent.querySelectorAll(sel));
 
+const galleryEl = $("#gallery");
+const thumbRailEl = $("#thumbRail");
+
+const lightboxEl = $("#lightbox");
+const lightboxImg = $("#lightboxImg");
+
+const viewerEl = $("#viewer");
+const viewerImg = $("#viewerImg");
+const viewerCaption = $("#viewerCaption");
+const viewerThumbs = $("#viewerThumbs");
+
+const comicsPageEl = $("#comicsPage");
+const comicsListEl = $("#comicsList");
+
+const bookEl = $("#book");
+const bookImg = $("#bookImg");
+
+const meModalEl = $("#meModal");
+const toastEl = $("#toast");
+
+const hamburgerEl = $("#hamburger");
+const mobileMenuEl = $("#mobileMenu");
+const mobileComicsListEl = $("#mobileComicsList");
+
+let currentViewerList = [];
+let viewerIndex = 0;
+
+let currentBookPages = [];
+let bookIndex = 0;
+
+/* =========================
+  공통: 다운로드 방지(완전 방지는 불가하지만 우클릭/드래그 기본 차단)
+========================= */
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+document.addEventListener("dragstart", (e) => e.preventDefault());
+
+/* ESC로 닫기 */
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    // lightbox / modal 둘 다 닫기
-    closeLightbox();
-    closeCategoryModal();
-  }
+  if(e.key !== "Escape") return;
+  closeLightbox();
+  closeViewer();
+  closeBook();
+  closeMe();
+  closeMobileMenu();
 });
 
 /* =========================
-갤러리 등장 애니메이션
+  갤러리 렌더
 ========================= */
+function renderGallery(){
+  galleryEl.innerHTML = "";
 
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((en) => {
-    if (en.isIntersecting) en.target.classList.add("show");
-  });
-}, { threshold: 0.12 });
+  for(const id of GALLERY_ORDER){
+    const item = document.createElement("section");
+    item.className = "gItem";
+    item.dataset.id = id;
 
-document.querySelectorAll(".item").forEach((el) => io.observe(el));
+    const cap = document.createElement("div");
+    cap.className = "gCap";
+    cap.textContent = CAPTIONS[id] || "";
 
-/* =========================
-갤러리 스크롤 -> 썸네일 자동 동기화
-(단, 썸네일 위에 마우스 올라가면 자동 동기화 OFF)
-========================= */
+    const img = document.createElement("img");
+    img.className = "gImg";
+    img.alt = CAPTIONS[id] || id;
+    img.loading = "lazy";
+    img.src = imgSrc(id);
+    img.dataset.id = id;
 
-let isHoverThumbs = false;
+    // 클릭: 라이트박스
+    img.addEventListener("click", () => openLightbox(img.src, img.alt));
 
-thumbsInner.addEventListener("mouseenter", () => { isHoverThumbs = true; });
-thumbsInner.addEventListener("mouseleave", () => { isHoverThumbs = false; });
-
-const items = Array.from(document.querySelectorAll(".item"));
-const thumbImgs = Array.from(thumbsInner.querySelectorAll("img"));
-
-let syncRaf = null;
-
-function syncThumbToGallery(){
-  if (isHoverThumbs) return;
-
-  // viewport 중앙에 가장 가까운 item 찾기
-  const mid = window.innerHeight * 0.5;
-  let idx = 0;
-
-  for (let i = 0; i < items.length; i++){
-    const r = items[i].getBoundingClientRect();
-    if (r.top < mid) idx = i;
+    item.appendChild(cap);
+    item.appendChild(img);
+    galleryEl.appendChild(item);
   }
 
-  const t = thumbImgs[idx];
-  if (!t) return;
+  // 스크롤 애니메이션(아래에서 위로 스윽)
+  const io = new IntersectionObserver((entries) => {
+    for(const ent of entries){
+      if(ent.isIntersecting) ent.target.classList.add("in");
+    }
+  }, { threshold: 0.15 });
 
-  const targetTop = t.offsetTop - (thumbsInner.clientHeight / 2) + (t.clientHeight / 2);
-  thumbsInner.scrollTo({ top: targetTop, behavior: "smooth" });
+  $$(".gItem", galleryEl).forEach(el => io.observe(el));
 }
-
-window.addEventListener("scroll", () => {
-  if (syncRaf) cancelAnimationFrame(syncRaf);
-  syncRaf = requestAnimationFrame(syncThumbToGallery);
-}, { passive:true });
 
 /* =========================
-카테고리 모달 (슬라이드 + 하단 썸네일바)
+  썸네일 레일 렌더 + 갤러리 연동
 ========================= */
+let activeId = null;
 
-let currentList = [];
-let currentIndex = 0;
+function renderThumbRail(){
+  thumbRailEl.innerHTML = "";
 
-function captionForModal(id, type){
-  if (type === "p") return "Personal works";
-  if (type === "c") return "";
-  // e
-  return captions[id] || "";
-}
+  for(const id of GALLERY_ORDER){
+    const btn = document.createElement("button");
+    btn.className = "thumbBtn";
+    btn.type = "button";
+    btn.dataset.target = id;
 
-function renderCategoryModal(type){
-  // 리스트 구성
-  if (type === "e") {
-    currentList = ["e1","e2","e3","e4","e5","e6","e7","e8","e13","e9","e10","e14","e15","e16","e17","e18","e19","e20","e21","e22","e23","e24"];
-  } else if (type === "p") {
-    currentList = ["p25","p28","p26","p27","p31","p29","p30","p32","p33","p34"];
-  } else if (type === "c") {
-    // comics 파일이 실제로 없을 수 있으니, 있으면 넣고 없으면 빈 화면 유지
-    // 필요하면 여기 배열만 채우면 됨: ["c1","c2"...]
-    currentList = [];
-  }
+    const img = document.createElement("img");
+    img.src = thumbSrc(id);
+    img.alt = `thumb ${id}`;
+    img.loading = "lazy";
 
-  currentIndex = 0;
+    btn.appendChild(img);
 
-  // 하단 썸네일 만들기
-  modalThumbs.innerHTML = "";
-  currentList.forEach((id, i) => {
-    const n = numFromId(id);
-    const th = document.createElement("img");
-    th.src = `images/s${n}.jpg`;
-    th.alt = `thumb ${id}`;
-
-    th.addEventListener("click", () => {
-      currentIndex = i;
-      updateModalMain(type);
+    btn.addEventListener("click", () => {
+      scrollToGalleryId(id);
     });
 
-    modalThumbs.appendChild(th);
-  });
+    thumbRailEl.appendChild(btn);
+  }
 
-  updateModalMain(type);
+  // 갤러리에서 현재 보이는 이미지와 연동(IntersectionObserver)
+  const items = $$(".gItem", galleryEl);
+  const obs = new IntersectionObserver((entries) => {
+    // 가장 많이 보이는 항목 선택
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if(!visible) return;
+    const id = visible.target.dataset.id;
+    setActiveThumb(id, { smooth: true });
+  }, { root: null, threshold: [0.2, 0.4, 0.6, 0.8] });
+
+  items.forEach(el => obs.observe(el));
 }
 
-function updateModalMain(type){
-  const id = currentList[currentIndex];
-  if (!id) {
-    modalImg.src = "";
-    modalCaption.textContent = "";
-    // 썸네일 active 정리
-    Array.from(modalThumbs.querySelectorAll("img")).forEach(img => img.classList.remove("active"));
+function scrollToGalleryId(id){
+  const target = $(`.gItem[data-id="${id}"]`, galleryEl);
+  if(!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  setActiveThumb(id, { smooth: true });
+}
+
+function setActiveThumb(id, {smooth=false} = {}){
+  if(activeId === id) return;
+  activeId = id;
+
+  $$(".thumbBtn", thumbRailEl).forEach(b => {
+    b.classList.toggle("active", b.dataset.target === id);
+  });
+
+  const btn = $(`.thumbBtn[data-target="${id}"]`, thumbRailEl);
+  if(btn){
+    btn.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
+  }
+}
+
+/* =========================
+  라이트박스
+========================= */
+function openLightbox(src, alt=""){
+  // 모바일/데스크탑 공통: 검정 90% + 살짝 떠있는 느낌
+  lightboxImg.src = src;
+  lightboxImg.alt = alt;
+  lightboxEl.classList.add("show");
+  lightboxEl.setAttribute("aria-hidden", "false");
+}
+function closeLightbox(){
+  if(!lightboxEl.classList.contains("show")) return;
+  lightboxEl.classList.remove("show");
+  lightboxEl.setAttribute("aria-hidden", "true");
+}
+document.addEventListener("click", (e) => {
+  const action = e.target?.dataset?.action;
+  if(action === "closeLightbox") closeLightbox();
+});
+
+/* =========================
+  카테고리 뷰어(Editorial/Personal)
+========================= */
+function openCategoryViewer(cat){
+  currentViewerList = (cat === "editorial") ? EDITORIAL_ORDER : PERSONAL_ORDER;
+  viewerIndex = 0;
+
+  // 첫 파일로 연결
+  showViewerAt(0);
+
+  // 썸네일 슬라이더 생성
+  viewerThumbs.innerHTML = "";
+  currentViewerList.forEach((id, idx) => {
+    const b = document.createElement("button");
+    b.className = "vThumb";
+    b.type = "button";
+    b.dataset.idx = String(idx);
+
+    const im = document.createElement("img");
+    im.src = thumbSrc(id);
+    im.alt = `thumb ${id}`;
+    b.appendChild(im);
+
+    b.addEventListener("click", () => showViewerAt(idx, {syncThumb:true}));
+    viewerThumbs.appendChild(b);
+  });
+
+  viewerEl.classList.add("show");
+  viewerEl.setAttribute("aria-hidden", "false");
+  syncViewerThumb();
+}
+
+function showViewerAt(idx, opts = {}){
+  viewerIndex = (idx + currentViewerList.length) % currentViewerList.length;
+  const id = currentViewerList[viewerIndex];
+
+  viewerImg.src = imgSrc(id);
+  viewerImg.alt = CAPTIONS[id] || id;
+  viewerCaption.textContent = CAPTIONS[id] || "";
+
+  syncViewerThumb();
+
+  // “마지막 페이지까지 끝나고 아무곳이나 클릭시 꺼짐” 규칙은 comics book에만 적용
+  // editorial/personal은 그냥 순환 이동
+}
+
+function syncViewerThumb(){
+  $$(".vThumb", viewerThumbs).forEach(b => {
+    b.classList.toggle("active", Number(b.dataset.idx) === viewerIndex);
+  });
+  const active = $(`.vThumb[data-idx="${viewerIndex}"]`, viewerThumbs);
+  if(active){
+    active.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }
+}
+
+function closeViewer(){
+  if(!viewerEl.classList.contains("show")) return;
+  viewerEl.classList.remove("show");
+  viewerEl.setAttribute("aria-hidden", "true");
+}
+
+function prevViewer(){ showViewerAt(viewerIndex - 1); }
+function nextViewer(){ showViewerAt(viewerIndex + 1); }
+
+/* =========================
+  Comics 페이지(영역 교체) + 책 넘김 뷰어
+========================= */
+function openComicsPage(){
+  // 갤러리/썸네일 영역은 숨기고 comicsPage 표시
+  $("#gallery").style.display = "none";
+  $(".right").style.display = "none";
+  comicsPageEl.classList.add("show");
+  comicsPageEl.setAttribute("aria-hidden", "false");
+
+  renderComicsList();
+}
+
+function goHome(){
+  comicsPageEl.classList.remove("show");
+  comicsPageEl.setAttribute("aria-hidden", "true");
+
+  $("#gallery").style.display = "";
+  $(".right").style.display = "";
+  // top으로
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderComicsList(){
+  comicsListEl.innerHTML = "";
+
+  for(const coverId of COMICS_COVERS){
+    const wrap = document.createElement("div");
+    wrap.className = "comicsItem";
+
+    const img = document.createElement("img");
+    img.src = imgSrc(coverId);
+    img.alt = coverId;
+    img.loading = "lazy";
+
+    img.addEventListener("click", () => {
+      // 표지 클릭 -> 책 뷰어 (c1이면 c2~c7 ...)
+      const book = COMICS_BOOKS.find(b => b.cover === coverId);
+      if(!book) return;
+      openBookViewer(book.pages);
+    });
+
+    wrap.appendChild(img);
+    comicsListEl.appendChild(wrap);
+  }
+}
+
+function openBookViewer(pages){
+  currentBookPages = pages.slice();
+  bookIndex = 0;
+  bookEl.classList.add("show");
+  bookEl.setAttribute("aria-hidden", "false");
+  showBookAt(0);
+}
+
+function showBookAt(idx){
+  // 마지막 페이지 넘긴 뒤(=끝) 아무곳이나 클릭 시 꺼짐 규칙:
+  // 여기서는 “마지막 페이지에서 nextBook 실행되면 닫힘”으로 처리 + backdrop 클릭도 닫힘
+  if(idx < 0) idx = 0;
+  if(idx >= currentBookPages.length){
+    closeBook();
     return;
   }
+  bookIndex = idx;
+  const id = currentBookPages[bookIndex];
+  bookImg.src = imgSrc(id);
+  bookImg.alt = id;
+}
 
-  modalImg.src = `images/${id}.jpg`;
-  modalCaption.textContent = captionForModal(id, type);
+function prevBook(){
+  showBookAt(bookIndex - 1);
+}
+function nextBook(){
+  showBookAt(bookIndex + 1);
+}
+function closeBook(){
+  if(!bookEl.classList.contains("show")) return;
+  bookEl.classList.remove("show");
+  bookEl.setAttribute("aria-hidden", "true");
+}
 
-  // active 표시
-  const thumbs = Array.from(modalThumbs.querySelectorAll("img"));
-  thumbs.forEach(img => img.classList.remove("active"));
-  if (thumbs[currentIndex]) thumbs[currentIndex].classList.add("active");
+/* =========================
+  Me 팝업 + 투명버튼 좌표(픽셀 기반 -> 비율로 변환)
+========================= */
+function openMe(){
+  meModalEl.classList.add("show");
+  meModalEl.setAttribute("aria-hidden", "false");
+  applyMeHitAreas();
+}
+function closeMe(){
+  if(!meModalEl.classList.contains("show")) return;
+  meModalEl.classList.remove("show");
+  meModalEl.setAttribute("aria-hidden", "true");
+}
 
-  // 현재 썸네일이 보이게 스크롤(가로)
-  const active = thumbs[currentIndex];
-  if (active) {
-    const left = active.offsetLeft - (modalThumbs.clientWidth / 2) + (active.clientWidth / 2);
-    modalThumbs.scrollTo({ left, behavior:"smooth" });
+/* 제공된 w/h/x/y는 “이미지(700x1983) 기준” 좌표로 해석해서 %로 세팅 */
+function applyMeHitAreas(){
+  const baseW = 700;
+  const baseH = 1983;
+
+  // 요구 좌표(픽셀처럼 보이지만 소수점 포함) → 비율 처리
+  const hits = [
+    { sel: ".me-hit.insta",   x: 13.7, y: 65.4, w: 158, h: 158 },
+    { sel: ".me-hit.itsnice", x: 29.2, y: 65.4, w: 158, h: 158 },
+    { sel: ".me-hit.behance", x: 45.4, y: 65.4, w: 158, h: 158 },
+    { sel: ".me-hit.emailCopy", x: 28.6, y: 54.9, w: 538, h: 57 }
+  ];
+
+  // x,y 값이 “%”인지 “px”인지 애매하지만,
+  // w/h가 158/538처럼 픽셀 크기로 명확해서,
+  // x,y는 “이미지 폭 대비 % 위치”로 주어진 것으로 보고 처리:
+  // left = x%, top = y%, width = (w/baseW)*100%, height=(h/baseH)*100%
+  hits.forEach(h => {
+    const el = $(h.sel, meModalEl);
+    if(!el) return;
+
+    el.style.left = `${h.x}%`;
+    el.style.top  = `${h.y}%`;
+    el.style.width  = `${(h.w / baseW) * 100}%`;
+    el.style.height = `${(h.h / baseH) * 100}%`;
+  });
+}
+
+/* =========================
+  Mobile hamburger menu
+========================= */
+function openMobileMenu(){
+  mobileMenuEl.classList.add("show");
+  mobileMenuEl.setAttribute("aria-hidden", "false");
+}
+function closeMobileMenu(){
+  if(!mobileMenuEl.classList.contains("show")) return;
+  mobileMenuEl.classList.remove("show");
+  mobileMenuEl.setAttribute("aria-hidden", "true");
+}
+hamburgerEl.addEventListener("click", openMobileMenu);
+
+// 모바일 메뉴: 바깥 클릭하면 닫기
+mobileMenuEl.addEventListener("click", (e) => {
+  if(e.target === mobileMenuEl) closeMobileMenu();
+  // 배경(::before) 때문에 target이 카드 밖인지 체크
+  const card = $(".mobileMenu-card", mobileMenuEl);
+  if(card && !card.contains(e.target)) closeMobileMenu();
+});
+
+function renderMobileComicsCovers(){
+  mobileComicsListEl.innerHTML = "";
+  COMICS_COVERS.forEach(id => {
+    const img = document.createElement("img");
+    img.src = imgSrc(id);
+    img.alt = id;
+    img.loading = "lazy";
+    img.addEventListener("click", () => {
+      // 모바일 요구: 뷰어 없이 리스트만 -> 터치하면 닫힘
+      closeMobileMenu();
+    });
+    mobileComicsListEl.appendChild(img);
+  });
+}
+
+/* =========================
+  토스트
+========================= */
+let toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1200);
+}
+
+/* =========================
+  이메일 복사
+========================= */
+async function copyEmail(){
+  const email = "mybrowncat53@gmail.com";
+  try{
+    await navigator.clipboard.writeText(email);
+    toast("Copied");
+  }catch{
+    // fallback
+    const ta = document.createElement("textarea");
+    ta.value = email;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    toast("Copied");
   }
 }
 
-function openCategoryModal(type){
-  renderCategoryModal(type);
-  modal.style.display = "block";
-  modal.setAttribute("aria-hidden", "false");
-}
-
-function closeCategoryModal(){
-  modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
-  modalImg.src = "";
-  modalCaption.textContent = "";
-  modalThumbs.innerHTML = "";
-  currentList = [];
-  currentIndex = 0;
-}
-
-document.querySelectorAll(".cat[data-open]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    openCategoryModal(btn.dataset.open);
-  });
-});
-
-modalClose.addEventListener("click", () => closeCategoryModal());
-
-// 배경 클릭 닫기(안쪽 클릭은 유지)
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) closeCategoryModal();
-});
-
-// 좌우 이동
-function modalPrevNext(dir){
-  if (!currentList.length) return;
-  currentIndex += dir;
-  if (currentIndex < 0) currentIndex = 0;
-  if (currentIndex >= currentList.length) currentIndex = currentList.length - 1;
-
-  // type 추정: 첫 글자
-  const type = currentList[0][0].toLowerCase();
-  updateModalMain(type);
-}
-
-modalPrev.addEventListener("click", () => modalPrevNext(-1));
-modalNext.addEventListener("click", () => modalPrevNext(+1));
-
 /* =========================
-Home 버튼: 맨 위로 이동 + 모달 닫기
+  이벤트 위임(버튼 data-action)
 ========================= */
-document.querySelector(".home-link").addEventListener("click", (e) => {
-  e.preventDefault();
-  closeCategoryModal();
-  closeLightbox();
-  window.scrollTo({ top:0, behavior:"smooth" });
+document.addEventListener("click", (e) => {
+  const action = e.target?.dataset?.action;
+  if(!action) return;
+
+  if(action === "goHome") goHome();
+
+  if(action === "openCategory"){
+    const cat = e.target.dataset.cat || e.target.closest("[data-cat]")?.dataset?.cat;
+    if(cat === "editorial") openCategoryViewer("editorial");
+    if(cat === "personal") openCategoryViewer("personal");
+  }
+
+  if(action === "openComicsPage") openComicsPage();
+
+  if(action === "closeViewer") closeViewer();
+  if(action === "prevViewer") prevViewer();
+  if(action === "nextViewer") nextViewer();
+
+  if(action === "closeBook") closeBook();
+  if(action === "prevBook") prevBook();
+  if(action === "nextBook") nextBook();
+
+  if(action === "openMe") openMe();
+  if(action === "closeMe") closeMe();
+
+  if(action === "copyEmail") copyEmail();
+
+  if(action === "closeMobileMenu") closeMobileMenu();
+});
+
+/* 배경 클릭으로 닫기 */
+viewerEl.addEventListener("click", (e) => {
+  if(e.target.classList.contains("viewer-backdrop")) closeViewer();
+});
+bookEl.addEventListener("click", (e) => {
+  if(e.target.classList.contains("book-backdrop")) closeBook();
+});
+meModalEl.addEventListener("click", (e) => {
+  if(e.target.classList.contains("me-backdrop")) closeMe();
 });
 
 /* =========================
-모바일 햄버거
+  초기 실행
 ========================= */
+renderGallery();
+renderThumbRail();
+renderMobileComicsCovers();
 
-ham.addEventListener("click", () => {
-  mobileMe.style.display = "block";
-  mobileMe.setAttribute("aria-hidden", "false");
-});
-
-mobileMe.addEventListener("click", () => {
-  mobileMe.style.display = "none";
-  mobileMe.setAttribute("aria-hidden", "true");
-});
+/* =========================
+  자체 점검(중요한 구현 선택)
+  - Personal works 이미지 폭을 “9000px”로 고정하면
+    대부분 화면에서 불가능/역효과라서, viewer는 900px 기준으로 맞춤.
+    (원본 해상도는 파일 자체가 크면 그대로 선명하게 보임)
+  - “우클릭 다운로드 완전 차단”은 웹 특성상 100% 불가능하지만,
+    contextmenu/dragstart 차단 + 라이트박스/뷰어 구조로 기본 다운로드를 어렵게 만들었음.
+========================= */
