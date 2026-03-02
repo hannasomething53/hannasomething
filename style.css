@@ -1,27 +1,25 @@
 :root{
   --bg: #fffff4;
-  --text: #111;
-  --muted: rgba(0,0,0,.55);
+  --txt: #111;
 
-  /* 요구 여백(기본값) */
-  --gap-cat: 30px;
-  --gap-gallery: 100px;
-  --gap-thumb: 100px;
-
-  /* 반응형 스케일(브라우저가 작아지면 비율로 함께 줄어듦) */
+  /* “기본” 간격(줄어드는 비율 포함) */
   --scale: clamp(.72, 1vw + .55, 1);
 
-  --cat-font: clamp(16px, calc(22px * var(--scale)), 22px);
-  --cap-font: clamp(16px, calc(20px * var(--scale)), 20px);
-  --email-font: clamp(14px, calc(18px * var(--scale)), 18px);
+  --gapCat: clamp(18px, calc(30px * var(--scale)), 30px);
+  --gapMid: clamp(60px, calc(100px * var(--scale)), 100px);
+  --gapThumb: clamp(60px, calc(100px * var(--scale)), 100px);
 
-  --thumb-w: clamp(92px, calc(130px * var(--scale)), 130px);
-  --thumb-gap: clamp(28px, calc(50px * var(--scale)), 50px);
+  --edge: clamp(5px, 1vw, 10px);
 
-  --gallery-max: 1000px; /* 갤러리 기본 폭 */
-  --gallery-top: 50px;
+  --fontCat: clamp(16px, calc(22px * var(--scale)), 22px);
+  --fontEmail: clamp(14px, calc(18px * var(--scale)), 18px);
+  --fontCap: clamp(16px, calc(20px * var(--scale)), 20px);
 
-  --safe-edge: clamp(5px, 1vw, 10px);
+  --thumbW: clamp(92px, calc(130px * var(--scale)), 130px);
+  --thumbGap: clamp(28px, calc(50px * var(--scale)), 50px);
+
+  --galleryMax: 1000px;
+  --topPad: 50px;
 }
 
 *{ box-sizing:border-box; }
@@ -29,77 +27,54 @@ html, body{ height:100%; }
 body{
   margin:0;
   background: var(--bg);
-  color: var(--text);
+  color: var(--txt);
   font-family: "Jost", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   overflow-x:hidden;
 
-  /* 기본 커서 */
   cursor: url("mouse.png") 2 2, auto;
 }
-
-/* 클릭 가능한 영역 커서 */
-a, button, [role="button"], .clickable{
+a, button, [data-act]{
   cursor: url("clickhand.png") 2 2, pointer;
 }
-
 img{ display:block; user-select:none; -webkit-user-drag:none; }
 button{
-  font-family: inherit;
-  background: transparent;
-  border: 0;
+  border:0;
+  background:transparent;
   padding:0;
-  color: inherit;
+  color:inherit;
+  font:inherit;
 }
 
-.shell{
+/* 3열 구조 */
+.wrap{
   min-height:100vh;
   display:grid;
-  grid-template-columns:
-    minmax(190px, 320px)
-    minmax(320px, 1fr)
-    minmax(190px, 320px);
-  column-gap: 0;
-  align-items:start;
-
-  /* 브라우저 작아져도 양끝 5~10px 유지 */
-  padding-left: var(--safe-edge);
-  padding-right: var(--safe-edge);
+  grid-template-columns: minmax(190px, 320px) minmax(320px, 1fr) minmax(190px, 320px);
+  padding-left: var(--edge);
+  padding-right: var(--edge);
 }
 
-/* ========== LEFT (카테고리) ========== */
-.left{
+/* LEFT */
+.col-left{
   position: sticky;
-  top: 0;
+  top:0;
   height:100vh;
-  padding-top: 0;
-  display:flex;
-  align-items:flex-start;
 }
-.left-inner{
-  width:100%;
-  padding-left: var(--safe-edge);
-  padding-right: var(--gap-cat);
-  padding-top: 0;
+.cat-fixed{
+  height:100%;
+  padding-left: var(--edge);
+  padding-right: var(--gapCat); /* 카테고리와 갤러리 사이 30px */
 }
+.cat-spacer{ height: 250px; }
 
-.left-homeRow{
-  /* ong.png(=one.png)와 Editorial illust 사이 중간에 home.png를 올린다는 요구는
-     “카테고리 상단부(목록 위)”에 홈을 올려둔 형태로 반영 */
-  height: 250px; /* 폰트 시작점(상단에서 250px 아래) 확보 */
-  display:flex;
-  align-items:flex-end;
-}
-.homeBtn{
+.homebtn{
   width: clamp(26px, calc(34px * var(--scale)), 34px);
   height: clamp(26px, calc(34px * var(--scale)), 34px);
   display:grid;
   place-items:center;
+  margin-bottom: clamp(14px, calc(18px * var(--scale)), 18px);
 }
-.homeBtn img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
+.homebtn img{ width:100%; height:100%; object-fit:contain; }
 
 .cat{
   display:flex;
@@ -107,139 +82,118 @@ button{
   gap: clamp(10px, calc(14px * var(--scale)), 14px);
   align-items:flex-start;
 }
-
-.catItem{
+.catrow{
   display:flex;
   align-items:center;
   gap: clamp(8px, calc(10px * var(--scale)), 10px);
-  font-size: var(--cat-font);
+  text-align:left;
+  font-size: var(--fontCat);
   font-weight: 400;
   line-height: 1.15;
-  text-align:left;
 }
-.catItem.email{
-  font-size: var(--email-font);
-  margin-top: clamp(8px, calc(10px * var(--scale)), 10px);
+.catrow.email{
+  font-size: var(--fontEmail);
+  margin-top: clamp(6px, calc(10px * var(--scale)), 10px);
 }
-
-.catBullet{
+.bullet{
   width: clamp(14px, calc(18px * var(--scale)), 18px);
   height: clamp(14px, calc(18px * var(--scale)), 18px);
   object-fit:contain;
   flex: 0 0 auto;
 }
-.catText{ display:inline-block; }
-.nowrap{ white-space: nowrap; }
+.nowrap{ white-space:nowrap; }
 
-.catIcons{
+.caticons{
   margin-top: clamp(10px, calc(14px * var(--scale)), 14px);
   display:flex;
   gap: 10px;
   align-items:center;
 }
-.iconLink img{
+.iconlink img{
   width: clamp(40px, calc(55px * var(--scale)), 55px);
-  height: auto;
-  object-fit:contain;
+  height:auto;
 }
 
-/* 카테고리의 가장 긴 이메일이 갤러리와 딱 붙지 않게: 센터에 여백을 강제 */
-.center{
-  padding-left: var(--gap-gallery);
-  padding-right: var(--gap-thumb);
+/* MID */
+.col-mid{
+  padding-left: var(--gapMid);   /* 갤러리 앞(좌측) 100px */
+  padding-right: var(--gapThumb);/* 갤러리-썸네일 100px */
 }
-
-/* ========== CENTER (갤러리) ========== */
 .gallery{
-  margin-top: var(--gallery-top);
-  max-width: var(--gallery-max);
+  margin-top: var(--topPad);
+  max-width: var(--galleryMax);
   margin-left:auto;
   margin-right:auto;
   display:flex;
   flex-direction:column;
   gap: clamp(26px, calc(40px * var(--scale)), 40px);
 }
-
-.gItem{
-  width:100%;
+.g-block{
   opacity: 0;
   transform: translateY(24px);
   transition: opacity .6s ease, transform .6s ease;
 }
-.gItem.in{
+.g-block.in{
   opacity: 1;
   transform: translateY(0);
 }
-.gCap{
-  font-size: var(--cap-font);
+.g-cap{
+  font-size: var(--fontCap);
   font-weight: 400;
-  margin: 0 0 0 0;
-  padding: 0;
   line-height: 1.2;
+  margin: 0;
 }
-.gImg{
-  margin-top: 0; /* 캡션에 딱 붙게 */
+.g-img{
   width:100%;
   height:auto;
+  margin-top: 0; /* 캡션에 딱 붙게 */
 }
 
-/* ========== RIGHT (썸네일) ========== */
-.right{
+/* RIGHT */
+.col-right{
   position: sticky;
-  top: 0;
+  top:0;
   height:100vh;
-  padding-top: var(--gallery-top);
-  padding-right: var(--safe-edge);
-  padding-left: 0;
+  padding-top: var(--topPad);
+  padding-right: var(--edge);
 }
-
 .thumbRail{
-  height: calc(100vh - var(--gallery-top));
-  overflow-y: auto;
-  padding-left: 0;
-  padding-right: var(--safe-edge);
-
+  height: calc(100vh - var(--topPad));
+  overflow-y:auto;
   display:flex;
   flex-direction:column;
-  gap: var(--thumb-gap);
-
-  scrollbar-width: none; /* Firefox */
+  gap: var(--thumbGap);
+  scrollbar-width:none;
 }
-.thumbRail::-webkit-scrollbar{ width: 0; height:0; }
+.thumbRail::-webkit-scrollbar{ width:0; height:0; }
 
-.thumbBtn{
-  width: var(--thumb-w);
-  border: 0;
-  background: transparent;
-  padding:0;
+.th-btn{
+  width: var(--thumbW);
   opacity: 1;
   transition: opacity .2s ease;
 }
-.thumbBtn:hover{ opacity: .7; } /* 30% 낮아짐 */
-.thumbBtn.active{
+.th-btn:hover{ opacity:.7; }
+.th-btn.on{
   outline: 2px solid rgba(0,0,0,.25);
   outline-offset: 6px;
   border-radius: 2px;
 }
-.thumbBtn img{
-  width:100%;
-  height:auto;
-}
+.th-btn img{ width:100%; height:auto; }
 
-/* ========== LIGHTBOX (갤러리 확대) ========== */
-.lightbox{
+/* Lightbox */
+.lb{
   position: fixed;
-  inset: 0;
+  inset:0;
   display:none;
   z-index: 9000;
 }
-.lightbox.show{ display:block; }
-.lightbox-backdrop{
+.lb.on{ display:block; }
+.lb-bg{
   position:absolute;
   inset:0;
   background: rgba(0,0,0,.90);
 }
-.lightbox-img{
+.lb-img{
   position:absolute;
   left:50%;
   top:50%;
@@ -251,140 +205,122 @@ button{
   box-shadow: 0 12px 40px rgba(0,0,0,.35);
 }
 
-/* ========== VIEWER (Editorial/Personal) ========== */
+/* Viewer (ffff4 95%) */
 .viewer{
   position: fixed;
   inset:0;
   display:none;
   z-index: 9100;
 }
-.viewer.show{ display:block; }
-.viewer-backdrop{
+.viewer.on{ display:block; }
+.viewer-bg{
   position:absolute;
   inset:0;
   background: rgba(255,255,244,.95);
 }
-.viewer-ui{
-  position:absolute;
-  inset:0;
-}
-.viewer-close{
+.v-x{
   position: fixed;
   top: 18px;
   right: 18px;
   font-size: 42px;
-  line-height: 1;
-  color: #000;
-  z-index: 4;
+  line-height:1;
+  z-index:4;
 }
-.viewer-arrow{
+.v-arrow{
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
   width: 60px;
   height: 80px;
   font-size: 60px;
-  line-height: 1;
-  color:#000;
+  line-height:1;
   opacity:.9;
-  z-index: 4;
+  z-index:4;
 }
-.viewer-arrow.left{ left: 18px; }
-.viewer-arrow.right{ right: 18px; }
+.v-arrow.left{ left: 18px; }
+.v-arrow.right{ right: 18px; }
 
-.viewer-zone{
+.v-zone{
   position: fixed;
-  top: 0;
-  bottom: 0;
+  top:0;
+  bottom:0;
   width: 25vw;
-  z-index: 3;
+  z-index:3;
 }
-.viewer-zone.left{ left: 0; }
-.viewer-zone.right{ right: 0; }
+.v-zone.left{ left:0; }
+.v-zone.right{ right:0; }
 
-.viewer-stage{
+.v-stage{
   position:absolute;
   left:50%;
   top: 70px;
   transform: translateX(-50%);
-  width: min(900px, calc(100vw - 80px));
-  padding-bottom: 140px; /* 하단 썸네일/캡션 여유 */
+  width: min(900px, calc(100vw - 80px)); /* 900px */
+  padding-bottom: 140px; /* 썸네일 + 여유 */
 }
-.viewer-img{
-  width: 100%;
-  height: auto;
-  display:block;
-}
-.viewer-caption{
-  font-size: 20px;
+.v-img{ width:100%; height:auto; }
+.v-cap{
+  font-size: var(--fontCap);
   font-weight: 400;
   margin-top: 0; /* 이미지 하단에 딱 붙게 */
   line-height: 1.2;
 }
 
-.viewer-thumbsWrap{
+.v-thWrap{
   position: fixed;
-  left: 0;
-  right: 0;
+  left:0;
+  right:0;
   bottom: 15px;
   height: 100px;
-  pointer-events: none; /* wrap은 클릭 막고 내부만 허용 */
-  z-index: 5;
+  z-index:5;
+  pointer-events:none;
 }
-.viewer-thumbs{
-  pointer-events: auto;
-  height: 100%;
-  margin-left: 80px; /* 왼쪽 80px 여백 */
+.v-th{
+  pointer-events:auto;
+  height:100%;
+  margin-left: 80px; /* 왼쪽 80px */
   display:flex;
   align-items:center;
   gap: 50px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow-x:auto;
+  overflow-y:hidden;
   padding-right: 40px;
-  scrollbar-width: none;
+  scrollbar-width:none;
 }
-.viewer-thumbs::-webkit-scrollbar{ width:0; height:0; }
-.vThumb{
-  width: 100px;
-  height: 100px;
+.v-th::-webkit-scrollbar{ width:0; height:0; }
+
+.vt-btn{
+  width:100px;
+  height:100px;
   flex: 0 0 auto;
-  opacity: 1;
+  opacity:1;
   transition: opacity .2s ease;
-  background: transparent;
 }
-.vThumb:hover{ opacity: .7; }
-.vThumb img{
-  width:100%;
-  height:100%;
-  object-fit: cover;
-}
-.vThumb.active{
+.vt-btn:hover{ opacity:.7; }
+.vt-btn.on{
   outline: 2px solid rgba(0,0,0,.25);
   outline-offset: 6px;
   border-radius: 2px;
 }
+.vt-btn img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-/* ========== Comics page (영역 교체) ========== */
+/* Comics page (center/right 교체 느낌: gallery 숨기고 comicsPage 보여줌) */
 .comicsPage{
   display:none;
-  position: relative;
-  padding-top: var(--gallery-top);
-  padding-left: var(--gap-gallery);
-  padding-right: var(--gap-thumb);
-}
-.comicsPage.show{ display:block; }
-.comicsTopPad{ height: 0; }
-
-.comicsList{
-  max-width: var(--gallery-max);
+  margin-top: var(--topPad);
+  max-width: var(--galleryMax);
   margin-left:auto;
   margin-right:auto;
+}
+.comicsPage.on{ display:block; }
+.comicsList{
   display:flex;
   flex-direction:column;
   gap: 50px;
-}
-.comicsItem{
-  width:100%;
 }
 .comicsItem img{
   width: min(1000px, 100%);
@@ -392,79 +328,74 @@ button{
   height:auto;
 }
 
-/* ========== Book viewer (Comics slide) ========== */
+/* Book (black 90%, 1000px) */
 .book{
   position: fixed;
   inset:0;
   display:none;
   z-index: 9200;
 }
-.book.show{ display:block; }
-.book-backdrop{
+.book.on{ display:block; }
+.book-bg{
   position:absolute;
   inset:0;
   background: rgba(0,0,0,.90);
 }
-.book-ui{
-  position:absolute;
-  inset:0;
-}
-.book-close{
+.b-x{
   position: fixed;
   top: 18px;
   right: 18px;
   font-size: 42px;
-  line-height: 1;
-  color: #fff;
-  z-index: 4;
+  line-height:1;
+  color:#fff;
+  z-index:4;
 }
-.book-arrow{
+.b-arrow{
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
   width: 60px;
   height: 80px;
   font-size: 60px;
-  line-height: 1;
+  line-height:1;
   color:#fff;
-  opacity:.95;
-  z-index: 4;
+  z-index:4;
 }
-.book-arrow.left{ left: 18px; }
-.book-arrow.right{ right: 18px; }
+.b-arrow.left{ left: 18px; }
+.b-arrow.right{ right: 18px; }
 
-.book-zone{
+.b-zone{
   position: fixed;
-  top: 0;
-  bottom: 0;
+  top:0;
+  bottom:0;
   width: 30vw;
-  z-index: 3;
+  z-index:3;
 }
-.book-zone.left{ left: 0; }
-.book-zone.right{ right: 0; }
+.b-zone.left{ left:0; }
+.b-zone.right{ right:0; }
 
-.book-stage{
+.b-stage{
   position:absolute;
   left:50%;
   top:50%;
   transform: translate(-50%, -50%);
   width: min(1000px, calc(100vw - 80px));
 }
-.book-img{
+.b-img{
   width:100%;
   height:auto;
   box-shadow: 0 12px 40px rgba(0,0,0,.35);
 }
 
-/* ========== Me modal ========== */
-.meModal{
+/* Me modal */
+.me{
   position: fixed;
-  inset: 0;
+  inset:0;
   display:none;
   z-index: 9300;
 }
-.meModal.show{ display:block; }
-.me-backdrop{
+.me.on{ display:block; }
+.me-bg{
   position:absolute;
   inset:0;
   background: rgba(0,0,0,.90);
@@ -476,64 +407,54 @@ button{
   transform: translate(-50%, -50%);
   width: min(700px, calc(100vw - 40px));
   max-height: calc(100vh - 40px);
-  background: transparent;
 }
-.me-close{
+.me-x{
   position:absolute;
   top: -10px;
   right: -10px;
   font-size: 42px;
-  line-height: 1;
-  color: #fff;
+  line-height:1;
+  color:#fff;
 }
 .me-scroll{
   max-height: calc(100vh - 40px);
-  overflow-y: auto; /* 오른쪽 스크롤바 있음 */
+  overflow-y:auto; /* 오른쪽 스크롤바 */
 }
 .me-stage{
   position: relative;
-  width: 700px; /* 기준 좌표용 */
+  width: 700px; /* 기준 크기 */
   max-width: 100%;
 }
-.me-stage img{
-  width:100%;
-  height:auto;
-}
+.me-stage img{ width:100%; height:auto; }
 
-/* 좌표: w/h/x/y = % 기반 */
-.me-hit{
+/* 투명 클릭 영역 */
+.hit{
   position:absolute;
-  background: rgba(255,255,255,0); /* 투명 */
+  background: rgba(255,255,255,0);
   border:0;
   padding:0;
 }
-.me-hit.insta{ left: 13.7%; top: 65.4%; width: 158%; height: 158%; } /* 아래 JS에서 즉시 보정 */
-.me-hit.behance{ left: 45.4%; top: 65.4%; width: 158%; height: 158%; }
-.me-hit.itsnice{ left: 29.2%; top: 65.4%; width: 158%; height: 158%; }
-.me-hit.emailCopy{ left: 28.6%; top: 54.9%; width: 538%; height: 57%; }
 
-/* 위처럼 %가 그대로면 너무 커지므로, 실제 값은 JS에서 “이미지 기준 비율”로 재설정 */
-
-/* ========== Toast ========== */
+/* toast */
 .toast{
   position: fixed;
-  left: 50%;
+  left:50%;
   bottom: 24px;
   transform: translateX(-50%);
   background: rgba(0,0,0,.75);
-  color: #fff;
+  color:#fff;
   padding: 10px 14px;
   border-radius: 999px;
   font-size: 14px;
-  opacity: 0;
-  pointer-events:none;
+  opacity:0;
   transition: opacity .2s ease;
+  pointer-events:none;
   z-index: 99999;
 }
-.toast.show{ opacity: 1; }
+.toast.on{ opacity:1; }
 
-/* ========== Mobile rules ========== */
-.hamburger{
+/* Mobile */
+.m-ham{
   display:none;
   position: fixed;
   top: 12px;
@@ -542,97 +463,100 @@ button{
   height: 44px;
   z-index: 9500;
 }
-.hamburger span{
+.m-ham span{
   display:block;
   height: 2px;
-  background: #000;
+  background:#000;
   margin: 8px 10px;
 }
-
-.mobileMenu{
+.m-menu{
   display:none;
   position: fixed;
   inset:0;
   z-index: 9600;
 }
-.mobileMenu.show{ display:block; }
-.mobileMenu::before{
-  content:"";
+.m-menu.on{ display:block; }
+.m-menu-bg{
   position:absolute;
   inset:0;
   background: rgba(255,255,244,.95);
 }
-.mobileMenu-card{
+.m-menu-card{
   position:absolute;
   inset:0;
   padding: 18px;
 }
-.mobileMenu-top{
-  display:flex;
-  justify-content:flex-end;
-}
-.mobileMenu-close{
+.m-menu-x{
+  position:absolute;
+  top: 12px;
+  right: 12px;
   font-size: 42px;
-  line-height: 1;
+  line-height:1;
 }
-.mobileMenu-items{
-  margin-top: 10px;
+.m-menu-items{
+  margin-top: 60px;
   display:flex;
   flex-direction:column;
-  gap: 12px;
+  gap: 14px;
   font-size: 20px;
 }
-.mobileMenu-item{
+.m-item{
   text-align:left;
   font-size: 20px;
-  padding: 6px 0;
 }
-.mobileMenu-icons{
+.m-item.email{
+  font-size: 18px;
+}
+.m-icons{
   display:flex;
   gap: 12px;
   align-items:center;
 }
-.mobileMenu-divider{
+.m-icon img{
+  width: 55px;
+  height:auto;
+}
+.m-hr{
   height:1px;
   background: rgba(0,0,0,.15);
   margin: 8px 0;
 }
-.mobileMenu-subtitle{
+.m-sub{
   font-size: 18px;
-  color: rgba(0,0,0,.7);
+  color: rgba(0,0,0,.65);
 }
-.mobileComicsList{
+.m-comics{
   display:flex;
   flex-direction:column;
   gap: 14px;
 }
-.mobileComicsList img{
+.m-comics img{
   width: min(360px, 70vw);
   height:auto;
 }
-.mobileMenu-hint{
-  margin-top: 10px;
+.m-hint{
+  margin-top: 8px;
   font-size: 14px;
   color: rgba(0,0,0,.6);
 }
 
 @media (max-width: 900px){
-  /* 모바일에서는 썸네일/카테고리 숨기고 갤러리만 */
-  .shell{
+  /* 모바일: 카테고리/썸네일 없음, 갤러리만 + 라이트박스 */
+  .wrap{
     grid-template-columns: 1fr;
-    padding-left: var(--safe-edge);
-    padding-right: var(--safe-edge);
   }
-  .left, .right{ display:none; }
-  .center{
+  .col-left, .col-right{ display:none; }
+  .col-mid{
     padding-left: 0;
     padding-right: 0;
   }
   .gallery{
-    margin-top: 60px; /* 햄버거와 간섭 방지 */
-    padding-left: var(--safe-edge);
-    padding-right: var(--safe-edge);
+    padding-left: var(--edge);
+    padding-right: var(--edge);
+    margin-top: 60px;
   }
-  .hamburger{ display:block; }
-  .comicsPage{ padding-left: 0; padding-right: 0; }
+  .m-ham{ display:block; }
+
+  /* 모바일: comics 페이지는 “뷰어 없이 표지만” 요구 -> 메뉴에만 표시하고, 본문 전환은 숨김 */
+  .comicsPage{ display:none !important; }
 }
