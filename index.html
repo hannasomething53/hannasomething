@@ -5,101 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>hanna_something</title>
 
-  <!-- Favicon / App icon -->
+  <!-- tab icon -->
   <link rel="icon" href="home.png" />
   <link rel="apple-touch-icon" href="home.png" />
 
-  <!-- Social share (대표 이미지 = 갤러리 첫 이미지) -->
+  <!-- share 대표 이미지 = 갤러리 첫 이미지 -->
   <meta property="og:title" content="hanna_something" />
-  <meta property="og:image" content="e1.jpg" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="e1.jpeg" />
 
-  <!-- Font -->
+  <!-- font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+
   <!-- 모바일 햄버거 -->
-  <button id="hamburger" class="hamburger" aria-label="Open menu">
+  <button class="m-ham" id="mHam" aria-label="menu">
     <span></span><span></span><span></span>
   </button>
 
   <!-- 모바일 메뉴 오버레이 -->
-  <div id="mobileMenu" class="mobileMenu" aria-hidden="true">
-    <div class="mobileMenu-card" role="dialog" aria-modal="true">
-      <div class="mobileMenu-top">
-        <button class="mobileMenu-close" data-action="closeMobileMenu" aria-label="Close">×</button>
-      </div>
+  <div class="m-menu" id="mMenu" aria-hidden="true">
+    <div class="m-menu-bg" data-act="mClose"></div>
+    <div class="m-menu-card" role="dialog" aria-modal="true">
+      <button class="m-menu-x" data-act="mClose" aria-label="close">×</button>
 
-      <div class="mobileMenu-items">
-        <button class="mobileMenu-item" data-action="openMe">Me</button>
-        <button class="mobileMenu-item" data-action="copyEmail">mybrowncat53@gmail.com</button>
+      <div class="m-menu-items">
+        <button class="m-item" data-act="openMe">Me</button>
+        <button class="m-item email" data-act="copyEmail">mybrowncat53@gmail.com</button>
 
-        <div class="mobileMenu-icons">
-          <a class="iconLink" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
+        <div class="m-icons">
+          <a href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener" class="m-icon">
             <img src="linebeh.png" alt="Behance" />
           </a>
-          <a class="iconLink" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
+          <a href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener" class="m-icon">
             <img src="lineins.png" alt="Instagram" />
           </a>
         </div>
 
-        <div class="mobileMenu-divider"></div>
+        <div class="m-hr"></div>
 
-        <div class="mobileMenu-subtitle">Comics</div>
-        <!-- 모바일은 뷰어 없이 “간단 리스트(표지)”만 보여주고, 터치하면 닫히도록 -->
-        <div id="mobileComicsList" class="mobileComicsList"></div>
+        <div class="m-sub">Comics</div>
+        <div class="m-comics" id="mComics"></div>
 
-        <div class="mobileMenu-hint">Tap anywhere outside to close</div>
+        <div class="m-hint">Tap anywhere to close</div>
       </div>
     </div>
   </div>
 
-  <!-- 전체 레이아웃 -->
-  <div class="shell">
-    <!-- LEFT: 카테고리 -->
-    <aside class="left" aria-label="Categories">
-      <div class="left-inner">
-        <div class="left-homeRow">
-          <button class="homeBtn" data-action="goHome" aria-label="Home">
-            <img src="home.png" alt="home" />
-          </button>
-        </div>
+  <!-- 데스크탑 3열 -->
+  <div class="wrap">
 
-        <nav class="cat" aria-label="Main">
-          <button class="catItem" data-action="openCategory" data-cat="editorial">
-            <img class="catBullet" src="one.png" alt="" />
-            <span class="catText">Editorial illust</span>
-          </button>
+    <!-- LEFT: Category (sticky) -->
+    <aside class="col-left">
+      <div class="cat-fixed">
+        <!-- 250px 아래부터 시작 -->
+        <div class="cat-spacer"></div>
 
-          <button class="catItem" data-action="openCategory" data-cat="personal">
-            <img class="catBullet" src="one.png" alt="" />
-            <span class="catText nowrap">Personal works</span>
+        <!-- home 버튼 (one.png ~ Editorial 길이 중간 느낌으로 위쪽에 배치) -->
+        <button class="homebtn" data-act="goHome" aria-label="home">
+          <img src="home.png" alt="home" />
+        </button>
+
+        <nav class="cat">
+          <button class="catrow" data-act="openViewer" data-kind="editorial">
+            <img src="one.png" class="bullet" alt="" />
+            <span class="txt">Editorial illust</span>
           </button>
 
-          <button class="catItem" data-action="openComicsPage">
-            <img class="catBullet" src="one.png" alt="" />
-            <span class="catText">Comics</span>
+          <button class="catrow" data-act="openViewer" data-kind="personal">
+            <img src="one.png" class="bullet" alt="" />
+            <span class="txt nowrap">Personal works</span>
           </button>
 
-          <button class="catItem" data-action="openMe">
-            <img class="catBullet" src="one.png" alt="" />
-            <span class="catText">Me</span>
+          <button class="catrow" data-act="openComics">
+            <img src="one.png" class="bullet" alt="" />
+            <span class="txt">Comics</span>
           </button>
 
-          <button class="catItem email" data-action="copyEmail">
-            <span class="catText">mybrowncat53@gmail.com</span>
+          <button class="catrow" data-act="openMe">
+            <img src="one.png" class="bullet" alt="" />
+            <span class="txt">Me</span>
           </button>
 
-          <div class="catIcons">
-            <a class="iconLink" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
+          <button class="catrow email" data-act="copyEmail">
+            <span class="txt">mybrowncat53@gmail.com</span>
+          </button>
+
+          <div class="caticons">
+            <a class="iconlink" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
               <img src="linebeh.png" alt="Behance" />
             </a>
-            <a class="iconLink" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
+            <a class="iconlink" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
               <img src="lineins.png" alt="Instagram" />
             </a>
           </div>
@@ -107,93 +108,88 @@
       </div>
     </aside>
 
-    <!-- CENTER: 갤러리 -->
-    <main class="center" aria-label="Gallery">
-      <div id="gallery" class="gallery"></div>
+    <!-- CENTER: Gallery -->
+    <main class="col-mid">
+      <div class="gallery" id="gallery"></div>
+
+      <!-- Comics page(센터/오른쪽을 교체하는 영역) -->
+      <div class="comicsPage" id="comicsPage" aria-hidden="true">
+        <div class="comicsList" id="comicsList"></div>
+      </div>
     </main>
 
-    <!-- RIGHT: 썸네일 -->
-    <aside class="right" aria-label="Thumbnails">
-      <div id="thumbRail" class="thumbRail"></div>
+    <!-- RIGHT: Thumbnail rail -->
+    <aside class="col-right">
+      <div class="thumbRail" id="thumbRail"></div>
     </aside>
   </div>
 
-  <!-- 갤러리 라이트박스(전체 화면 확대) -->
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <div class="lightbox-backdrop" data-action="closeLightbox"></div>
-    <img id="lightboxImg" class="lightbox-img" alt="" />
+  <!-- Gallery Lightbox -->
+  <div class="lb" id="lb" aria-hidden="true">
+    <div class="lb-bg" data-act="lbClose"></div>
+    <img class="lb-img" id="lbImg" alt="" />
   </div>
 
-  <!-- 카테고리 뷰어(에디토리얼/퍼스널) -->
-  <div id="viewer" class="viewer" aria-hidden="true">
-    <div class="viewer-backdrop" data-action="closeViewer"></div>
+  <!-- Editorial/Personal Viewer -->
+  <div class="viewer" id="viewer" aria-hidden="true">
+    <div class="viewer-bg" data-act="vClose"></div>
 
-    <div class="viewer-ui">
-      <button class="viewer-close" data-action="closeViewer" aria-label="Close">×</button>
+    <button class="v-x" data-act="vClose" aria-label="close">×</button>
+    <button class="v-arrow left" data-act="vPrev" aria-label="prev">‹</button>
+    <button class="v-arrow right" data-act="vNext" aria-label="next">›</button>
 
-      <button class="viewer-arrow left" data-action="prevViewer" aria-label="Previous">‹</button>
-      <button class="viewer-arrow right" data-action="nextViewer" aria-label="Next">›</button>
+    <!-- 여백 클릭 이동 -->
+    <div class="v-zone left" data-act="vPrev" aria-hidden="true"></div>
+    <div class="v-zone right" data-act="vNext" aria-hidden="true"></div>
 
-      <!-- 좌/우 클릭 영역 (화살표 외 여백 클릭 이동) -->
-      <div class="viewer-zone left" data-action="prevViewer" aria-hidden="true"></div>
-      <div class="viewer-zone right" data-action="nextViewer" aria-hidden="true"></div>
+    <div class="v-stage">
+      <img class="v-img" id="vImg" alt="" />
+      <div class="v-cap" id="vCap"></div>
+    </div>
 
-      <div class="viewer-stage">
-        <img id="viewerImg" class="viewer-img" alt="" />
-        <div id="viewerCaption" class="viewer-caption"></div>
-      </div>
-
-      <div class="viewer-thumbsWrap" aria-label="Viewer thumbnails">
-        <div id="viewerThumbs" class="viewer-thumbs"></div>
-      </div>
+    <div class="v-thWrap">
+      <div class="v-th" id="vThumbs"></div>
     </div>
   </div>
 
-  <!-- Comics “페이지”(카테고리 고정 + 갤러리/썸네일 영역만 교체) -->
-  <div id="comicsPage" class="comicsPage" aria-hidden="true">
-    <div class="comicsTopPad"></div>
-    <div id="comicsList" class="comicsList"></div>
-  </div>
+  <!-- Comics Book viewer -->
+  <div class="book" id="book" aria-hidden="true">
+    <div class="book-bg" data-act="bClose"></div>
 
-  <!-- Comics 책 넘김 뷰어 -->
-  <div id="book" class="book" aria-hidden="true">
-    <div class="book-backdrop" data-action="closeBook"></div>
-    <div class="book-ui">
-      <button class="book-close" data-action="closeBook" aria-label="Close">×</button>
-      <button class="book-arrow left" data-action="prevBook" aria-label="Previous">‹</button>
-      <button class="book-arrow right" data-action="nextBook" aria-label="Next">›</button>
-      <div class="book-zone left" data-action="prevBook" aria-hidden="true"></div>
-      <div class="book-zone right" data-action="nextBook" aria-hidden="true"></div>
+    <button class="b-x" data-act="bClose" aria-label="close">×</button>
+    <button class="b-arrow left" data-act="bPrev" aria-label="prev">‹</button>
+    <button class="b-arrow right" data-act="bNext" aria-label="next">›</button>
 
-      <div class="book-stage">
-        <img id="bookImg" class="book-img" alt="" />
-      </div>
+    <div class="b-zone left" data-act="bPrev" aria-hidden="true"></div>
+    <div class="b-zone right" data-act="bNext" aria-hidden="true"></div>
+
+    <div class="b-stage">
+      <img class="b-img" id="bImg" alt="" />
     </div>
   </div>
 
-  <!-- Me 팝업 -->
-  <div id="meModal" class="meModal" aria-hidden="true">
-    <div class="me-backdrop" data-action="closeMe"></div>
+  <!-- Me modal -->
+  <div class="me" id="me" aria-hidden="true">
+    <div class="me-bg" data-act="meClose"></div>
 
     <div class="me-card" role="dialog" aria-modal="true">
-      <button class="me-close" data-action="closeMe" aria-label="Close">×</button>
+      <button class="me-x" data-act="meClose" aria-label="close">×</button>
 
       <div class="me-scroll">
-        <div class="me-stage">
-          <img id="meImg" src="memyme.jpeg" alt="Me" />
+        <div class="me-stage" id="meStage">
+          <img src="memyme.jpeg" id="meImg" alt="me" />
 
-          <!-- 투명 버튼들(좌표는 %로 처리) -->
-          <a class="me-hit insta" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener" aria-label="Instagram"></a>
-          <a class="me-hit behance" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener" aria-label="Behance"></a>
-          <a class="me-hit itsnice" href="https://www.itsnicethat.com/articles/hanna-something-illustration-020920" target="_blank" rel="noopener" aria-label="ItsNiceThat"></a>
-          <button class="me-hit emailCopy" data-action="copyEmail" aria-label="Copy email"></button>
+          <a class="hit insta" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener" aria-label="instagram"></a>
+          <a class="hit itsnice" href="https://www.itsnicethat.com/articles/hanna-something-illustration-020920" target="_blank" rel="noopener" aria-label="itsnicethat"></a>
+          <a class="hit behance" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener" aria-label="behance"></a>
+          <button class="hit emailcopy" data-act="copyEmail" aria-label="copy email"></button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 토스트 -->
-  <div id="toast" class="toast" aria-live="polite"></div>
+  <!-- toast -->
+  <div class="toast" id="toast" aria-live="polite"></div>
 
   <script src="script.js"></script>
 </body>
