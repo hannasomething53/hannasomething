@@ -1,12 +1,7 @@
 /* =========================
-ASSET 경로 (중요)
-- 너 폴더명이 images 이므로 여기만 맞추면 됨
+데이터 (추가/수정은 여기만)
 ========================= */
-const ASSET_DIR = "images/";
 
-/* =========================
-데이터(여기만 고치면 추가/관리 쉬움)
-========================= */
 const order = [
   "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
   "p28","p26","p27","p31","p29","p30","e9","e10",
@@ -42,417 +37,463 @@ const captions = {
   e20:"Minumsa Publishing Book Cover and Interior 2021",
   e21:"McSweeney's Interior Illustrations 2021",
   e22:"FFL Publishing mind graph magazine article. 2021",
-  e23:"Mimesis. The cover and illustrations for the novel  2018",
-  e24:"Mimesis. The cover and illustrations for the novel  2018",
+  e23:"Mimesis. The cover and illustrations for the novel 2018",
+  e24:"Mimesis. The cover and illustrations for the novel 2018",
   p32:"personal work",
   p33:"personal work",
   p34:"personal work"
 };
 
-/* =========================
-파일 경로 생성
-========================= */
-const imgSrc = (id) => `${ASSET_DIR}${id}.jpeg`;
+const editorialOrder = ["e1","e2","e3","e4","e5","e6","e7","e8","e13","e9","e10","e14","e15","e16","e17","e18","e19","e20","e21","e22","e23","e24"];
+const personalOrder  = ["p25","p28","p26","p27","p31","p29","p30","p32","p33","p34"];
 
-// e13 -> s13 / p25 -> s25
-function thumbIdFromWorkId(id){
-  const num = id.replace(/\D/g, "");
-  return `s${num}`;
-}
-const thumbSrc = (id) => `${ASSET_DIR}${thumbIdFromWorkId(id)}.jpeg`;
+/* Comics cover list (페이지에 일렬로 나열되는 큰 파일) */
+const comicsCovers = ["c1.png","c8.png","c15.png","c23.png"];
+
+/* 각 커버 클릭 시 넘겨볼 페이지들 */
+const comicsBooks = {
+  "c1.png":  Array.from({length:6}, (_,i)=>`c${i+2}.jpeg`),          // c2~c7
+  "c8.png":  Array.from({length:6}, (_,i)=>`c${i+9}.jpeg`),          // c9~c14
+  "c15.png": Array.from({length:7}, (_,i)=>`c${i+16}.jpeg`),         // c16~c22
+  "c23.png": Array.from({length:19},(_,i)=>`c${i+24}.jpeg`)          // c24~c42
+};
 
 /* =========================
 DOM
 ========================= */
-const galleryEl = document.getElementById("gallery");
-const thumbsEl  = document.getElementById("thumbs");
+const gallery = document.getElementById("gallery");
+const thumbsInner = document.getElementById("thumbsInner");
 
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
 
-const meModal = document.getElementById("meModal");
-const meStage = document.getElementById("meStage");
+const categoryModal = document.getElementById("categoryModal");
+const cmClose = document.getElementById("cmClose");
+const cmImg = document.getElementById("cmImg");
+const cmCaption = document.getElementById("cmCaption");
+const cmThumbs = document.getElementById("cmThumbs");
+const cmHitLeft = document.getElementById("cmHitLeft");
+const cmHitRight = document.getElementById("cmHitRight");
 
 const comicsModal = document.getElementById("comicsModal");
+const comicsClose = document.getElementById("comicsClose");
+const comicsList = document.getElementById("comicsList");
 
+const bookModal = document.getElementById("bookModal");
+const bookClose = document.getElementById("bookClose");
+const bookImg = document.getElementById("bookImg");
+const bookPrev = document.getElementById("bookPrev");
+const bookNext = document.getElementById("bookNext");
+
+const meModal = document.getElementById("meModal");
+const meClose = document.getElementById("meClose");
+const copyMail = document.getElementById("copyMail");
 const toast = document.getElementById("toast");
+
 const homeBtn = document.getElementById("homeBtn");
 
 const hamburger = document.getElementById("hamburger");
-const mobileMenu = document.getElementById("mobileMenu");
-const mobileComics = document.getElementById("mobileComics");
+const mobilePanel = document.getElementById("mobilePanel");
+const mobileComicsList = document.getElementById("mobileComicsList");
 
 /* =========================
 유틸
 ========================= */
-function showToast(msg){
-  toast.textContent = msg;
-  toast.classList.add("show");
-  window.clearTimeout(showToast._t);
-  showToast._t = window.setTimeout(()=>toast.classList.remove("show"), 1200);
+function imgPath(idOrFile){
+  // 갤러리/썸네일은 jpg / 코믹스는 png/jpeg 혼용
+  if (idOrFile.endsWith(".png") || idOrFile.endsWith(".jpeg") || idOrFile.endsWith(".jpg")) {
+    return `images/${idOrFile}`;
+  }
+  return `images/${idOrFile}.jpg`;
 }
 
-async function copyText(text){
-  try{
-    await navigator.clipboard.writeText(text);
-    showToast("Copied!");
-  }catch(e){
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    ta.remove();
-    showToast("Copied!");
-  }
+function thumbPath(id){
+  const num = id.replace(/[a-z]/g,"");
+  return `images/s${num}.jpg`;
 }
 
 /* =========================
-갤러리/썸네일 렌더
+갤러리 생성
 ========================= */
-function render(){
-  const fragG = document.createDocumentFragment();
-  order.forEach((id)=>{
-    const wrap = document.createElement("section");
-    wrap.className = "gItem reveal";
-    wrap.dataset.id = id;
+order.forEach((id)=>{
+  const item = document.createElement("section");
+  item.className = "item";
+  item.id = id;
 
-    const cap = document.createElement("p");
-    cap.className = "caption";
-    cap.textContent = captions[id] || "";
+  const cap = document.createElement("div");
+  cap.className = "cap";
+  cap.textContent = captions[id] || "";
+  item.appendChild(cap);
 
-    const img = document.createElement("img");
-    img.className = "gImg clickable";
-    img.src = imgSrc(id);
-    img.alt = captions[id] || id;
-    img.loading = "lazy";
-    img.draggable = false;
+  const img = document.createElement("img");
+  img.src = imgPath(id);
+  img.alt = id;
+  item.appendChild(img);
 
-    img.addEventListener("click", ()=>openLightbox(img.src, img.alt));
+  gallery.appendChild(item);
 
-    wrap.appendChild(cap);
-    wrap.appendChild(img);
-    fragG.appendChild(wrap);
+  // 라이트박스(메인 갤러리)
+  img.addEventListener("click", ()=>{
+    openLightbox(img.src);
   });
-  galleryEl.appendChild(fragG);
 
-  const fragT = document.createDocumentFragment();
-  order.forEach((id)=>{
-    const a = document.createElement("a");
-    a.href = "#";
-    a.className = "tItem clickable";
-    a.dataset.target = id;
-
-    const img = document.createElement("img");
-    img.className = "tImg";
-    img.src = thumbSrc(id);
-    img.alt = `thumb ${id}`;
-    img.loading = "lazy";
-    img.draggable = false;
-
-    a.appendChild(img);
-
-    a.addEventListener("click", (e)=>{
-      e.preventDefault();
-      scrollToWork(id, true);
-    });
-
-    fragT.appendChild(a);
+  // 오른쪽 썸네일
+  const t = document.createElement("img");
+  t.src = thumbPath(id);
+  t.alt = `thumb-${id}`;
+  t.dataset.target = id;
+  t.addEventListener("click", ()=>{
+    document.getElementById(id).scrollIntoView({behavior:"smooth", block:"center"});
   });
-  thumbsEl.appendChild(fragT);
-}
+  thumbsInner.appendChild(t);
+});
 
-/* =========================
-스크롤/연동
-========================= */
-function scrollToWork(id, alsoSyncThumb){
-  const el = galleryEl.querySelector(`.gItem[data-id="${id}"]`);
-  if(!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  if(alsoSyncThumb){
-    setActiveThumb(id, true);
-  }
-}
-
-function setActiveThumb(id, autoScroll){
-  const items = thumbsEl.querySelectorAll(".tItem");
-  items.forEach(x => x.classList.toggle("isActive", x.dataset.target === id));
-
-  if(autoScroll){
-    const active = thumbsEl.querySelector(`.tItem[data-target="${id}"]`);
-    if(active){
-      const box = thumbsEl.getBoundingClientRect();
-      const ab = active.getBoundingClientRect();
-      const delta = (ab.top + ab.height/2) - (box.top + box.height/2);
-      thumbsEl.scrollBy({ top: delta, behavior: "smooth" });
-    }
-  }
-}
-
-function bindScrollSync(){
-  const items = [...galleryEl.querySelectorAll(".gItem")];
-  let ticking = false;
-
-  function onScroll(){
-    if(ticking) return;
-    ticking = true;
-    requestAnimationFrame(()=>{
-      ticking = false;
-
-      let best = null;
-      let bestDist = Infinity;
-
-      const topLine = 90;
-      items.forEach((it)=>{
-        const r = it.getBoundingClientRect();
-        const dist = Math.abs(r.top - topLine);
-        if(dist < bestDist){
-          bestDist = dist;
-          best = it;
-        }
-      });
-
-      if(best){
-        const id = best.dataset.id;
-        setActiveThumb(id, true);
-      }
-    });
-  }
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-}
-
-/* =========================
-리빌 애니메이션
-========================= */
-function bindReveal(){
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach((en)=>{
-      if(en.isIntersecting){
-        en.target.classList.add("isVisible");
-        io.unobserve(en.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-}
+/* 등장 애니메이션 */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting) en.target.classList.add("show");
+  });
+},{threshold:0.12});
+document.querySelectorAll(".item").forEach(el=>io.observe(el));
 
 /* =========================
 라이트박스
 ========================= */
-function openLightbox(src, alt){
+function openLightbox(src){
+  lightbox.style.display = "flex";
+  lightbox.setAttribute("aria-hidden","false");
   lightboxImg.src = src;
-  lightboxImg.alt = alt || "";
-  lightbox.classList.add("show");
-  lightbox.setAttribute("aria-hidden", "false");
 }
-
 function closeLightbox(){
-  lightbox.classList.remove("show");
-  lightbox.setAttribute("aria-hidden", "true");
+  lightbox.style.display = "none";
+  lightbox.setAttribute("aria-hidden","true");
   lightboxImg.src = "";
 }
 
-lightbox.addEventListener("click", (e)=>{
-  if(e.target === lightbox) closeLightbox();
-});
-
-/* =========================
-Me 모달 + 핫스팟
-(이미지 700x1983 고정)
-========================= */
-function openMe(){
-  meModal.classList.add("show");
-  meModal.setAttribute("aria-hidden", "false");
-}
-
-function closeMe(){
-  meModal.classList.remove("show");
-  meModal.setAttribute("aria-hidden", "true");
-}
-
-function clearMeHotspots(){
-  meStage.querySelectorAll(".hotspot").forEach(n=>n.remove());
-}
-
-function addHotspot({ w, h, x, y, onClick, href }){
-  const el = document.createElement(href ? "a" : "button");
-  el.className = "hotspot clickable";
-  el.style.width = `${w}px`;
-  el.style.height = `${h}px`;
-  el.style.left = `${x}%`;
-  el.style.top = `${y}%`;
-  el.style.transform = "translate(-50%, -50%)";
-
-  if(href){
-    el.href = href;
-    el.target = "_blank";
-    el.rel = "noopener";
-  }else{
-    el.type = "button";
-    el.addEventListener("click", onClick);
-  }
-  meStage.appendChild(el);
-}
-
-function buildMeHotspots(){
-  clearMeHotspots();
-
-  addHotspot({
-    w: 158, h: 158, x: 13.7, y: 65.4,
-    href: "https://www.instagram.com/hanna_something/"
-  });
-
-  addHotspot({
-    w: 158, h: 158, x: 45.4, y: 65.4,
-    href: "https://www.behance.net/hibyhanna3e0f"
-  });
-
-  addHotspot({
-    w: 158, h: 158, x: 29.2, y: 65.4,
-    href: "https://www.itsnicethat.com/articles/hanna-something-illustration-020920"
-  });
-
-  addHotspot({
-    w: 538, h: 57, x: 28.6, y: 54.9,
-    onClick: ()=>copyText("mybrowncat53@gmail.com")
-  });
-}
-
-meModal.addEventListener("click", (e)=>{
-  if(e.target === meModal) closeMe();
-});
-
-/* =========================
-Comics 모달(데스크탑)
-========================= */
-function openComics(){
-  comicsModal.classList.add("show");
-  comicsModal.setAttribute("aria-hidden", "false");
-}
-function closeComics(){
-  comicsModal.classList.remove("show");
-  comicsModal.setAttribute("aria-hidden", "true");
-}
-comicsModal.addEventListener("click", (e)=>{
-  if(e.target === comicsModal) closeComics();
-});
-
-/* =========================
-카테고리 동작
-========================= */
-function firstIdByPrefix(prefix){
-  return order.find(id => id.startsWith(prefix));
-}
-
-document.addEventListener("click", (e)=>{
-  const btn = e.target.closest("[data-action]");
-  if(!btn) return;
-
-  const action = btn.dataset.action;
-
-  if(action === "jump"){
-    const target = btn.dataset.target;
-    const id = target === "editorial" ? firstIdByPrefix("e")
-             : target === "personal" ? firstIdByPrefix("p")
-             : null;
-    if(id) scrollToWork(id, true);
-  }
-
-  if(action === "me"){
-    buildMeHotspots();
-    openMe();
-  }
-
-  if(action === "comics"){
-    openComics();
-  }
-
-  if(action === "copyEmail"){
-    copyText("mybrowncat53@gmail.com");
-  }
-});
-
-homeBtn.addEventListener("click", ()=>{
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-/* =========================
-모바일 햄버거 메뉴
-========================= */
-function openMobileMenu(){
-  mobileMenu.classList.add("show");
-  mobileMenu.setAttribute("aria-hidden", "false");
-}
-function closeMobileMenu(){
-  mobileMenu.classList.remove("show");
-  mobileMenu.setAttribute("aria-hidden", "true");
-  mobileComics.hidden = true;
-}
-
-hamburger.addEventListener("click", (e)=>{
-  e.stopPropagation();
-  openMobileMenu();
-});
-
-mobileMenu.addEventListener("click", ()=>{
-  closeMobileMenu(); // 아무 곳이나 클릭하면 닫힘
-});
-
-mobileMenu.addEventListener("click", (e)=>{
-  const item = e.target.closest("[data-mobile-action]");
-  if(!item) return;
-  e.stopPropagation();
-
-  const act = item.dataset.mobileAction;
-
-  if(act === "me"){
-    closeMobileMenu();
-    buildMeHotspots();
-    openMe();
-  }
-
-  if(act === "copyEmail"){
-    copyText("mybrowncat53@gmail.com");
-  }
-
-  if(act === "comics"){
-    mobileComics.hidden = !mobileComics.hidden;
-  }
-});
-
-/* =========================
-다운로드 방지(가능한 범위)
-========================= */
-document.addEventListener("contextmenu", (e)=> e.preventDefault());
-
-document.addEventListener("dragstart", (e)=>{
-  const t = e.target;
-  if(t && (t.tagName === "IMG" || t.closest("img"))){
-    e.preventDefault();
-  }
-});
-
-document.addEventListener("keydown", (e)=>{
+lightbox.addEventListener("click", closeLightbox);
+document.addEventListener("keydown",(e)=>{
   if(e.key === "Escape"){
-    closeLightbox();
-    closeMe();
-    closeComics();
-    closeMobileMenu();
-  }
-  const k = e.key.toLowerCase();
-  if((e.ctrlKey || e.metaKey) && (k === "s" || k === "u" || k === "p")){
-    e.preventDefault();
+    if(lightbox.style.display === "flex") closeLightbox();
+    if(categoryModal.style.display === "block") closeCategoryModal();
+    if(comicsModal.style.display === "block") closeComicsModal();
+    if(bookModal.style.display === "flex") closeBookModal();
+    if(meModal.style.display === "flex") closeMeModal();
+    if(mobilePanel.style.display === "block") closeMobilePanel();
   }
 });
 
 /* =========================
-초기 실행
+우클릭 방지
 ========================= */
-render();
-bindReveal();
-bindScrollSync();
-setActiveThumb(order[0], false);
+document.addEventListener("contextmenu",(e)=>e.preventDefault());
+
+/* =========================
+썸네일 ↔ 갤러리 연동 (JITTER 방지)
+- 스크롤 중 매번 smooth 하지 않고, "active가 바뀔 때만" 즉시 이동
+========================= */
+const galleryItems = Array.from(document.querySelectorAll(".item"));
+const thumbImgs = Array.from(thumbsInner.querySelectorAll("img"));
+
+let activeIndex = 0;
+let ticking = false;
+
+function setActiveThumb(idx){
+  if(idx === activeIndex) return;
+  activeIndex = idx;
+
+  thumbImgs.forEach((img,i)=>img.classList.toggle("active", i===idx));
+
+  const t = thumbImgs[idx];
+  if(!t) return;
+
+  // 중앙으로 맞추되, smooth 사용 안함(흔들림 방지)
+  const container = thumbsInner;
+  const targetTop = t.offsetTop - (container.clientHeight/2) + (t.clientHeight/2);
+  container.scrollTo({top: Math.max(0, targetTop), behavior:"auto"});
+}
+
+window.addEventListener("scroll", ()=>{
+  if(ticking) return;
+  ticking = true;
+  requestAnimationFrame(()=>{
+    let idx = 0;
+    for(let i=0;i<galleryItems.length;i++){
+      const rect = galleryItems[i].getBoundingClientRect();
+      if(rect.top < window.innerHeight * 0.5) idx = i;
+    }
+    setActiveThumb(idx);
+    ticking = false;
+  });
+});
+
+/* =========================
+HOME 버튼: 첫 화면(맨 위)로
+========================= */
+homeBtn.addEventListener("click", ()=>{
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+/* =========================
+카테고리 클릭
+- e / p : 슬라이드 모달(썸네일바 포함)
+- comics : comics 오버레이
+- me : memyme 팝업
+========================= */
+document.querySelectorAll(".cat").forEach(el=>{
+  el.addEventListener("click", ()=>{
+    const type = el.dataset.open;
+
+    if(type === "e"){
+      openCategoryModal("e");
+    }else if(type === "p"){
+      openCategoryModal("p");
+    }else if(type === "comics"){
+      openComicsModal();
+    }else if(type === "me"){
+      openMeModal();
+    }
+  });
+});
+
+/* =========================
+Category Modal (Editorial/Personal)
+- 화면 왼/오른 여백 클릭으로 이동
+- X / ESC 닫기
+- 하단 썸네일(100px, bottom 15px)
+========================= */
+let cmList = [];
+let cmIndex = 0;
+
+function openCategoryModal(type){
+  cmList = (type === "e") ? editorialOrder : personalOrder;
+  cmIndex = 0;
+
+  categoryModal.style.display = "block";
+  categoryModal.setAttribute("aria-hidden","false");
+
+  buildCategoryThumbs();
+  renderCategoryModal();
+}
+
+function closeCategoryModal(){
+  categoryModal.style.display = "none";
+  categoryModal.setAttribute("aria-hidden","true");
+  cmThumbs.innerHTML = "";
+}
+
+function renderCategoryModal(){
+  const id = cmList[cmIndex];
+  if(!id) return;
+
+  cmImg.src = imgPath(id);
+  cmCaption.textContent = captions[id] || "";
+
+  // active thumb
+  const thumbs = Array.from(cmThumbs.querySelectorAll("img"));
+  thumbs.forEach((t,i)=>t.classList.toggle("active", i===cmIndex));
+
+  // active thumb를 화면 가운데로
+  const active = thumbs[cmIndex];
+  if(active){
+    const left = active.offsetLeft - (cmThumbs.clientWidth/2) + (active.clientWidth/2);
+    cmThumbs.scrollTo({left: Math.max(0,left), behavior:"auto"});
+  }
+}
+
+function buildCategoryThumbs(){
+  cmThumbs.innerHTML = "";
+  cmList.forEach((id, i)=>{
+    const t = document.createElement("img");
+    t.src = thumbPath(id);
+    t.alt = `thumb-${id}`;
+    t.addEventListener("click", ()=>{
+      cmIndex = i;
+      renderCategoryModal();
+    });
+    cmThumbs.appendChild(t);
+  });
+}
+
+function prevCategory(){
+  cmIndex = (cmIndex - 1 + cmList.length) % cmList.length;
+  renderCategoryModal();
+}
+function nextCategory(){
+  cmIndex = (cmIndex + 1) % cmList.length;
+  renderCategoryModal();
+}
+
+cmClose.addEventListener("click", closeCategoryModal);
+
+// “화살표 대신”: 화면 좌/우 클릭으로 이동
+cmHitLeft.addEventListener("click", prevCategory);
+cmHitRight.addEventListener("click", nextCategory);
+
+// 이미지/캡션 영역 클릭 시엔 이동하지 않게(원하면 여기 제거 가능)
+categoryModal.addEventListener("click", (e)=>{
+  // 바깥 클릭은 닫기(단, hit영역 클릭은 이동이니까 제외)
+  if(e.target === categoryModal) closeCategoryModal();
+});
+
+// 키보드 이동
+document.addEventListener("keydown",(e)=>{
+  if(categoryModal.style.display !== "block") return;
+  if(e.key === "ArrowLeft") prevCategory();
+  if(e.key === "ArrowRight") nextCategory();
+});
+
+/* =========================
+Comics (새창 느낌 오버레이)
+- 카테고리 고정은 원래 fixed라 그대로 유지됨
+- 갤러리+썸네일 영역만 바뀌는 느낌
+========================= */
+function openComicsModal(){
+  comicsModal.style.display = "block";
+  comicsModal.setAttribute("aria-hidden","false");
+  comicsList.innerHTML = "";
+
+  comicsCovers.forEach((file)=>{
+    const img = document.createElement("img");
+    img.src = imgPath(file);
+    img.alt = file;
+
+    img.addEventListener("click", ()=>{
+      // 책 넘김(가벼운 슬라이드)
+      const pages = comicsBooks[file] || [];
+      if(pages.length) openBookModal(pages);
+    });
+
+    comicsList.appendChild(img);
+  });
+}
+
+function closeComicsModal(){
+  comicsModal.style.display = "none";
+  comicsModal.setAttribute("aria-hidden","true");
+}
+comicsClose.addEventListener("click", closeComicsModal);
+comicsModal.addEventListener("click",(e)=>{
+  if(e.target === comicsModal) closeComicsModal();
+});
+
+/* =========================
+Book viewer
+- 좌/우 클릭/ESC/바깥 클릭 닫기
+- 마지막 페이지에서 다음 눌러도 계속 루프 말고: 아무데나 클릭시 닫힘(요구)
+========================= */
+let bookPages = [];
+let bookIndex = 0;
+
+function openBookModal(pages){
+  bookPages = pages.slice();
+  bookIndex = 0;
+  bookModal.style.display = "flex";
+  bookModal.setAttribute("aria-hidden","false");
+  renderBook();
+}
+function renderBook(){
+  const file = bookPages[bookIndex];
+  bookImg.src = imgPath(file);
+}
+function closeBookModal(){
+  bookModal.style.display = "none";
+  bookModal.setAttribute("aria-hidden","true");
+  bookImg.src = "";
+  bookPages = [];
+  bookIndex = 0;
+}
+
+function bookPrevPage(){
+  if(bookIndex <= 0){
+    // 첫 페이지에서 이전은 그냥 닫아도 됨(원하면 루프 가능)
+    closeBookModal();
+    return;
+  }
+  bookIndex--;
+  renderBook();
+}
+function bookNextPage(){
+  if(bookIndex >= bookPages.length - 1){
+    // 마지막 페이지까지 끝나고 아무곳이나 클릭시 꺼짐 -> 다음 시도하면 닫기
+    closeBookModal();
+    return;
+  }
+  bookIndex++;
+  renderBook();
+}
+
+bookClose.addEventListener("click", closeBookModal);
+bookPrev.addEventListener("click", bookPrevPage);
+bookNext.addEventListener("click", bookNextPage);
+
+bookModal.addEventListener("click",(e)=>{
+  if(e.target === bookModal) closeBookModal();
+});
+
+document.addEventListener("keydown",(e)=>{
+  if(bookModal.style.display !== "flex") return;
+  if(e.key === "ArrowLeft") bookPrevPage();
+  if(e.key === "ArrowRight") bookNextPage();
+});
+
+/* =========================
+ME popup
+- memyme.jpeg
+- 스크롤 가능
+- 투명 버튼/이메일 복사+토스트
+========================= */
+function openMeModal(){
+  meModal.style.display = "flex";
+  meModal.setAttribute("aria-hidden","false");
+}
+function closeMeModal(){
+  meModal.style.display = "none";
+  meModal.setAttribute("aria-hidden","true");
+}
+meClose.addEventListener("click", closeMeModal);
+meModal.addEventListener("click",(e)=>{
+  if(e.target === meModal) closeMeModal();
+});
+
+copyMail.addEventListener("click", async ()=>{
+  try{
+    await navigator.clipboard.writeText("mybrowncat53@gmail.com");
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"), 900);
+  }catch(err){
+    // clipboard 권한 문제 대비
+    alert("Copy failed");
+  }
+});
+
+/* =========================
+모바일: 햄버거 -> Me 패널
+- 어디든 탭하면 닫힘
+- comics는 리스트만 일렬로(뷰어 없이) 요구 반영: cover들만 보여줌
+========================= */
+function openMobilePanel(){
+  mobilePanel.style.display = "block";
+  mobilePanel.setAttribute("aria-hidden","false");
+}
+function closeMobilePanel(){
+  mobilePanel.style.display = "none";
+  mobilePanel.setAttribute("aria-hidden","true");
+}
+hamburger.addEventListener("click",(e)=>{
+  e.stopPropagation();
+  openMobilePanel();
+});
+mobilePanel.addEventListener("click", closeMobilePanel);
+
+// 모바일 코믹스 리스트(cover만)
+function buildMobileComics(){
+  if(!mobileComicsList) return;
+  mobileComicsList.innerHTML = "";
+  comicsCovers.forEach((file)=>{
+    const img = document.createElement("img");
+    img.src = imgPath(file);
+    img.alt = file;
+    mobileComicsList.appendChild(img);
+  });
+}
+buildMobileComics();
