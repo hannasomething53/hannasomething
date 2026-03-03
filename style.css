@@ -1,562 +1,457 @@
 :root{
   --bg: #fffff4;
-  --txt: #111;
 
-  /* “기본” 간격(줄어드는 비율 포함) */
-  --scale: clamp(.72, 1vw + .55, 1);
+  /* 기본 간격(요청값) + 화면 작아질 때 비율 축소 */
+  --gap-cat-gallery: clamp(14px, 3vw, 30px);
+  --gap-gallery-thumb: clamp(40px, 6vw, 100px);
 
-  --gapCat: clamp(18px, calc(30px * var(--scale)), 30px);
-  --gapMid: clamp(60px, calc(100px * var(--scale)), 100px);
-  --gapThumb: clamp(60px, calc(100px * var(--scale)), 100px);
+  /* 썸네일 폭: 기본 130, 화면에 따라 축소 */
+  --thumb-w: clamp(90px, 10vw, 130px);
+  --thumb-gap: clamp(18px, 3.2vw, 50px);
 
-  --edge: clamp(5px, 1vw, 10px);
+  /* 갤러리 폭: 기본 1000, 화면에 따라 축소 */
+  --gallery-w: min(1000px, 90vw);
 
-  --fontCat: clamp(16px, calc(22px * var(--scale)), 22px);
-  --fontEmail: clamp(14px, calc(18px * var(--scale)), 18px);
-  --fontCap: clamp(16px, calc(20px * var(--scale)), 20px);
-
-  --thumbW: clamp(92px, calc(130px * var(--scale)), 130px);
-  --thumbGap: clamp(28px, calc(50px * var(--scale)), 50px);
-
-  --galleryMax: 1000px;
-  --topPad: 50px;
+  /* 좌/우 안전 여백(모바일/작은 화면 5~10px 느낌) */
+  --edge: clamp(6px, 1.2vw, 12px);
 }
 
-*{ box-sizing:border-box; }
-html, body{ height:100%; }
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+
 body{
-  margin:0;
+  margin: 0;
   background: var(--bg);
-  color: var(--txt);
-  font-family: "Jost", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  overflow-x:hidden;
+  color: #000;
+  font-family: "Jost", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
-  cursor: url("mouse.png") 2 2, auto;
-}
-a, button, [data-act]{
-  cursor: url("clickhand.png") 2 2, pointer;
-}
-img{ display:block; user-select:none; -webkit-user-drag:none; }
-button{
-  border:0;
-  background:transparent;
-  padding:0;
-  color:inherit;
-  font:inherit;
+  /* 기본 커서 */
+  cursor: url("mouse.png") 0 0, auto;
 }
 
-/* 3열 구조 */
-.wrap{
-  min-height:100vh;
-  display:grid;
-  grid-template-columns: minmax(190px, 320px) minmax(320px, 1fr) minmax(190px, 320px);
-  padding-left: var(--edge);
-  padding-right: var(--edge);
+/* 클릭 가능 영역 커서 */
+.clickable{
+  cursor: url("clickhand.png") 0 0, pointer;
 }
 
-/* LEFT */
-.col-left{
-  position: sticky;
-  top:0;
-  height:100vh;
-}
-.cat-fixed{
-  height:100%;
-  padding-left: var(--edge);
-  padding-right: var(--gapCat); /* 카테고리와 갤러리 사이 30px */
-}
-.cat-spacer{ height: 250px; }
+a{ color: inherit; text-decoration: none; }
 
-.homebtn{
-  width: clamp(26px, calc(34px * var(--scale)), 34px);
-  height: clamp(26px, calc(34px * var(--scale)), 34px);
-  display:grid;
-  place-items:center;
-  margin-bottom: clamp(14px, calc(18px * var(--scale)), 18px);
+.layout{
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: auto var(--gap-cat-gallery) minmax(0, var(--gallery-w)) var(--gap-gallery-thumb) auto;
+  align-items: start;
+  padding: 0 var(--edge);
 }
-.homebtn img{ width:100%; height:100%; object-fit:contain; }
+
+/* =========================
+LEFT: Sidebar
+========================= */
+.sidebar{
+  grid-column: 1;
+  position: relative;
+  min-width: clamp(180px, 18vw, 260px);
+}
+
+/* 스크롤 내려도 고정 */
+.sidebar-float{
+  position: fixed;
+  left: var(--edge);
+  top: 0;
+  width: clamp(180px, 18vw, 260px);
+  height: 100vh;
+  padding-top: 250px; /* 요청: 상단에서 250px 아래에 폰트 시작 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sidebar-headerRow{
+  position: relative;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.sidebar-ong{
+  display: block;
+  width: clamp(36px, 5vw, 56px);
+  height: auto;
+}
+
+/* home.png: ong.png와 Editorial 텍스트 사이 “중간 높이 느낌” */
+.homeBtn{
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.homeBtn img{
+  width: 28px;
+  height: 28px;
+  display: block;
+}
 
 .cat{
-  display:flex;
-  flex-direction:column;
-  gap: clamp(10px, calc(14px * var(--scale)), 14px);
-  align-items:flex-start;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.catrow{
-  display:flex;
-  align-items:center;
-  gap: clamp(8px, calc(10px * var(--scale)), 10px);
-  text-align:left;
-  font-size: var(--fontCat);
+
+/* 카테고리 버튼: 전체적으로 좌측 정렬 */
+.catItem{
+  display: flex;
+  align-items: center; /* one.png 세로 중앙 맞춤 */
+  gap: 10px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
   font-weight: 400;
+  font-size: clamp(14px, 1.6vw, 22px); /* 요청: 22px이 기본, 화면 따라 작아짐 */
   line-height: 1.15;
 }
-.catrow.email{
-  font-size: var(--fontEmail);
-  margin-top: clamp(6px, calc(10px * var(--scale)), 10px);
-}
-.bullet{
-  width: clamp(14px, calc(18px * var(--scale)), 18px);
-  height: clamp(14px, calc(18px * var(--scale)), 18px);
-  object-fit:contain;
+
+.catIcon{
+  width: clamp(14px, 1.8vw, 22px);
+  height: auto;
   flex: 0 0 auto;
 }
-.nowrap{ white-space:nowrap; }
 
-.caticons{
-  margin-top: clamp(10px, calc(14px * var(--scale)), 14px);
-  display:flex;
+.nowrap{ white-space: nowrap; }
+
+.emailText{
+  font-size: clamp(12px, 1.2vw, 18px); /* 요청: 이메일만 18px */
+}
+
+.socialRow{
+  margin-top: 10px;
+  display: flex;
   gap: 10px;
-  align-items:center;
+  align-items: center;
 }
-.iconlink img{
-  width: clamp(40px, calc(55px * var(--scale)), 55px);
-  height:auto;
+.socialRow img{
+  width: 55px; /* 요청: 폭 55px */
+  height: auto;
+  display: block;
 }
 
-/* MID */
-.col-mid{
-  padding-left: var(--gapMid);   /* 갤러리 앞(좌측) 100px */
-  padding-right: var(--gapThumb);/* 갤러리-썸네일 100px */
+/* 이메일이 갤러리와 너무 붙지 않도록(10px 정도) 시각적 여유 */
+.catItem.email{
+  margin-top: 6px;
 }
+
+/* =========================
+CENTER: Gallery
+========================= */
+.galleryWrap{
+  grid-column: 3;
+  min-width: 0;
+}
+
+.galleryTopGap{
+  height: 50px; /* 요청: 상단 여백 50px */
+}
+
 .gallery{
-  margin-top: var(--topPad);
-  max-width: var(--galleryMax);
-  margin-left:auto;
-  margin-right:auto;
-  display:flex;
-  flex-direction:column;
-  gap: clamp(26px, calc(40px * var(--scale)), 40px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-bottom: 80px;
 }
-.g-block{
+
+.gItem{
+  width: 100%;
+}
+
+.caption{
+  font-weight: 400;
+  font-size: 20px; /* 요청: 20px */
+  line-height: 1.2;
+  margin: 0 0 0 0; /* 그림 위에 딱 붙게 */
+}
+
+.gImg{
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 0; /* 캡션-그림 딱 붙임 */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* 스크롤 등장 애니메이션(아래→위 스윽) */
+.reveal{
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .6s ease, transform .6s ease;
+  transform: translateY(16px);
+  transition: opacity 520ms ease, transform 520ms ease;
 }
-.g-block.in{
+.reveal.isVisible{
   opacity: 1;
   transform: translateY(0);
 }
-.g-cap{
-  font-size: var(--fontCap);
-  font-weight: 400;
-  line-height: 1.2;
-  margin: 0;
-}
-.g-img{
-  width:100%;
-  height:auto;
-  margin-top: 0; /* 캡션에 딱 붙게 */
+
+/* =========================
+RIGHT: Thumbnails
+========================= */
+.thumbsWrap{
+  grid-column: 5;
+  position: relative;
+  min-width: var(--thumb-w);
 }
 
-/* RIGHT */
-.col-right{
-  position: sticky;
-  top:0;
-  height:100vh;
-  padding-top: var(--topPad);
-  padding-right: var(--edge);
+.thumbsTopGap{
+  height: 50px; /* 요청: 갤러리와 동일 */
 }
-.thumbRail{
-  height: calc(100vh - var(--topPad));
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap: var(--thumbGap);
-  scrollbar-width:none;
-}
-.thumbRail::-webkit-scrollbar{ width:0; height:0; }
 
-.th-btn{
-  width: var(--thumbW);
+.thumbs{
+  position: fixed;
+  right: var(--edge);
+  top: 50px;
+  height: calc(100vh - 50px);
+  width: var(--thumb-w);
+
+  /* 요청: 스크롤바는 보이지 않음 */
+  overflow-y: hidden; /* 기본은 숨김 */
+  scrollbar-width: none;
+}
+.thumbs::-webkit-scrollbar{ width: 0; height: 0; }
+
+/* 요청: 썸네일에 마우스 올리면 독자적으로 위아래 스크롤 가능 */
+.thumbs:hover{
+  overflow-y: auto;
+}
+
+.tItem{
+  display: block;
+  width: 100%;
+  margin-bottom: var(--thumb-gap); /* 요청: 썸네일 간격 50px 기반 */
   opacity: 1;
-  transition: opacity .2s ease;
+  transition: opacity 180ms ease;
 }
-.th-btn:hover{ opacity:.7; }
-.th-btn.on{
-  outline: 2px solid rgba(0,0,0,.25);
-  outline-offset: 6px;
-  border-radius: 2px;
-}
-.th-btn img{ width:100%; height:auto; }
-
-/* Lightbox */
-.lb{
-  position: fixed;
-  inset:0;
-  display:none;
-  z-index: 9000;
-}
-.lb.on{ display:block; }
-.lb-bg{
-  position:absolute;
-  inset:0;
-  background: rgba(0,0,0,.90);
-}
-.lb-img{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform: translate(-50%, -50%);
-  max-width: calc(100vw - 40px);
-  max-height: calc(100vh - 40px);
-  width:auto;
-  height:auto;
-  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+.tItem:hover{
+  opacity: .7; /* 요청: hover 시 투명도 30% 낮아짐 */
 }
 
-/* Viewer (ffff4 95%) */
-.viewer{
-  position: fixed;
-  inset:0;
-  display:none;
-  z-index: 9100;
-}
-.viewer.on{ display:block; }
-.viewer-bg{
-  position:absolute;
-  inset:0;
-  background: rgba(255,255,244,.95);
-}
-.v-x{
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  font-size: 42px;
-  line-height:1;
-  z-index:4;
-}
-.v-arrow{
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 80px;
-  font-size: 60px;
-  line-height:1;
-  opacity:.9;
-  z-index:4;
-}
-.v-arrow.left{ left: 18px; }
-.v-arrow.right{ right: 18px; }
-
-.v-zone{
-  position: fixed;
-  top:0;
-  bottom:0;
-  width: 25vw;
-  z-index:3;
-}
-.v-zone.left{ left:0; }
-.v-zone.right{ right:0; }
-
-.v-stage{
-  position:absolute;
-  left:50%;
-  top: 70px;
-  transform: translateX(-50%);
-  width: min(900px, calc(100vw - 80px)); /* 900px */
-  padding-bottom: 140px; /* 썸네일 + 여유 */
-}
-.v-img{ width:100%; height:auto; }
-.v-cap{
-  font-size: var(--fontCap);
-  font-weight: 400;
-  margin-top: 0; /* 이미지 하단에 딱 붙게 */
-  line-height: 1.2;
+.tImg{
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-.v-thWrap{
-  position: fixed;
-  left:0;
-  right:0;
-  bottom: 15px;
-  height: 100px;
-  z-index:5;
-  pointer-events:none;
+/* 현재 활성 썸네일 표시(가시성만 살짝) */
+.tItem.isActive{
+  outline: 1px solid rgba(0,0,0,.25);
+  outline-offset: 3px;
 }
-.v-th{
-  pointer-events:auto;
-  height:100%;
-  margin-left: 80px; /* 왼쪽 80px */
+
+/* =========================
+Lightbox (Gallery images)
+========================= */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.90); /* 요청: 검은색 + 90% */
+  z-index: 5000;
+  padding: 18px; /* 위/아래 여백 조금 */
+}
+.lightbox.show{ display: flex; }
+
+.lightbox-inner{
+  width: 100%;
+  height: 100%;
   display:flex;
   align-items:center;
-  gap: 50px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  padding-right: 40px;
-  scrollbar-width:none;
-}
-.v-th::-webkit-scrollbar{ width:0; height:0; }
-
-.vt-btn{
-  width:100px;
-  height:100px;
-  flex: 0 0 auto;
-  opacity:1;
-  transition: opacity .2s ease;
-}
-.vt-btn:hover{ opacity:.7; }
-.vt-btn.on{
-  outline: 2px solid rgba(0,0,0,.25);
-  outline-offset: 6px;
-  border-radius: 2px;
-}
-.vt-btn img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+  justify-content:center;
 }
 
-/* Comics page (center/right 교체 느낌: gallery 숨기고 comicsPage 보여줌) */
-.comicsPage{
-  display:none;
-  margin-top: var(--topPad);
-  max-width: var(--galleryMax);
-  margin-left:auto;
-  margin-right:auto;
-}
-.comicsPage.on{ display:block; }
-.comicsList{
-  display:flex;
-  flex-direction:column;
-  gap: 50px;
-}
-.comicsItem img{
-  width: min(1000px, 100%);
-  max-width: 1000px;
-  height:auto;
+#lightboxImg{
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  display: block;
 }
 
-/* Book (black 90%, 1000px) */
-.book{
+/* =========================
+Me Modal
+========================= */
+.meModal{
   position: fixed;
-  inset:0;
-  display:none;
-  z-index: 9200;
-}
-.book.on{ display:block; }
-.book-bg{
-  position:absolute;
-  inset:0;
+  inset: 0;
+  display: none;
   background: rgba(0,0,0,.90);
-}
-.b-x{
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  font-size: 42px;
-  line-height:1;
-  color:#fff;
-  z-index:4;
-}
-.b-arrow{
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 80px;
-  font-size: 60px;
-  line-height:1;
-  color:#fff;
-  z-index:4;
-}
-.b-arrow.left{ left: 18px; }
-.b-arrow.right{ right: 18px; }
-
-.b-zone{
-  position: fixed;
-  top:0;
-  bottom:0;
-  width: 30vw;
-  z-index:3;
-}
-.b-zone.left{ left:0; }
-.b-zone.right{ right:0; }
-
-.b-stage{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform: translate(-50%, -50%);
-  width: min(1000px, calc(100vw - 80px));
-}
-.b-img{
-  width:100%;
-  height:auto;
-  box-shadow: 0 12px 40px rgba(0,0,0,.35);
-}
-
-/* Me modal */
-.me{
-  position: fixed;
-  inset:0;
-  display:none;
-  z-index: 9300;
-}
-.me.on{ display:block; }
-.me-bg{
-  position:absolute;
-  inset:0;
-  background: rgba(0,0,0,.90);
-}
-.me-card{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform: translate(-50%, -50%);
-  width: min(700px, calc(100vw - 40px));
-  max-height: calc(100vh - 40px);
-}
-.me-x{
-  position:absolute;
-  top: -10px;
-  right: -10px;
-  font-size: 42px;
-  line-height:1;
-  color:#fff;
-}
-.me-scroll{
-  max-height: calc(100vh - 40px);
-  overflow-y:auto; /* 오른쪽 스크롤바 */
-}
-.me-stage{
-  position: relative;
-  width: 700px; /* 기준 크기 */
-  max-width: 100%;
-}
-.me-stage img{ width:100%; height:auto; }
-
-/* 투명 클릭 영역 */
-.hit{
-  position:absolute;
-  background: rgba(255,255,255,0);
-  border:0;
-  padding:0;
-}
-
-/* toast */
-.toast{
-  position: fixed;
-  left:50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,.75);
-  color:#fff;
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  opacity:0;
-  transition: opacity .2s ease;
-  pointer-events:none;
-  z-index: 99999;
-}
-.toast.on{ opacity:1; }
-
-/* Mobile */
-.m-ham{
-  display:none;
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  width: 48px;
-  height: 44px;
-  z-index: 9500;
-}
-.m-ham span{
-  display:block;
-  height: 2px;
-  background:#000;
-  margin: 8px 10px;
-}
-.m-menu{
-  display:none;
-  position: fixed;
-  inset:0;
-  z-index: 9600;
-}
-.m-menu.on{ display:block; }
-.m-menu-bg{
-  position:absolute;
-  inset:0;
-  background: rgba(255,255,244,.95);
-}
-.m-menu-card{
-  position:absolute;
-  inset:0;
+  z-index: 6000;
   padding: 18px;
 }
-.m-menu-x{
-  position:absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 42px;
-  line-height:1;
+.meModal.show{ display: flex; align-items: center; justify-content: center; }
+
+.meModal-inner{
+  width: min(760px, 94vw);
+  max-height: 94vh;
 }
-.m-menu-items{
-  margin-top: 60px;
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
-  font-size: 20px;
+
+.meModal-scroll{
+  width: 100%;
+  max-height: 94vh;
+  overflow-y: auto; /* 요청: 오른쪽 스크롤바 존재 + 휠 이동 */
 }
-.m-item{
-  text-align:left;
-  font-size: 20px;
+
+.meStage{
+  position: relative;
+  width: 700px;  /* 요청: w700 고정 */
+  height: 1983px;/* 요청: h1983 고정 */
+  margin: 0 auto;
 }
-.m-item.email{
-  font-size: 18px;
+
+.meImg{
+  width: 700px;
+  height: 1983px;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
 }
-.m-icons{
-  display:flex;
-  gap: 12px;
-  align-items:center;
+
+/* 투명 핫스팟 버튼 */
+.hotspot{
+  position: absolute;
+  border: 0;
+  background: rgba(255,255,255,0); /* 완전 투명 */
+  padding: 0;
 }
-.m-icon img{
-  width: 55px;
-  height:auto;
+
+/* =========================
+Comics Modal (Desktop)
+========================= */
+.comicsModal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(0,0,0,.90);
+  z-index: 6500;
+  padding: 18px;
 }
-.m-hr{
-  height:1px;
-  background: rgba(0,0,0,.15);
-  margin: 8px 0;
+.comicsModal.show{ display: flex; align-items: center; justify-content: center; }
+
+.comicsModal-inner{
+  width: min(980px, 94vw);
+  max-height: 94vh;
+  overflow: auto;
 }
-.m-sub{
-  font-size: 18px;
-  color: rgba(0,0,0,.65);
+
+.comicsList img{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 18px;
 }
-.m-comics{
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
-}
-.m-comics img{
-  width: min(360px, 70vw);
-  height:auto;
-}
-.m-hint{
-  margin-top: 8px;
+
+/* =========================
+Toast
+========================= */
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  padding: 10px 14px;
   font-size: 14px;
-  color: rgba(0,0,0,.6);
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  z-index: 8000;
+}
+.toast.show{ opacity: 1; }
+
+/* =========================
+Mobile
+- 요청: 모바일에서는 카테고리/썸네일 없이 갤러리만
+- 햄버거 메뉴 제공
+========================= */
+.hamburger{
+  position: fixed;
+  left: var(--edge);
+  top: var(--edge);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  display: none; /* mobile에서만 표시 */
+  z-index: 9000;
+}
+.hamburger span{
+  display: block;
+  height: 2px;
+  background: #000;
+  margin: 7px 0;
 }
 
-@media (max-width: 900px){
-  /* 모바일: 카테고리/썸네일 없음, 갤러리만 + 라이트박스 */
-  .wrap{
-    grid-template-columns: 1fr;
-  }
-  .col-left, .col-right{ display:none; }
-  .col-mid{
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .gallery{
-    padding-left: var(--edge);
-    padding-right: var(--edge);
-    margin-top: 60px;
-  }
-  .m-ham{ display:block; }
+.mobileMenu{
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(255,255,244,.96);
+  z-index: 9100;
+  padding: 60px var(--edge) 24px;
+}
+.mobileMenu.show{ display: block; }
 
-  /* 모바일: comics 페이지는 “뷰어 없이 표지만” 요구 -> 메뉴에만 표시하고, 본문 전환은 숨김 */
-  .comicsPage{ display:none !important; }
+.mobileMenu-inner{
+  max-width: 520px;
+}
+
+.mobileMenu-item{
+  display: block;
+  border: 0;
+  background: transparent;
+  padding: 10px 0;
+  font-size: 20px;
+  font-weight: 400;
+  text-align: left;
+}
+.mobileMenu-item.email{
+  font-size: 18px;
+}
+
+.mobileMenu-icons{
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.mobileMenu-icons img{
+  width: 55px;
+  height: auto;
+  display: block;
+}
+
+.mobileComics img{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 12px 0;
+}
+
+/* 모바일/태블릿에서는 3단 해제 → 갤러리만 */
+@media (max-width: 900px){
+  .layout{
+    grid-template-columns: 1fr;
+    padding: 0 var(--edge);
+  }
+  .sidebar, .thumbsWrap{ display: none; }
+  .galleryWrap{
+    grid-column: 1;
+  }
+  .hamburger{ display: block; }
 }
