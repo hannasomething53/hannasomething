@@ -322,24 +322,25 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 
 /* ✅ 하단 썸네일 바: fixed 제거, 항상 공간 확보 => 절대 안 겹침 */
 .cm-thumbs{
-  position:relative;
-  flex: 0 0 auto;
-
+  /* 기존 유지 */
+  left: 80px;
+  right: 0;
+  bottom: 15px;
   height: 100px;
-  margin: 0 0 15px 0;          /* 바닥에서 15px 띄움 */
-  padding: 0 20px 0 80px;      /* 왼쪽 80px부터 시작 유지 */
-
   display:flex;
   align-items:center;
   gap: 50px;
   overflow-x:auto;
   overflow-y:hidden;
-  scrollbar-width:none;
 
-  z-index: 3;                  /* ✅ hit 영역보다 위 */
+  /* ✅ 스크롤바 보이게 */
+  scrollbar-width: auto;     /* Firefox: none -> auto */
+  padding-right: 20px;
+
+  /* ✅ “스크롤바가 맨 아래” 느낌을 더 주고 싶으면 */
+  padding-bottom: 14px;      /* 스크롤바 공간 확보(썸네일 아래 여백) */
+  box-sizing: border-box;
 }
-.cm-thumbs::-webkit-scrollbar{ display:none; }
-
 .cm-thumbs img{
   height:100px;
   width:auto;
