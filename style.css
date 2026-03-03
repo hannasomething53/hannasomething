@@ -326,9 +326,9 @@ Lightbox (검정 90%, 위아래 여백 느낌)
   left: 80px;
   right: 0;
   bottom: 15px;
-  height: 100px;
+  height: 120px;
   display:flex;
-  align-items:center;
+  align-items:flex-start;  
   gap: 50px;
   overflow-x:auto;
   overflow-y:hidden;
@@ -338,7 +338,7 @@ Lightbox (검정 90%, 위아래 여백 느낌)
   padding-right: 20px;
 
   /* ✅ “스크롤바가 맨 아래” 느낌을 더 주고 싶으면 */
-  padding-bottom: 14px;      /* 스크롤바 공간 확보(썸네일 아래 여백) */
+  padding-bottom: 24px;      /* 스크롤바 공간 확보(썸네일 아래 여백) */
   box-sizing: border-box;
 }
 .cm-thumbs img{
