@@ -300,12 +300,14 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 }
 
 .cm-caption{
-  margin-top: 10px;
+  margin-top: 14px;
   font-size: 20px;
-  line-height:1.25;
-  text-align:left;
-}
+  line-height:1.35;
 
+  text-align:center;      /* 텍스트 가운데 */
+  align-self:center;      /* flex 안에서 블록도 가운데 */
+  max-width: 90%;         /* 너무 길어질 때 안정성 */
+}
 /* 좌/우 클릭 영역(화살표 대신) */
 .cm-hit{
   position:absolute;
