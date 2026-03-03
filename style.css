@@ -238,11 +238,7 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 
 /* =========================
 카테고리 모달(에디토리얼/퍼스널)
-- 배경 ffff4 95%
-- 이미지 폭 900px 기준(브라우저에 따라 줄어듦)
-- X: 이미지 상단 오른쪽 “바로 붙게”
-- 좌/우 10px 여유 + 화면 여백 클릭으로 이동
-- 하단 썸네일: 100px, 바닥에서 15px 띄움, 왼쪽 80px부터 시작
+- 겹침 방지 버전: 썸네일을 fixed에서 빼서 모달 레이아웃에 편입
 ========================= */
 
 #categoryModal{
@@ -253,12 +249,15 @@ Lightbox (검정 90%, 위아래 여백 느낌)
   z-index: 3500;
 }
 
+/* ✅ cm을 세로 레이아웃 컨테이너로 */
 .cm{
   position:absolute;
   inset:0;
+  display:flex;
+  flex-direction:column;
 }
 
-/* “이미지 상단 오른쪽에 바로 붙게”: stage 기준 absolute */
+/* X 버튼 */
 .cm-close{
   position:absolute;
   top: 20px;
@@ -268,33 +267,43 @@ Lightbox (검정 90%, 위아래 여백 느낌)
   border:0;
   background:transparent;
   color:#000;
-  z-index: 2;
+  z-index: 5;
 }
 
+/* ✅ 위(이미지/캡션) 영역: 남는 공간을 차지 */
 .cm-stage{
-  position:absolute;
-  inset:0;
+  position:relative;           /* absolute 제거 */
+  flex: 1 1 auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding: 60px 20px 140px 20px; /* 아래 썸네일/캡션 공간 */
+  padding: 70px 20px 20px 20px;
+  min-height: 0;
 }
 
+/* 이미지+캡션 묶음 */
 .cm-media{
   width: min(900px, 92vw);
+  display:flex;
+  flex-direction:column;
+  min-height: 0;
 }
 
 .cm-img{
   width:100%;
   height:auto;
   display:block;
+
+  /* ✅ 핵심: 썸네일(100px) + 아래 여백(15px) + 상단(70px) 감안 */
+  max-height: calc(100vh - 70px - 20px - 100px - 15px - 70px);
+  object-fit: contain;
 }
 
 .cm-caption{
   margin-top: 10px;
   font-size: 20px;
   line-height:1.25;
-  text-align:left; /* “딱 붙는 느낌” 유지 */
+  text-align:left;
 }
 
 /* 좌/우 클릭 영역(화살표 대신) */
@@ -309,20 +318,23 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 .cm-hit.left{ left:0; }
 .cm-hit.right{ right:0; }
 
-/* 하단 썸네일 바 */
+/* ✅ 하단 썸네일 바: fixed 제거, 항상 공간 확보 => 절대 안 겹침 */
 .cm-thumbs{
-  position:fixed;
-  left: 80px;
-  right: 0;
-  bottom: 15px;          /* ✅ 바닥에서 15px 떠있게 */
+  position:relative;
+  flex: 0 0 auto;
+
   height: 100px;
+  margin: 0 0 15px 0;          /* 바닥에서 15px 띄움 */
+  padding: 0 20px 0 80px;      /* 왼쪽 80px부터 시작 유지 */
+
   display:flex;
   align-items:center;
-  gap: 50px;             /* 썸네일 간격 50px */
+  gap: 50px;
   overflow-x:auto;
   overflow-y:hidden;
   scrollbar-width:none;
-  padding-right: 20px;
+
+  z-index: 3;                  /* ✅ hit 영역보다 위 */
 }
 .cm-thumbs::-webkit-scrollbar{ display:none; }
 
@@ -336,40 +348,6 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 .cm-thumbs img.active{
   outline: 2px solid rgba(0,0,0,.25);
   outline-offset: 4px;
-}
-
-/* =========================
-Comics 오버레이 (리스트)
-========================= */
-#comicsModal{
-  position:fixed;
-  inset:0;
-  background: rgba(255,255,244,.95);
-  display:none;
-  z-index: 3600;
-  overflow:auto;
-}
-
-.comics-close{
-  position:fixed;
-  top: 18px;
-  right: 18px;
-  font-size: 44px;
-  border:0;
-  background:transparent;
-  color:#000;
-}
-
-.comics-inner{
-  width: min(1000px, 92vw);
-  margin: 80px auto;
-}
-
-.comics-list img{
-  width: min(1000px, 92vw);
-  max-width: 1000px;
-  display:block;
-  margin: 0 auto 50px auto;
 }
 
 /* =========================
