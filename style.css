@@ -1,378 +1,576 @@
 :root{
-  --bg: #fffff4;
+  --bg:#fffff4;
 
-  /* 간격: [카테고리]-[갤러리] 30px / [갤러리]-[썸네일] 100px
-     화면 작아질수록 비율 축소 (겹침 방지) */
-  --gap-cat-gallery: clamp(14px, 3vw, 30px);
-  --gap-gallery-thumb: clamp(40px, 6vw, 100px);
+  /* 중심 갤러리 기준 폭 */
+  --galleryW: min(1000px, 60vw);
 
-  /* 썸네일 폭: 기본 130, 화면 따라 축소 */
-  --thumb-w: clamp(90px, 10vw, 130px);
-  --thumb-gap: clamp(18px, 3.2vw, 50px);
+  /* 기본 여백: 카테고리 30 / 썸네일 100 (줄어들 수 있음, 0이하 금지) */
+  --gapL: clamp(10px, 3vw, 30px);
+  --gapR: clamp(10px, 8vw, 100px);
 
-  /* 갤러리 폭: 기본 1000, 화면 따라 축소 */
-  --gallery-w: min(1000px, 90vw);
+  /* 양끝 5~10px 여백 */
+  --edge: clamp(5px, 1vw, 10px);
 
-  /* 모바일/작은 화면 좌우 여백 5~10px 느낌 */
-  --edge: clamp(6px, 1.2vw, 12px);
+  /* 카테고리 폭: 줄어들 수 있음 */
+  --catW: clamp(160px, 18vw, 240px);
+
+  /* 썸네일 폭: 줄어들 수 있음 */
+  --thumbW: clamp(90px, 12vw, 130px);
+
+  --font: 'Jost', sans-serif;
 }
 
-*{ box-sizing: border-box; }
-html, body{ height: 100%; }
-
+/* 기본 */
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
 body{
-  margin: 0;
+  margin:0;
   background: var(--bg);
-  color: #000;
-  font-family: "Jost", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: var(--font);
+}
 
+/* 커서: 기본 mouse.png */
+html, body{
   cursor: url("images/mouse.png") 0 0, auto;
 }
 
-.clickable{
-  cursor: url("images/clickhand.png") 0 0, pointer;
+/* 클릭 가능한 곳: clickhand.png */
+a, button, .cat, .home-btn, #gallery img, .thumbs-inner img{
+  cursor: url("images/clickhand.png") 0 0, pointer !important;
 }
 
-a{ color: inherit; text-decoration: none; }
+/* 드래그/선택 최소화(다운로드 악용 줄이기) */
+img{
+  -webkit-user-drag:none;
+  user-select:none;
+}
+
+/* =========================
+레이아웃: 중앙 갤러리 + 좌/우 고정
+========================= */
 
 .layout{
+  position:relative;
+  width: 100%;
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: auto var(--gap-cat-gallery) minmax(0, var(--gallery-w)) var(--gap-gallery-thumb) auto;
-  align-items: start;
   padding: 0 var(--edge);
 }
 
-/* LEFT */
-.sidebar{
-  grid-column: 1;
-  position: relative;
-  min-width: clamp(180px, 18vw, 260px);
+/* 중앙 갤러리(실제 중앙) */
+#gallery{
+  width: var(--galleryW);
+  margin: 50px auto 0 auto;
+  padding-bottom: 120px;
 }
-.sidebar-float{
-  position: fixed;
-  left: var(--edge);
-  top: 0;
-  width: clamp(180px, 18vw, 260px);
-  height: 100vh;
-  padding-top: 250px; /* 요청: 상단에서 250px 아래 */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+
+/* =========================
+카테고리(왼쪽, 고정)
+- 상단 250px
+- 갤러리 왼쪽에서 30px(기본) 떨어짐
+- 화면이 줄면 같이 줄고, 겹치면 숨기는 대신 “더 줄어드는 방식”으로 유지
+========================= */
+
+.category{
+  position:fixed;
+  top:250px;
+
+  /* 갤러리 중심 기준으로 왼쪽 배치 */
+  left: calc(50% - (var(--galleryW) / 2) - var(--gapL) - var(--catW));
+
+  width: var(--catW);
+  font-size: 22px;
+  line-height: 1.2;
+  z-index: 200;
 }
-.sidebar-headerRow{
-  position: relative;
+
+/* 가장 긴 이메일이 갤러리와 너무 붙지 않도록 약간 안쪽 여유 */
+.category{ padding-right: 10px; }
+
+.home-wrap{
   width: 100%;
+  display:flex;
+  justify-content:center;
   margin-bottom: 18px;
 }
-.sidebar-ong{
-  display: block;
-  width: clamp(36px, 5vw, 56px);
-  height: auto;
-}
-.homeBtn{
-  position: absolute;
-  left: 50%;
-  top: 55%;
-  transform: translate(-50%, -50%);
-  border: 0;
-  padding: 0;
-  background: transparent;
-}
-.homeBtn img{
-  width: 28px;
-  height: 28px;
-  display: block;
+
+/* home.png 크기 지정(해상도 떨어지는 확대 방지) */
+.home-btn{
+  width: 54px;
+  height:auto;
+  display:block;
 }
 
+/* 카테고리 한 줄 */
 .cat{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display:flex;
+  align-items:center;          /* 원 세로 중앙 */
+  gap: 14px;                   /* 원-글자 간격 */
+  margin: 0 0 10px 0;          /* 카테고리 간격 */
 }
-.catItem{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  text-align: left;
-  font-weight: 400;
-  font-size: clamp(14px, 1.6vw, 22px);
-  line-height: 1.15;
-}
-.catIcon{
-  width: clamp(14px, 1.8vw, 22px);
-  height: auto;
+
+/* Personal works 한줄 고정 */
+.nowrap{ white-space:nowrap; }
+
+/* one.png */
+.dot{
+  height: 16px;
+  width:auto;
   flex: 0 0 auto;
 }
-.nowrap{ white-space: nowrap; }
-.emailText{ font-size: clamp(12px, 1.2vw, 18px); }
-.catItem.email{ margin-top: 6px; }
 
-.socialRow{
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.socialRow img{
-  width: 55px;
-  height: auto;
-  display: block;
+.cat-text{
+  display:inline-block;
 }
 
-/* CENTER: Gallery */
-.galleryWrap{ grid-column: 3; min-width: 0; }
-.galleryTopGap{ height: 50px; }
-.gallery{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding-bottom: 80px;
+/* 이메일만 18px */
+.email{
+  margin-top: 18px;
+  font-size: 18px;
+  line-height: 1.25;
+  word-break: break-word;
 }
-.gItem{ width: 100%; }
-.caption{
-  font-weight: 400;
+
+/* sns: 양옆 배치 */
+.sns-wrap{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.sns{
+  width:55px;
+  height:auto;
+  display:block;
+}
+
+/* =========================
+갤러리 아이템 + 캡션
+========================= */
+
+.item{
+  margin: 0 0 120px 0;
+  opacity:0;
+  transform: translateY(60px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.item.show{
+  opacity:1;
+  transform:none;
+}
+
+.cap{
+  font-family: var(--font);
   font-size: 20px;
-  line-height: 1.2;
-  margin: 0;
-}
-.gImg{
-  display: block;
-  width: 100%;
-  height: auto;
-  margin-top: 0;
-  user-select: none;
-  -webkit-user-drag: none;
+  font-weight: 400;
+  color:#000;
+  margin: 0 0 6px 0;          /* 이미지에 딱 붙게 */
 }
 
-.reveal{
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 520ms ease, transform 520ms ease;
-}
-.reveal.isVisible{
-  opacity: 1;
-  transform: translateY(0);
+.item img{
+  width:100%;
+  height:auto;
+  display:block;
 }
 
-/* RIGHT: Thumbnails */
-.thumbsWrap{
-  grid-column: 5;
-  position: relative;
-  min-width: var(--thumb-w);
-}
-.thumbsTopGap{ height: 50px; }
+/* =========================
+오른쪽 썸네일(고정)
+- 갤러리 오른쪽에서 기본 100px
+- 상단 50px부터 시작
+- 스크롤바 숨김
+========================= */
 
-.thumbs{
-  position: fixed;
-  right: var(--edge);
-  top: 50px;
+#thumbs{
+  position:fixed;
+  top:50px;
+
+  right: calc(50% - (var(--galleryW) / 2) - var(--gapR) - var(--thumbW));
+  width: var(--thumbW);
   height: calc(100vh - 50px);
-  width: var(--thumb-w);
+  z-index: 200;
 
-  overflow-y: hidden; /* 기본 숨김 */
-  scrollbar-width: none;
-}
-.thumbs::-webkit-scrollbar{ width: 0; height: 0; }
-
-.thumbs:hover{ overflow-y: auto; }
-
-.tItem{
-  display: block;
-  width: 100%;
-  margin-bottom: var(--thumb-gap);
-  opacity: 1;
-  transition: opacity 180ms ease;
-}
-.tItem:hover{ opacity: .7; }
-.tImg{
-  width: 100%;
-  height: auto;
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.tItem.isActive{
-  outline: 1px solid rgba(0,0,0,.25);
-  outline-offset: 3px;
+  overflow:hidden;
 }
 
-/* Lightbox */
-.lightbox{
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,.90);
-  z-index: 5000;
-  padding: 18px;
+.thumbs-inner{
+  height:100%;
+  overflow-y:auto;
+  scrollbar-width:none;
 }
-.lightbox.show{ display: flex; }
-.lightbox-inner{
-  width: 100%;
-  height: 100%;
+.thumbs-inner::-webkit-scrollbar{ display:none; }
+
+.thumbs-inner img{
+  width:100%;
+  height:auto;
+  display:block;
+  margin-bottom: 50px;
+  transition: opacity .2s ease;
+}
+.thumbs-inner img:hover{ opacity: .7; }
+.thumbs-inner img.active{
+  outline: 2px solid rgba(0,0,0,.25);
+  outline-offset: 4px;
+}
+
+/* =========================
+Lightbox (검정 90%, 위아래 여백 느낌)
+========================= */
+
+#lightbox{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index: 3000;
+  padding: 3vh 3vw; /* 위/아래 조금 여백 */
+}
+
+#lightboxImg{
+  max-width: 100%;
+  max-height: 100%;
+  width:auto;
+  height:auto;
+  display:block;
+}
+
+/* =========================
+카테고리 모달(에디토리얼/퍼스널)
+- 배경 ffff4 95%
+- 이미지 폭 900px 기준(브라우저에 따라 줄어듦)
+- X: 이미지 상단 오른쪽 “바로 붙게”
+- 좌/우 10px 여유 + 화면 여백 클릭으로 이동
+- 하단 썸네일: 100px, 바닥에서 15px 띄움, 왼쪽 80px부터 시작
+========================= */
+
+#categoryModal{
+  position:fixed;
+  inset:0;
+  display:none;
+  background: rgba(255,255,244,.95);
+  z-index: 3500;
+}
+
+.cm{
+  position:absolute;
+  inset:0;
+}
+
+/* “이미지 상단 오른쪽에 바로 붙게”: stage 기준 absolute */
+.cm-close{
+  position:absolute;
+  top: 20px;
+  right: 26px;
+  font-size: 44px;
+  line-height: 1;
+  border:0;
+  background:transparent;
+  color:#000;
+  z-index: 2;
+}
+
+.cm-stage{
+  position:absolute;
+  inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
-}
-#lightboxImg{
-  max-width: 92vw;
-  max-height: 92vh;
-  width: auto;
-  height: auto;
-  display: block;
+  padding: 60px 20px 140px 20px; /* 아래 썸네일/캡션 공간 */
 }
 
-/* Me Modal */
-.meModal{
-  position: fixed;
-  inset: 0;
-  display: none;
-  background: rgba(0,0,0,.90);
-  z-index: 6000;
-  padding: 18px;
-}
-.meModal.show{ display: flex; align-items: center; justify-content: center; }
-.meModal-inner{
-  width: min(760px, 94vw);
-  max-height: 94vh;
-}
-.meModal-scroll{
-  width: 100%;
-  max-height: 94vh;
-  overflow-y: auto;
-}
-.meStage{
-  position: relative;
-  width: 700px;
-  height: 1983px;
-  margin: 0 auto;
-}
-.meImg{
-  width: 700px;
-  height: 1983px;
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.hotspot{
-  position: absolute;
-  border: 0;
-  background: rgba(255,255,255,0);
-  padding: 0;
+.cm-media{
+  width: min(900px, 92vw);
 }
 
-/* Comics Modal */
-.comicsModal{
-  position: fixed;
-  inset: 0;
-  display: none;
-  background: rgba(0,0,0,.90);
-  z-index: 6500;
-  padding: 18px;
-}
-.comicsModal.show{ display: flex; align-items: center; justify-content: center; }
-.comicsModal-inner{
-  width: min(980px, 94vw);
-  max-height: 94vh;
-  overflow: auto;
-}
-.comicsList img{
-  width: 100%;
-  height: auto;
-  display: block;
-  margin-bottom: 18px;
+.cm-img{
+  width:100%;
+  height:auto;
+  display:block;
 }
 
-/* Toast */
-.toast{
-  position: fixed;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,.85);
-  color: #fff;
-  padding: 10px 14px;
-  font-size: 14px;
-  border-radius: 999px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease;
-  z-index: 8000;
-}
-.toast.show{ opacity: 1; }
-
-/* Mobile */
-.hamburger{
-  position: fixed;
-  left: var(--edge);
-  top: var(--edge);
-  width: 44px;
-  height: 44px;
-  border: 0;
-  background: transparent;
-  display: none;
-  z-index: 9000;
-}
-.hamburger span{
-  display: block;
-  height: 2px;
-  background: #000;
-  margin: 7px 0;
-}
-
-.mobileMenu{
-  position: fixed;
-  inset: 0;
-  display: none;
-  background: rgba(255,255,244,.96);
-  z-index: 9100;
-  padding: 60px var(--edge) 24px;
-}
-.mobileMenu.show{ display: block; }
-.mobileMenu-inner{ max-width: 520px; }
-
-.mobileMenu-item{
-  display: block;
-  border: 0;
-  background: transparent;
-  padding: 10px 0;
+.cm-caption{
+  margin-top: 10px;
   font-size: 20px;
-  font-weight: 400;
-  text-align: left;
-}
-.mobileMenu-item.email{ font-size: 18px; }
-
-.mobileMenu-icons{
-  display: flex;
-  gap: 10px;
-  margin-top: 8px;
-}
-.mobileMenu-icons img{
-  width: 55px;
-  height: auto;
-  display: block;
+  line-height:1.25;
+  text-align:left; /* “딱 붙는 느낌” 유지 */
 }
 
-.mobileComics img{
+/* 좌/우 클릭 영역(화살표 대신) */
+.cm-hit{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width: 20vw;
+  min-width: 60px;
+  z-index: 1;
+}
+.cm-hit.left{ left:0; }
+.cm-hit.right{ right:0; }
+
+/* 하단 썸네일 바 */
+.cm-thumbs{
+  position:fixed;
+  left: 80px;
+  right: 0;
+  bottom: 15px;          /* ✅ 바닥에서 15px 떠있게 */
+  height: 100px;
+  display:flex;
+  align-items:center;
+  gap: 50px;             /* 썸네일 간격 50px */
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  padding-right: 20px;
+}
+.cm-thumbs::-webkit-scrollbar{ display:none; }
+
+.cm-thumbs img{
+  height:100px;
+  width:auto;
+  display:block;
+  transition: opacity .2s ease;
+}
+.cm-thumbs img:hover{ opacity:.7; }
+.cm-thumbs img.active{
+  outline: 2px solid rgba(0,0,0,.25);
+  outline-offset: 4px;
+}
+
+/* =========================
+Comics 오버레이 (리스트)
+========================= */
+#comicsModal{
+  position:fixed;
+  inset:0;
+  background: rgba(255,255,244,.95);
+  display:none;
+  z-index: 3600;
+  overflow:auto;
+}
+
+.comics-close{
+  position:fixed;
+  top: 18px;
+  right: 18px;
+  font-size: 44px;
+  border:0;
+  background:transparent;
+  color:#000;
+}
+
+.comics-inner{
+  width: min(1000px, 92vw);
+  margin: 80px auto;
+}
+
+.comics-list img{
+  width: min(1000px, 92vw);
+  max-width: 1000px;
+  display:block;
+  margin: 0 auto 50px auto;
+}
+
+/* =========================
+Book viewer (코믹스 페이지 넘김)
+- 검정 90%
+- 가로 1000px 고정(이상 커지지 않음, 작아지면 줄어듦)
+- 좌/우 클릭으로 넘김
+- esc / 바깥 클릭 닫힘
+========================= */
+#bookModal{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,.9);
+  display:none;
+  z-index: 3700;
+}
+
+.book-close{
+  position:fixed;
+  top: 18px;
+  right: 18px;
+  font-size: 44px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  z-index: 2;
+}
+
+.book-stage{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 3vh 3vw;
+}
+
+#bookImg{
+  width: min(1000px, 94vw);
+  max-width: 1000px;
+  height:auto;
+  display:block;
+}
+
+.book-hit{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width: 35vw;
+  min-width: 70px;
+  z-index: 1;
+}
+.book-hit.left{ left:0; }
+.book-hit.right{ right:0; }
+
+/* =========================
+Me popup
+- w700 h1983 기반(스크롤 가능)
+- 투명 버튼 + 이메일 복사 토스트
+========================= */
+#meModal{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index: 3800;
+}
+
+.me-card{
+  width: min(740px, 92vw);
+  background: var(--bg);
+  border-radius: 14px;
+  box-shadow: 0 12px 48px rgba(0,0,0,.2);
+  position:relative;
+}
+
+.me-close{
+  position:absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 28px;
+  border:0;
+  background:transparent;
+  color:#000;
+  z-index: 2;
+}
+
+.me-scroll{
+  max-height: 80vh;
+  overflow:auto;
+}
+
+.me-wrap{
+  position:relative;
   width: 100%;
-  height: auto;
-  display: block;
-  margin: 12px 0;
+}
+
+#meImg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+/* 투명 핫스팟(퍼센트 기반) */
+.hot{
+  position:absolute;
+  background: transparent;
+  border:0;
+  padding:0;
+  cursor: url("images/clickhand.png") 0 0, pointer !important;
+}
+
+/* w158/h158 on 700x1983 => width:22.571% / height:7.967% */
+.hot-ig{ left:13.7%; top:65.4%; width:22.571%; height:7.967%; }
+.hot-it{ left:29.2%; top:65.4%; width:22.571%; height:7.967%; }
+.hot-be{ left:45.4%; top:65.4%; width:22.571%; height:7.967%; }
+
+/* email copy area: w538/h57 on 700x1983 => 76.857% / 2.875% */
+.hot-mail{
+  left:28.6%;
+  top:54.9%;
+  width:76.857%;
+  height:2.875%;
+}
+
+.toast{
+  position:absolute;
+  left:50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.85);
+  color:#fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.toast.show{
+  opacity:1;
+  transform: translate(-50%, calc(-50% - 6px));
+}
+
+/* =========================
+모바일
+- 카테고리/썸네일 숨김
+- 햄버거 고정
+========================= */
+.hamburger{
+  display:none;
+  position:fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 34px;
+  border:0;
+  background: transparent;
+  z-index: 5000;
+}
+
+.mobile-panel{
+  position:fixed;
+  inset:0;
+  background: rgba(255,255,244,.95);
+  display:none;
+  z-index: 4900;
+}
+
+.mobile-card{
+  padding: 90px 30px;
+  font-family: var(--font);
+}
+
+.mobile-title{
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.mobile-email{
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.mobile-sns{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+  margin-bottom: 24px;
+}
+.mobile-sns img{ width:55px; height:auto; display:block; }
+
+.mobile-comics-list img{
+  width: min(92vw, 1000px);
+  display:block;
+  margin: 0 0 50px 0;
 }
 
 @media (max-width: 900px){
-  .layout{
-    grid-template-columns: 1fr;
-    padding: 0 var(--edge);
-  }
-  .sidebar, .thumbsWrap{ display: none; }
-  .galleryWrap{ grid-column: 1; }
-  .hamburger{ display: block; }
+  .category, #thumbs{ display:none; }
+  #gallery{ width: 95vw; }
+  .hamburger{ display:block; }
 }
