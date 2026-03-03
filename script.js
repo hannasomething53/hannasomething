@@ -437,34 +437,182 @@ document.addEventListener("keydown",(e)=>{
 });
 
 /* =========================
-ME popup
-- memyme.jpeg
-- 스크롤 가능
-- 투명 버튼/이메일 복사+토스트
+ME WINDOW: open/close, drag, scroll lock, hotspots, copy toast
 ========================= */
-function openMeModal(){
-  meModal.style.display = "flex";
-  meModal.setAttribute("aria-hidden","false");
+
+const meModal = document.getElementById("meModal");
+const meCard = document.getElementById("meCard") || document.querySelector("#meModal .me-card");
+const meTitlebar = document.getElementById("meTitlebar");
+const meClose = document.getElementById("meClose");
+const copyMail = document.getElementById("copyMail");
+const toast = document.getElementById("toast");
+
+// (중요) hot 링크들이 실제로 존재하는지 잡아둠 (디버그 겸)
+const hotLinks = Array.from(document.querySelectorAll("#meModal a.hot"));
+
+let prevBodyOverflow = "";
+let prevHtmlOverflow = "";
+
+/** 배경 스크롤 잠금 */
+function lockBackgroundScroll() {
+  prevBodyOverflow = document.body.style.overflow;
+  prevHtmlOverflow = document.documentElement.style.overflow;
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
 }
-function closeMeModal(){
+
+/** 배경 스크롤 복구 */
+function unlockBackgroundScroll() {
+  document.body.style.overflow = prevBodyOverflow || "";
+  document.documentElement.style.overflow = prevHtmlOverflow || "";
+}
+
+/** 열기 */
+function openMeModal() {
+  if (!meModal || !meCard) return;
+
+  meModal.style.display = "block";
+  meModal.setAttribute("aria-hidden", "false");
+  lockBackgroundScroll();
+}
+
+/** 닫기 */
+function closeMeModal() {
+  if (!meModal) return;
+
   meModal.style.display = "none";
-  meModal.setAttribute("aria-hidden","true");
+  meModal.setAttribute("aria-hidden", "true");
+  toast?.classList.remove("show");
+  unlockBackgroundScroll();
 }
-meClose.addEventListener("click", closeMeModal);
-meModal.addEventListener("click",(e)=>{
-  if(e.target === meModal) closeMeModal();
+
+/* ===== 닫기 동작 ===== */
+meClose?.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  closeMeModal();
 });
 
-copyMail.addEventListener("click", async ()=>{
-  try{
+// 오버레이(바깥) 클릭 시 닫기
+meModal?.addEventListener("click", (e) => {
+  if (e.target === meModal) closeMeModal();
+});
+
+// 카드 내부 클릭은 오버레이로 새지 않게
+meCard?.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
+/* ===== 휠/스크롤 이벤트가 뒤로 새는 문제 해결 =====
+   - 모달 위에서 wheel이 발생하면 기본 스크롤(=body 스크롤)을 막고
+   - 스크롤은 me-scroll 영역에서만 일어나게 함
+*/
+const meScroll = document.querySelector("#meModal .me-scroll");
+
+// passive:false 필수(그래야 preventDefault가 먹음)
+meModal?.addEventListener(
+  "wheel",
+  (e) => {
+    // 모달 위에서 휠 돌리면 배경 스크롤은 무조건 차단
+    e.preventDefault();
+
+    // 스크롤 영역이 있으면 그쪽으로 스크롤 전달
+    if (meScroll) {
+      meScroll.scrollTop += e.deltaY;
+    }
+  },
+  { passive: false }
+);
+
+/* ===== 링크(바로가기) 클릭이 안 되는 문제 대비 =====
+   - a.hot이 클릭되면 무조건 새 탭으로 열리게(브라우저 기본도 되지만, 이벤트 꼬임 대비)
+*/
+hotLinks.forEach((a) => {
+  a.addEventListener("click", (e) => {
+    e.stopPropagation(); // 오버레이 클릭 닫기 등에 먹히지 않게
+    // 기본 동작을 막지 않음: a 기본으로도 열리게 두되,
+    // 어떤 환경에서 기본이 막히면 보조로 open 시도
+    const url = a.getAttribute("href");
+    if (!url) return;
+    // window.open은 팝업 차단될 수 있지만, 클릭 이벤트 내라 대부분 허용됨
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
+});
+
+/* ===== 이메일 복사 ===== */
+copyMail?.addEventListener("click", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  try {
     await navigator.clipboard.writeText("mybrowncat53@gmail.com");
-    toast.classList.add("show");
-    setTimeout(()=>toast.classList.remove("show"), 900);
-  }catch(err){
-    // clipboard 권한 문제 대비
+    toast?.classList.add("show");
+    setTimeout(() => toast?.classList.remove("show"), 900);
+  } catch (err) {
     alert("Copy failed");
   }
 });
+
+/* ===== 드래그로 창 이동 ===== */
+let dragging = false;
+let startX = 0;
+let startY = 0;
+let startLeft = 0;
+let startTop = 0;
+
+meTitlebar?.addEventListener("mousedown", (e) => {
+  // 닫기 버튼 눌렀을 때는 드래그 시작하면 안 됨
+  if (e.target === meClose) return;
+
+  dragging = true;
+  startX = e.clientX;
+  startY = e.clientY;
+
+  const rect = meCard.getBoundingClientRect();
+  startLeft = rect.left;
+  startTop = rect.top;
+
+  document.body.style.userSelect = "none";
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (!dragging) return;
+
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+
+  let nextLeft = startLeft + dx;
+  let nextTop = startTop + dy;
+
+  // 화면 밖으로 날아가지 않게 최소한의 제한
+  const margin = 10;
+  const maxLeft = window.innerWidth - meCard.offsetWidth - margin;
+  const maxTop = window.innerHeight - 60; // 아래쪽 여유
+
+  nextLeft = Math.max(margin, Math.min(maxLeft, nextLeft));
+  nextTop = Math.max(margin, Math.min(maxTop, nextTop));
+
+  meCard.style.left = `${nextLeft}px`;
+  meCard.style.top = `${nextTop}px`;
+});
+
+window.addEventListener("mouseup", () => {
+  if (!dragging) return;
+  dragging = false;
+  document.body.style.userSelect = "";
+});
+
+/* ===== ESC로 닫기(선택) ===== */
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (meModal?.style.display === "block") closeMeModal();
+});
+
+/* ===== 기존 카테고리 클릭 로직과 연결 =====
+   네 코드에서 "me" 눌렀을 때 openMeModal()을 호출하도록 되어 있어야 함.
+   (이미 그렇게 되어 있으면 이 줄은 필요 없음)
+*/
+window.openMeModal = openMeModal;
+window.closeMeModal = closeMeModal;
 
 /* =========================
 모바일: 햄버거 -> Me 패널
