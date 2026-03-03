@@ -1,18 +1,19 @@
 :root{
   --bg: #fffff4;
 
-  /* 기본 간격(요청값) + 화면 작아질 때 비율 축소 */
+  /* 간격: [카테고리]-[갤러리] 30px / [갤러리]-[썸네일] 100px
+     화면 작아질수록 비율 축소 (겹침 방지) */
   --gap-cat-gallery: clamp(14px, 3vw, 30px);
   --gap-gallery-thumb: clamp(40px, 6vw, 100px);
 
-  /* 썸네일 폭: 기본 130, 화면에 따라 축소 */
+  /* 썸네일 폭: 기본 130, 화면 따라 축소 */
   --thumb-w: clamp(90px, 10vw, 130px);
   --thumb-gap: clamp(18px, 3.2vw, 50px);
 
-  /* 갤러리 폭: 기본 1000, 화면에 따라 축소 */
+  /* 갤러리 폭: 기본 1000, 화면 따라 축소 */
   --gallery-w: min(1000px, 90vw);
 
-  /* 좌/우 안전 여백(모바일/작은 화면 5~10px 느낌) */
+  /* 모바일/작은 화면 좌우 여백 5~10px 느낌 */
   --edge: clamp(6px, 1.2vw, 12px);
 }
 
@@ -25,13 +26,11 @@ body{
   color: #000;
   font-family: "Jost", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
-  /* 기본 커서 */
-  cursor: url("mouse.png") 0 0, auto;
+  cursor: url("images/mouse.png") 0 0, auto;
 }
 
-/* 클릭 가능 영역 커서 */
 .clickable{
-  cursor: url("clickhand.png") 0 0, pointer;
+  cursor: url("images/clickhand.png") 0 0, pointer;
 }
 
 a{ color: inherit; text-decoration: none; }
@@ -44,41 +43,33 @@ a{ color: inherit; text-decoration: none; }
   padding: 0 var(--edge);
 }
 
-/* =========================
-LEFT: Sidebar
-========================= */
+/* LEFT */
 .sidebar{
   grid-column: 1;
   position: relative;
   min-width: clamp(180px, 18vw, 260px);
 }
-
-/* 스크롤 내려도 고정 */
 .sidebar-float{
   position: fixed;
   left: var(--edge);
   top: 0;
   width: clamp(180px, 18vw, 260px);
   height: 100vh;
-  padding-top: 250px; /* 요청: 상단에서 250px 아래에 폰트 시작 */
+  padding-top: 250px; /* 요청: 상단에서 250px 아래 */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-
 .sidebar-headerRow{
   position: relative;
   width: 100%;
   margin-bottom: 18px;
 }
-
 .sidebar-ong{
   display: block;
   width: clamp(36px, 5vw, 56px);
   height: auto;
 }
-
-/* home.png: ong.png와 Editorial 텍스트 사이 “중간 높이 느낌” */
 .homeBtn{
   position: absolute;
   left: 50%;
@@ -100,32 +91,26 @@ LEFT: Sidebar
   flex-direction: column;
   gap: 12px;
 }
-
-/* 카테고리 버튼: 전체적으로 좌측 정렬 */
 .catItem{
   display: flex;
-  align-items: center; /* one.png 세로 중앙 맞춤 */
+  align-items: center;
   gap: 10px;
   border: 0;
   padding: 0;
   background: transparent;
   text-align: left;
   font-weight: 400;
-  font-size: clamp(14px, 1.6vw, 22px); /* 요청: 22px이 기본, 화면 따라 작아짐 */
+  font-size: clamp(14px, 1.6vw, 22px);
   line-height: 1.15;
 }
-
 .catIcon{
   width: clamp(14px, 1.8vw, 22px);
   height: auto;
   flex: 0 0 auto;
 }
-
 .nowrap{ white-space: nowrap; }
-
-.emailText{
-  font-size: clamp(12px, 1.2vw, 18px); /* 요청: 이메일만 18px */
-}
+.emailText{ font-size: clamp(12px, 1.2vw, 18px); }
+.catItem.email{ margin-top: 6px; }
 
 .socialRow{
   margin-top: 10px;
@@ -134,28 +119,14 @@ LEFT: Sidebar
   align-items: center;
 }
 .socialRow img{
-  width: 55px; /* 요청: 폭 55px */
+  width: 55px;
   height: auto;
   display: block;
 }
 
-/* 이메일이 갤러리와 너무 붙지 않도록(10px 정도) 시각적 여유 */
-.catItem.email{
-  margin-top: 6px;
-}
-
-/* =========================
-CENTER: Gallery
-========================= */
-.galleryWrap{
-  grid-column: 3;
-  min-width: 0;
-}
-
-.galleryTopGap{
-  height: 50px; /* 요청: 상단 여백 50px */
-}
-
+/* CENTER: Gallery */
+.galleryWrap{ grid-column: 3; min-width: 0; }
+.galleryTopGap{ height: 50px; }
 .gallery{
   width: 100%;
   display: flex;
@@ -163,28 +134,22 @@ CENTER: Gallery
   gap: 28px;
   padding-bottom: 80px;
 }
-
-.gItem{
-  width: 100%;
-}
-
+.gItem{ width: 100%; }
 .caption{
   font-weight: 400;
-  font-size: 20px; /* 요청: 20px */
+  font-size: 20px;
   line-height: 1.2;
-  margin: 0 0 0 0; /* 그림 위에 딱 붙게 */
+  margin: 0;
 }
-
 .gImg{
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 0; /* 캡션-그림 딱 붙임 */
+  margin-top: 0;
   user-select: none;
   -webkit-user-drag: none;
 }
 
-/* 스크롤 등장 애니메이션(아래→위 스윽) */
 .reveal{
   opacity: 0;
   transform: translateY(16px);
@@ -195,18 +160,13 @@ CENTER: Gallery
   transform: translateY(0);
 }
 
-/* =========================
-RIGHT: Thumbnails
-========================= */
+/* RIGHT: Thumbnails */
 .thumbsWrap{
   grid-column: 5;
   position: relative;
   min-width: var(--thumb-w);
 }
-
-.thumbsTopGap{
-  height: 50px; /* 요청: 갤러리와 동일 */
-}
+.thumbsTopGap{ height: 50px; }
 
 .thumbs{
   position: fixed;
@@ -215,28 +175,21 @@ RIGHT: Thumbnails
   height: calc(100vh - 50px);
   width: var(--thumb-w);
 
-  /* 요청: 스크롤바는 보이지 않음 */
-  overflow-y: hidden; /* 기본은 숨김 */
+  overflow-y: hidden; /* 기본 숨김 */
   scrollbar-width: none;
 }
 .thumbs::-webkit-scrollbar{ width: 0; height: 0; }
 
-/* 요청: 썸네일에 마우스 올리면 독자적으로 위아래 스크롤 가능 */
-.thumbs:hover{
-  overflow-y: auto;
-}
+.thumbs:hover{ overflow-y: auto; }
 
 .tItem{
   display: block;
   width: 100%;
-  margin-bottom: var(--thumb-gap); /* 요청: 썸네일 간격 50px 기반 */
+  margin-bottom: var(--thumb-gap);
   opacity: 1;
   transition: opacity 180ms ease;
 }
-.tItem:hover{
-  opacity: .7; /* 요청: hover 시 투명도 30% 낮아짐 */
-}
-
+.tItem:hover{ opacity: .7; }
 .tImg{
   width: 100%;
   height: auto;
@@ -244,28 +197,23 @@ RIGHT: Thumbnails
   user-select: none;
   -webkit-user-drag: none;
 }
-
-/* 현재 활성 썸네일 표시(가시성만 살짝) */
 .tItem.isActive{
   outline: 1px solid rgba(0,0,0,.25);
   outline-offset: 3px;
 }
 
-/* =========================
-Lightbox (Gallery images)
-========================= */
+/* Lightbox */
 .lightbox{
   position: fixed;
   inset: 0;
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,.90); /* 요청: 검은색 + 90% */
+  background: rgba(0,0,0,.90);
   z-index: 5000;
-  padding: 18px; /* 위/아래 여백 조금 */
+  padding: 18px;
 }
 .lightbox.show{ display: flex; }
-
 .lightbox-inner{
   width: 100%;
   height: 100%;
@@ -273,7 +221,6 @@ Lightbox (Gallery images)
   align-items:center;
   justify-content:center;
 }
-
 #lightboxImg{
   max-width: 92vw;
   max-height: 92vh;
@@ -282,9 +229,7 @@ Lightbox (Gallery images)
   display: block;
 }
 
-/* =========================
-Me Modal
-========================= */
+/* Me Modal */
 .meModal{
   position: fixed;
   inset: 0;
@@ -294,25 +239,21 @@ Me Modal
   padding: 18px;
 }
 .meModal.show{ display: flex; align-items: center; justify-content: center; }
-
 .meModal-inner{
   width: min(760px, 94vw);
   max-height: 94vh;
 }
-
 .meModal-scroll{
   width: 100%;
   max-height: 94vh;
-  overflow-y: auto; /* 요청: 오른쪽 스크롤바 존재 + 휠 이동 */
+  overflow-y: auto;
 }
-
 .meStage{
   position: relative;
-  width: 700px;  /* 요청: w700 고정 */
-  height: 1983px;/* 요청: h1983 고정 */
+  width: 700px;
+  height: 1983px;
   margin: 0 auto;
 }
-
 .meImg{
   width: 700px;
   height: 1983px;
@@ -320,18 +261,14 @@ Me Modal
   user-select: none;
   -webkit-user-drag: none;
 }
-
-/* 투명 핫스팟 버튼 */
 .hotspot{
   position: absolute;
   border: 0;
-  background: rgba(255,255,255,0); /* 완전 투명 */
+  background: rgba(255,255,255,0);
   padding: 0;
 }
 
-/* =========================
-Comics Modal (Desktop)
-========================= */
+/* Comics Modal */
 .comicsModal{
   position: fixed;
   inset: 0;
@@ -341,13 +278,11 @@ Comics Modal (Desktop)
   padding: 18px;
 }
 .comicsModal.show{ display: flex; align-items: center; justify-content: center; }
-
 .comicsModal-inner{
   width: min(980px, 94vw);
   max-height: 94vh;
   overflow: auto;
 }
-
 .comicsList img{
   width: 100%;
   height: auto;
@@ -355,9 +290,7 @@ Comics Modal (Desktop)
   margin-bottom: 18px;
 }
 
-/* =========================
-Toast
-========================= */
+/* Toast */
 .toast{
   position: fixed;
   left: 50%;
@@ -375,11 +308,7 @@ Toast
 }
 .toast.show{ opacity: 1; }
 
-/* =========================
-Mobile
-- 요청: 모바일에서는 카테고리/썸네일 없이 갤러리만
-- 햄버거 메뉴 제공
-========================= */
+/* Mobile */
 .hamburger{
   position: fixed;
   left: var(--edge);
@@ -388,7 +317,7 @@ Mobile
   height: 44px;
   border: 0;
   background: transparent;
-  display: none; /* mobile에서만 표시 */
+  display: none;
   z-index: 9000;
 }
 .hamburger span{
@@ -407,10 +336,7 @@ Mobile
   padding: 60px var(--edge) 24px;
 }
 .mobileMenu.show{ display: block; }
-
-.mobileMenu-inner{
-  max-width: 520px;
-}
+.mobileMenu-inner{ max-width: 520px; }
 
 .mobileMenu-item{
   display: block;
@@ -421,9 +347,7 @@ Mobile
   font-weight: 400;
   text-align: left;
 }
-.mobileMenu-item.email{
-  font-size: 18px;
-}
+.mobileMenu-item.email{ font-size: 18px; }
 
 .mobileMenu-icons{
   display: flex;
@@ -443,15 +367,12 @@ Mobile
   margin: 12px 0;
 }
 
-/* 모바일/태블릿에서는 3단 해제 → 갤러리만 */
 @media (max-width: 900px){
   .layout{
     grid-template-columns: 1fr;
     padding: 0 var(--edge);
   }
   .sidebar, .thumbsWrap{ display: none; }
-  .galleryWrap{
-    grid-column: 1;
-  }
+  .galleryWrap{ grid-column: 1; }
   .hamburger{ display: block; }
 }
