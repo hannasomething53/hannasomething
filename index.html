@@ -6,13 +6,13 @@
 
   <title>hanna_something</title>
 
-  <!-- favicon -->
-  <link rel="icon" href="home.png" type="image/png" />
+  <!-- favicon (탭 아이콘) -->
+  <link rel="icon" href="images/home.png" type="image/png" />
 
   <!-- OpenGraph: 공유 대표 이미지 = 갤러리 첫 이미지 -->
   <meta property="og:title" content="hanna_something" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="e1.jpeg" />
+  <meta property="og:image" content="images/e1.jpeg" />
   <meta property="og:image:alt" content="hanna_something – 대표 이미지" />
 
   <!-- Google Font: Jost -->
@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=1" />
 </head>
 
 <body>
@@ -37,12 +37,13 @@
         <button class="mobileMenu-item clickable email" data-mobile-action="copyEmail">
           mybrowncat53@gmail.com
         </button>
+
         <div class="mobileMenu-icons">
           <a class="clickable" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
-            <img src="linebeh.png" alt="Behance" />
+            <img src="images/linebeh.png" alt="Behance" />
           </a>
           <a class="clickable" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
-            <img src="lineins.png" alt="Instagram" />
+            <img src="images/lineins.png" alt="Instagram" />
           </a>
         </div>
       </div>
@@ -51,10 +52,10 @@
         <button class="mobileMenu-item clickable" data-mobile-action="comics">Comics</button>
         <div class="mobileComics" id="mobileComics" hidden>
           <!-- 모바일 Comics: 뷰어 없이 그냥 아래로 나열 -->
-          <img src="c1.jpeg" alt="c1" loading="lazy">
-          <img src="c8.jpeg" alt="c8" loading="lazy">
-          <img src="c15.jpeg" alt="c15" loading="lazy">
-          <img src="c23.jpeg" alt="c23" loading="lazy">
+          <img src="images/c1.jpeg" alt="c1" loading="lazy">
+          <img src="images/c8.jpeg" alt="c8" loading="lazy">
+          <img src="images/c15.jpeg" alt="c15" loading="lazy">
+          <img src="images/c23.jpeg" alt="c23" loading="lazy">
         </div>
       </div>
     </div>
@@ -65,47 +66,48 @@
     <!-- LEFT: 카테고리 -->
     <aside class="sidebar" aria-label="Category">
       <div class="sidebar-float">
-        <!-- 카테고리 상단 이미지(요청: ong.png) -->
         <div class="sidebar-headerRow">
-          <img class="sidebar-ong" src="ong.png" alt="" />
-          <!-- ong.png와 Editorial 텍스트 중간 높이에 home.png -->
+          <!-- 요청: ong.png -->
+          <img class="sidebar-ong" src="images/ong.png" alt="" />
+
+          <!-- 요청: ong.png와 Editorial 텍스트 중간에 home.png -->
           <button class="homeBtn clickable" id="homeBtn" aria-label="Home">
-            <img src="home.png" alt="Home" />
+            <img src="images/home.png" alt="Home" />
           </button>
         </div>
 
         <nav class="cat" aria-label="Categories">
           <button class="catItem clickable" data-action="jump" data-target="editorial">
-            <img class="catIcon" src="one.png" alt="" />
+            <img class="catIcon" src="images/one.png" alt="" />
             <span>Editorial illust</span>
           </button>
 
           <button class="catItem clickable" data-action="jump" data-target="personal">
-            <img class="catIcon" src="one.png" alt="" />
+            <img class="catIcon" src="images/one.png" alt="" />
             <span class="nowrap">Personal works</span>
           </button>
 
           <button class="catItem clickable" data-action="comics">
-            <img class="catIcon" src="one.png" alt="" />
+            <img class="catIcon" src="images/one.png" alt="" />
             <span>Comics</span>
           </button>
 
           <button class="catItem clickable" data-action="me">
-            <img class="catIcon" src="one.png" alt="" />
+            <img class="catIcon" src="images/one.png" alt="" />
             <span>Me</span>
           </button>
 
           <button class="catItem clickable email" data-action="copyEmail">
-            <img class="catIcon" src="one.png" alt="" />
+            <img class="catIcon" src="images/one.png" alt="" />
             <span class="emailText">mybrowncat53@gmail.com</span>
           </button>
 
           <div class="socialRow">
             <a class="clickable" href="https://www.behance.net/hibyhanna3e0f" target="_blank" rel="noopener">
-              <img src="linebeh.png" alt="Behance" />
+              <img src="images/linebeh.png" alt="Behance" />
             </a>
             <a class="clickable" href="https://www.instagram.com/hanna_something/" target="_blank" rel="noopener">
-              <img src="lineins.png" alt="Instagram" />
+              <img src="images/lineins.png" alt="Instagram" />
             </a>
           </div>
         </nav>
@@ -125,7 +127,7 @@
     </aside>
   </div>
 
-  <!-- 공용 라이트박스(갤러리 이미지 확대) -->
+  <!-- 공용 라이트박스 -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox-inner" role="dialog" aria-modal="true">
       <img id="lightboxImg" alt="" />
@@ -137,21 +139,21 @@
     <div class="meModal-inner" role="dialog" aria-modal="true">
       <div class="meModal-scroll">
         <div class="meStage" id="meStage">
-          <img class="meImg" id="meImg" src="memyme.jpeg" alt="Me" />
+          <img class="meImg" id="meImg" src="images/memyme.jpeg" alt="Me" />
           <!-- hotspots are injected by JS -->
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Comics 모달(데스크탑에서도 클릭하면 간단 리스트로 보여주기) -->
+  <!-- Comics 모달(데스크탑) -->
   <div class="comicsModal" id="comicsModal" aria-hidden="true">
     <div class="comicsModal-inner" role="dialog" aria-modal="true">
       <div class="comicsList">
-        <img src="c1.jpeg" alt="c1" loading="lazy">
-        <img src="c8.jpeg" alt="c8" loading="lazy">
-        <img src="c15.jpeg" alt="c15" loading="lazy">
-        <img src="c23.jpeg" alt="c23" loading="lazy">
+        <img src="images/c1.jpeg" alt="c1" loading="lazy">
+        <img src="images/c8.jpeg" alt="c8" loading="lazy">
+        <img src="images/c15.jpeg" alt="c15" loading="lazy">
+        <img src="images/c23.jpeg" alt="c23" loading="lazy">
       </div>
     </div>
   </div>
@@ -159,6 +161,6 @@
   <!-- 토스트 -->
   <div class="toast" id="toast" aria-live="polite"></div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=1"></script>
 </body>
 </html>
