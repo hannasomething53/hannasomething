@@ -437,201 +437,153 @@ document.addEventListener("keydown",(e)=>{
 });
 
 /* =========================
-ME WINDOW: open/close, drag, scroll lock, hotspots, copy toast
+ME WINDOW (isolated): open/close, drag, scroll lock, hotspots, copy toast
+- 변수명 충돌 방지 버전
 ========================= */
+(() => {
+  const meModalEl = document.getElementById("meModal");
+  const meCardEl = document.getElementById("meCard") || document.querySelector("#meModal .me-card");
+  const meTitlebarEl = document.getElementById("meTitlebar");
+  const meCloseEl = document.getElementById("meClose");
+  const copyMailEl = document.getElementById("copyMail");
+  const toastEl = document.getElementById("toast");
+  const meScrollEl = document.querySelector("#meModal .me-scroll");
+  const hotLinkEls = Array.from(document.querySelectorAll("#meModal a.hot"));
 
-const meModal = document.getElementById("meModal");
-const meCard = document.getElementById("meCard") || document.querySelector("#meModal .me-card");
-const meTitlebar = document.getElementById("meTitlebar");
-const meClose = document.getElementById("meClose");
-const copyMail = document.getElementById("copyMail");
-const toast = document.getElementById("toast");
-
-// (중요) hot 링크들이 실제로 존재하는지 잡아둠 (디버그 겸)
-const hotLinks = Array.from(document.querySelectorAll("#meModal a.hot"));
-
-let prevBodyOverflow = "";
-let prevHtmlOverflow = "";
-
-/** 배경 스크롤 잠금 */
-function lockBackgroundScroll() {
-  prevBodyOverflow = document.body.style.overflow;
-  prevHtmlOverflow = document.documentElement.style.overflow;
-  document.body.style.overflow = "hidden";
-  document.documentElement.style.overflow = "hidden";
-}
-
-/** 배경 스크롤 복구 */
-function unlockBackgroundScroll() {
-  document.body.style.overflow = prevBodyOverflow || "";
-  document.documentElement.style.overflow = prevHtmlOverflow || "";
-}
-
-/** 열기 */
-function openMeModal() {
-  if (!meModal || !meCard) return;
-
-  meModal.style.display = "block";
-  meModal.setAttribute("aria-hidden", "false");
-  lockBackgroundScroll();
-}
-
-/** 닫기 */
-function closeMeModal() {
-  if (!meModal) return;
-
-  meModal.style.display = "none";
-  meModal.setAttribute("aria-hidden", "true");
-  toast?.classList.remove("show");
-  unlockBackgroundScroll();
-}
-
-/* ===== 닫기 동작 ===== */
-meClose?.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  closeMeModal();
-});
-
-// 오버레이(바깥) 클릭 시 닫기
-meModal?.addEventListener("click", (e) => {
-  if (e.target === meModal) closeMeModal();
-});
-
-// 카드 내부 클릭은 오버레이로 새지 않게
-meCard?.addEventListener("click", (e) => {
-  e.stopPropagation();
-});
-
-/* ===== 휠/스크롤 이벤트가 뒤로 새는 문제 해결 =====
-   - 모달 위에서 wheel이 발생하면 기본 스크롤(=body 스크롤)을 막고
-   - 스크롤은 me-scroll 영역에서만 일어나게 함
-*/
-const meScroll = document.querySelector("#meModal .me-scroll");
-
-// passive:false 필수(그래야 preventDefault가 먹음)
-meModal?.addEventListener(
-  "wheel",
-  (e) => {
-    // 모달 위에서 휠 돌리면 배경 스크롤은 무조건 차단
-    e.preventDefault();
-
-    // 스크롤 영역이 있으면 그쪽으로 스크롤 전달
-    if (meScroll) {
-      meScroll.scrollTop += e.deltaY;
-    }
-  },
-  { passive: false }
-);
-
-/* ===== 링크(바로가기) 클릭이 안 되는 문제 대비 =====
-   - a.hot이 클릭되면 무조건 새 탭으로 열리게(브라우저 기본도 되지만, 이벤트 꼬임 대비)
-*/
-hotLinks.forEach((a) => {
-  a.addEventListener("click", (e) => {
-    e.stopPropagation(); // 오버레이 클릭 닫기 등에 먹히지 않게
-    // 기본 동작을 막지 않음: a 기본으로도 열리게 두되,
-    // 어떤 환경에서 기본이 막히면 보조로 open 시도
-    const url = a.getAttribute("href");
-    if (!url) return;
-    // window.open은 팝업 차단될 수 있지만, 클릭 이벤트 내라 대부분 허용됨
-    window.open(url, "_blank", "noopener,noreferrer");
-  });
-});
-
-/* ===== 이메일 복사 ===== */
-copyMail?.addEventListener("click", async (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  try {
-    await navigator.clipboard.writeText("mybrowncat53@gmail.com");
-    toast?.classList.add("show");
-    setTimeout(() => toast?.classList.remove("show"), 900);
-  } catch (err) {
-    alert("Copy failed");
+  if (!meModalEl || !meCardEl) {
+    // 요소가 없으면 조용히 종료 (다른 기능 망가뜨리지 않음)
+    return;
   }
-});
 
-/* ===== 드래그로 창 이동 ===== */
-let dragging = false;
-let startX = 0;
-let startY = 0;
-let startLeft = 0;
-let startTop = 0;
+  let prevBodyOverflow = "";
+  let prevHtmlOverflow = "";
 
-meTitlebar?.addEventListener("mousedown", (e) => {
-  // 닫기 버튼 눌렀을 때는 드래그 시작하면 안 됨
-  if (e.target === meClose) return;
+  function lockBg() {
+    prevBodyOverflow = document.body.style.overflow;
+    prevHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  }
 
-  dragging = true;
-  startX = e.clientX;
-  startY = e.clientY;
+  function unlockBg() {
+    document.body.style.overflow = prevBodyOverflow || "";
+    document.documentElement.style.overflow = prevHtmlOverflow || "";
+  }
 
-  const rect = meCard.getBoundingClientRect();
-  startLeft = rect.left;
-  startTop = rect.top;
+  function openMeModal() {
+    meModalEl.style.display = "block";
+    meModalEl.setAttribute("aria-hidden", "false");
+    lockBg();
+  }
 
-  document.body.style.userSelect = "none";
-});
+  function closeMeModal() {
+    meModalEl.style.display = "none";
+    meModalEl.setAttribute("aria-hidden", "true");
+    toastEl?.classList.remove("show");
+    unlockBg();
+  }
 
-window.addEventListener("mousemove", (e) => {
-  if (!dragging) return;
+  // 닫기 버튼
+  meCloseEl?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeMeModal();
+  });
 
-  const dx = e.clientX - startX;
-  const dy = e.clientY - startY;
+  // 바깥 클릭 닫기
+  meModalEl.addEventListener("click", (e) => {
+    if (e.target === meModalEl) closeMeModal();
+  });
 
-  let nextLeft = startLeft + dx;
-  let nextTop = startTop + dy;
+  // 카드 내부 클릭은 바깥으로 전파 금지
+  meCardEl.addEventListener("click", (e) => e.stopPropagation());
 
-  // 화면 밖으로 날아가지 않게 최소한의 제한
-  const margin = 10;
-  const maxLeft = window.innerWidth - meCard.offsetWidth - margin;
-  const maxTop = window.innerHeight - 60; // 아래쪽 여유
+  // 휠: 배경 스크롤 차단 + meScroll만 스크롤
+  meModalEl.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      if (meScrollEl) meScrollEl.scrollTop += e.deltaY;
+    },
+    { passive: false }
+  );
 
-  nextLeft = Math.max(margin, Math.min(maxLeft, nextLeft));
-  nextTop = Math.max(margin, Math.min(maxTop, nextTop));
+  // 링크: 클릭 시 새 탭 보강
+  hotLinkEls.forEach((a) => {
+    a.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const url = a.getAttribute("href");
+      if (!url) return;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+  });
 
-  meCard.style.left = `${nextLeft}px`;
-  meCard.style.top = `${nextTop}px`;
-});
+  // 이메일 복사
+  copyMailEl?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText("mybrowncat53@gmail.com");
+      toastEl?.classList.add("show");
+      setTimeout(() => toastEl?.classList.remove("show"), 900);
+    } catch (err) {
+      alert("Copy failed");
+    }
+  });
 
-window.addEventListener("mouseup", () => {
-  if (!dragging) return;
-  dragging = false;
-  document.body.style.userSelect = "";
-});
+  // 드래그 이동
+  let dragging = false;
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0;
 
-/* ===== ESC로 닫기(선택) ===== */
-document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  if (meModal?.style.display === "block") closeMeModal();
-});
+  meTitlebarEl?.addEventListener("mousedown", (e) => {
+    if (e.target === meCloseEl) return;
+    dragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
 
-/* ===== 기존 카테고리 클릭 로직과 연결 =====
-   네 코드에서 "me" 눌렀을 때 openMeModal()을 호출하도록 되어 있어야 함.
-   (이미 그렇게 되어 있으면 이 줄은 필요 없음)
-*/
-window.openMeModal = openMeModal;
-window.closeMeModal = closeMeModal;
+    const rect = meCardEl.getBoundingClientRect();
+    startLeft = rect.left;
+    startTop = rect.top;
 
-/* =========================
-모바일: 햄버거 -> Me 패널
-- 어디든 탭하면 닫힘
-- comics는 리스트만 일렬로(뷰어 없이) 요구 반영: cover들만 보여줌
-========================= */
-function openMobilePanel(){
-  mobilePanel.style.display = "block";
-  mobilePanel.setAttribute("aria-hidden","false");
-}
-function closeMobilePanel(){
-  mobilePanel.style.display = "none";
-  mobilePanel.setAttribute("aria-hidden","true");
-}
-hamburger.addEventListener("click",(e)=>{
-  e.stopPropagation();
-  openMobilePanel();
-});
-mobilePanel.addEventListener("click", closeMobilePanel);
+    document.body.style.userSelect = "none";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    let nextLeft = startLeft + dx;
+    let nextTop = startTop + dy;
+
+    const margin = 10;
+    const maxLeft = window.innerWidth - meCardEl.offsetWidth - margin;
+    const maxTop = window.innerHeight - 60;
+
+    nextLeft = Math.max(margin, Math.min(maxLeft, nextLeft));
+    nextTop = Math.max(margin, Math.min(maxTop, nextTop));
+
+    meCardEl.style.left = `${nextLeft}px`;
+    meCardEl.style.top = `${nextTop}px`;
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!dragging) return;
+    dragging = false;
+    document.body.style.userSelect = "";
+  });
+
+  // ESC 닫기
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (meModalEl.style.display === "block") closeMeModal();
+  });
+
+  // 기존 카테고리 클릭 로직에서 openMeModal()을 부를 수 있게 전역으로 노출
+  window.openMeModal = openMeModal;
+  window.closeMeModal = closeMeModal;
+})();
 
 // 모바일 코믹스 리스트(cover만)
 function buildMobileComics(){
