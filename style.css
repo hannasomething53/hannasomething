@@ -426,54 +426,134 @@ Book viewer (코믹스 페이지 넘김)
 .book-hit.right{ right:0; }
 
 /* =========================
-Me popup
-- w700 h1983 기반(스크롤 가능)
-- 투명 버튼 + 이메일 복사 토스트
+Me popup window (600x1700 fixed)
+- draggable titlebar
+- scroll inside
+- transparent hotspots + email copy toast
 ========================= */
+
+/* 오버레이 */
 #meModal{
-  position:fixed;
-  inset:0;
+  position: fixed;
+  inset: 0;
   background: rgba(0,0,0,.45);
-  display:none;
-  align-items:center;
-  justify-content:center;
+  display: none;
   z-index: 3800;
 }
 
-.me-card{
-  width: min(740px, 92vw);
+/* 창 */
+#meModal .me-card{
+  position: fixed;
+  left: 400px;                 /* ✅ 브라우저 왼쪽에서 400px */
+  top: 60px;
+  width: 600px;                /* ✅ 고정 */
+  height: 1700px;              /* ✅ 고정 */
   background: var(--bg);
   border-radius: 14px;
-  box-shadow: 0 12px 48px rgba(0,0,0,.2);
-  position:relative;
+  box-shadow: 0 12px 48px rgba(0,0,0,.25);
+  overflow: hidden;            /* 타이틀바/스크롤 영역 정리 */
 }
 
-.me-close{
-  position:absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 28px;
-  border:0;
-  background:transparent;
-  color:#000;
-  z-index: 2;
+/* 작업표시줄(드래그 바) */
+#meModal .me-titlebar{
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: rgba(255,255,244,.95);
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  cursor: grab;
+  user-select: none;
+}
+#meModal .me-titlebar:active{ cursor: grabbing; }
+
+#meModal .me-title{
+  font-size: 16px;
+  line-height: 1;
 }
 
-.me-scroll{
-  max-height: 80vh;
-  overflow:auto;
+/* 닫기 버튼 */
+#meModal .me-close{
+  font-size: 22px;
+  line-height: 1;
+  border: 0;
+  background: transparent;
+  color: #000;
+  cursor: url("images/clickhand.png") 0 0, pointer !important;
 }
 
-.me-wrap{
-  position:relative;
-  width: 100%;
+/* 스크롤 영역 */
+#meModal .me-scroll{
+  height: calc(1700px - 48px); /* ✅ 타이틀바 제외한 고정 스크롤 */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-#meImg{
-  width:100%;
-  height:auto;
-  display:block;
+/* 이미지 + 핫스팟 기준 */
+#meModal .me-wrap{
+  position: relative;          /* ✅ absolute 기준 */
+  width: 600px;
 }
+#meModal #meImg{
+  width: 600px;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* ✅ Me 전용 핫스팟(다른 모달과 충돌 방지) */
+#meModal .hot{
+  position: absolute;
+  display: block;              /* a 태그도 면적 보장 */
+  z-index: 5;                  /* 이미지 위 */
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: url("images/clickhand.png") 0 0, pointer !important;
+}
+#meModal a.hot{ text-decoration: none; }
+
+/* ✅ 핫스팟 좌표 (600x1700 기준, px) */
+/* SNS 버튼 (w119 h121, y84) */
+#meModal .hot-ig{ left: 17.8px; top: 84px; width: 119px; height: 121px; }
+#meModal .hot-it{ left: 38.3px; top: 84px; width: 119px; height: 121px; }
+#meModal .hot-be{ left: 55.6px; top: 84px; width: 119px; height: 121px; }
+
+/* 이메일 영역 (w449 h52, x36.4 y70) */
+#meModal .hot-mail{ left: 36.4px; top: 70px; width: 449px; height: 52px; }
+
+/* 토스트 */
+#meModal .toast{
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 10;
+}
+#meModal .toast.show{
+  opacity: 1;
+  transform: translate(-50%, calc(-50% - 6px));
+}
+
+/* (선택) 핫스팟 위치 디버그: 확인 후 지우기 */
+/*
+#meModal .hot{
+  outline: 2px solid rgba(255,0,0,.6);
+  background: rgba(255,0,0,.15);
+}
+*/
+
 
 /* 투명 핫스팟(퍼센트 기반) */
 .hot{
