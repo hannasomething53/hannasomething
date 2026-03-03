@@ -1,7 +1,12 @@
 /* =========================
+ASSET 경로 (중요)
+- 너 폴더명이 images 이므로 여기만 맞추면 됨
+========================= */
+const ASSET_DIR = "images/";
+
+/* =========================
 데이터(여기만 고치면 추가/관리 쉬움)
 ========================= */
-
 const order = [
   "e1","e2","e3","e4","e5","e6","p25","e7","e8","e13",
   "p28","p26","p27","p31","p29","p30","e9","e10",
@@ -44,15 +49,17 @@ const captions = {
   p34:"personal work"
 };
 
-// id -> 파일명
-const imgSrc = (id) => `${id}.jpeg`;
+/* =========================
+파일 경로 생성
+========================= */
+const imgSrc = (id) => `${ASSET_DIR}${id}.jpeg`;
 
-// 썸네일: e13 -> s13 / p25 -> s25 (요청 규칙)
+// e13 -> s13 / p25 -> s25
 function thumbIdFromWorkId(id){
-  const num = id.replace(/\D/g, ""); // 숫자만
+  const num = id.replace(/\D/g, "");
   return `s${num}`;
 }
-const thumbSrc = (id) => `${thumbIdFromWorkId(id)}.jpeg`;
+const thumbSrc = (id) => `${ASSET_DIR}${thumbIdFromWorkId(id)}.jpeg`;
 
 /* =========================
 DOM
@@ -90,7 +97,6 @@ async function copyText(text){
     await navigator.clipboard.writeText(text);
     showToast("Copied!");
   }catch(e){
-    // fallback
     const ta = document.createElement("textarea");
     ta.value = text;
     document.body.appendChild(ta);
@@ -105,7 +111,6 @@ async function copyText(text){
 갤러리/썸네일 렌더
 ========================= */
 function render(){
-  // gallery
   const fragG = document.createDocumentFragment();
   order.forEach((id)=>{
     const wrap = document.createElement("section");
@@ -131,7 +136,6 @@ function render(){
   });
   galleryEl.appendChild(fragG);
 
-  // thumbs
   const fragT = document.createDocumentFragment();
   order.forEach((id)=>{
     const a = document.createElement("a");
@@ -178,7 +182,6 @@ function setActiveThumb(id, autoScroll){
   if(autoScroll){
     const active = thumbsEl.querySelector(`.tItem[data-target="${id}"]`);
     if(active){
-      // 썸네일 영역 가운데쯤 오도록 부드럽게 이동
       const box = thumbsEl.getBoundingClientRect();
       const ab = active.getBoundingClientRect();
       const delta = (ab.top + ab.height/2) - (box.top + box.height/2);
@@ -187,7 +190,6 @@ function setActiveThumb(id, autoScroll){
   }
 }
 
-// 갤러리 스크롤 시 현재 보이는 작품을 썸네일과 연동
 function bindScrollSync(){
   const items = [...galleryEl.querySelectorAll(".gItem")];
   let ticking = false;
@@ -198,11 +200,10 @@ function bindScrollSync(){
     requestAnimationFrame(()=>{
       ticking = false;
 
-      // viewport 상단 근처에 가장 가까운 item 찾기
       let best = null;
       let bestDist = Infinity;
 
-      const topLine = 90; // 살짝 여유
+      const topLine = 90;
       items.forEach((it)=>{
         const r = it.getBoundingClientRect();
         const dist = Math.abs(r.top - topLine);
@@ -224,7 +225,7 @@ function bindScrollSync(){
 }
 
 /* =========================
-리빌 애니메이션(IntersectionObserver)
+리빌 애니메이션
 ========================= */
 function bindReveal(){
   const io = new IntersectionObserver((entries)=>{
@@ -256,15 +257,12 @@ function closeLightbox(){
 }
 
 lightbox.addEventListener("click", (e)=>{
-  // 배경 클릭 시 닫힘(이미지 자체 클릭은 닫히지 않게)
   if(e.target === lightbox) closeLightbox();
 });
 
 /* =========================
 Me 모달 + 핫스팟
-좌표 해석:
-- x, y는 % (이미지 기준 위치)
-- w, h는 px (이미지 700x1983 고정이므로 그대로)
+(이미지 700x1983 고정)
 ========================= */
 function openMe(){
   meModal.classList.add("show");
@@ -281,48 +279,43 @@ function clearMeHotspots(){
 }
 
 function addHotspot({ w, h, x, y, onClick, href }){
-  const btn = document.createElement(href ? "a" : "button");
-  btn.className = "hotspot clickable";
-  btn.style.width = `${w}px`;
-  btn.style.height = `${h}px`;
-  btn.style.left = `${x}%`;
-  btn.style.top = `${y}%`;
-  btn.style.transform = "translate(-50%, -50%)";
+  const el = document.createElement(href ? "a" : "button");
+  el.className = "hotspot clickable";
+  el.style.width = `${w}px`;
+  el.style.height = `${h}px`;
+  el.style.left = `${x}%`;
+  el.style.top = `${y}%`;
+  el.style.transform = "translate(-50%, -50%)";
 
   if(href){
-    btn.href = href;
-    btn.target = "_blank";
-    btn.rel = "noopener";
+    el.href = href;
+    el.target = "_blank";
+    el.rel = "noopener";
   }else{
-    btn.type = "button";
-    btn.addEventListener("click", onClick);
+    el.type = "button";
+    el.addEventListener("click", onClick);
   }
-
-  meStage.appendChild(btn);
+  meStage.appendChild(el);
 }
 
 function buildMeHotspots(){
   clearMeHotspots();
 
-  // instagram
   addHotspot({
     w: 158, h: 158, x: 13.7, y: 65.4,
     href: "https://www.instagram.com/hanna_something/"
   });
 
-  // behance
   addHotspot({
     w: 158, h: 158, x: 45.4, y: 65.4,
     href: "https://www.behance.net/hibyhanna3e0f"
   });
 
-  // itsnicethat
   addHotspot({
     w: 158, h: 158, x: 29.2, y: 65.4,
     href: "https://www.itsnicethat.com/articles/hanna-something-illustration-020920"
   });
 
-  // copy email area
   addHotspot({
     w: 538, h: 57, x: 28.6, y: 54.9,
     onClick: ()=>copyText("mybrowncat53@gmail.com")
@@ -350,11 +343,6 @@ comicsModal.addEventListener("click", (e)=>{
 
 /* =========================
 카테고리 동작
-- Editorial/Personal: 해당 그룹 첫 이미지로 점프
-- Me: memyme 모달
-- Comics: comics 모달
-- Email: 복사 + 토스트
-- Home: 최상단
 ========================= */
 function firstIdByPrefix(prefix){
   return order.find(id => id.startsWith(prefix));
@@ -394,10 +382,6 @@ homeBtn.addEventListener("click", ()=>{
 
 /* =========================
 모바일 햄버거 메뉴
-- 카테고리/썸네일 없이 갤러리만 보임(CSS)
-- 햄버거 누르면 메뉴
-- 화면 아무데나 클릭하면 닫힘
-- Comics 누르면 c1 c8 c15 c23 리스트 표시
 ========================= */
 function openMobileMenu(){
   mobileMenu.classList.add("show");
@@ -415,8 +399,7 @@ hamburger.addEventListener("click", (e)=>{
 });
 
 mobileMenu.addEventListener("click", ()=>{
-  // “아무 곳이나 클릭하면 사라짐”
-  closeMobileMenu();
+  closeMobileMenu(); // 아무 곳이나 클릭하면 닫힘
 });
 
 mobileMenu.addEventListener("click", (e)=>{
@@ -442,12 +425,9 @@ mobileMenu.addEventListener("click", (e)=>{
 });
 
 /* =========================
-다운로드 방지(요청: 우클릭 다운로드 불가)
-- 완벽 차단은 불가능하지만 기본 UX 방지
+다운로드 방지(가능한 범위)
 ========================= */
-document.addEventListener("contextmenu", (e)=>{
-  e.preventDefault();
-});
+document.addEventListener("contextmenu", (e)=> e.preventDefault());
 
 document.addEventListener("dragstart", (e)=>{
   const t = e.target;
@@ -456,7 +436,6 @@ document.addEventListener("dragstart", (e)=>{
   }
 });
 
-// Ctrl+S / Ctrl+U / Ctrl+P 등 대표 단축키 일부 막기(가능한 범위)
 document.addEventListener("keydown", (e)=>{
   if(e.key === "Escape"){
     closeLightbox();
@@ -464,7 +443,6 @@ document.addEventListener("keydown", (e)=>{
     closeComics();
     closeMobileMenu();
   }
-
   const k = e.key.toLowerCase();
   if((e.ctrlKey || e.metaKey) && (k === "s" || k === "u" || k === "p")){
     e.preventDefault();
@@ -477,6 +455,4 @@ document.addEventListener("keydown", (e)=>{
 render();
 bindReveal();
 bindScrollSync();
-
-// 초기 활성 썸네일
 setActiveThumb(order[0], false);
