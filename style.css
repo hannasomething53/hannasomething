@@ -78,8 +78,8 @@ img{
   font-size: 22px;
   line-height: 1.2;
   z-index: 200;
+  text-align:center;   /* ✅ 추가 */
 }
-
 /* 가장 긴 이메일이 갤러리와 너무 붙지 않도록 약간 안쪽 여유 */
 .category{ padding-right: 10px; }
 
@@ -101,9 +101,12 @@ img{
 /* 카테고리 한 줄 */
 .cat{
   display:flex;
-  align-items:center;          /* 원 세로 중앙 */
-  gap: 14px;                   /* 원-글자 간격 */
-  margin: 0 0 10px 0;          /* 카테고리 간격 */
+  align-items:center;
+  gap:14px;
+  margin:0 0 10px 0;
+
+  justify-content:flex-start;  /* ✅ 추가 */
+  text-align:left;             /* ✅ 추가 */
 }
 
 /* Personal works 한줄 고정 */
