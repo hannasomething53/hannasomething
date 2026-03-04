@@ -34,10 +34,7 @@ html, body{
   cursor: url("images/mouse.png") 0 0, auto;
 }
 
-/* 클릭 가능한 곳: clickhand.png */
-a, button, .cat, .home-btn, #gallery img, .thumbs-inner img{
-  cursor: url("images/clickhand.png") 0 0, pointer !important;
-}
+
 
 /* 드래그/선택 최소화(다운로드 악용 줄이기) */
 img{
@@ -98,6 +95,7 @@ img{
   width: 54px;
   height:auto;
   display:block;
+  margin:0 auto;
 }
 
 /* 카테고리 한 줄 */
