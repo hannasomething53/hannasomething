@@ -237,95 +237,99 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 }
 
 /* =========================
-카테고리 모달(에디토리얼/퍼스널)
-- 겹침 방지 버전: 썸네일을 fixed에서 빼서 모달 레이아웃에 편입
+Category Modal (Editorial/Personal) - FIXED
+- 이미지 크게/중앙
+- 캡션/썸네일 겹침 방지
+- 썸네일바: left 80px 시작, 맨 아래 얇은 스크롤바, 썸네일과 20px 간격
+- cm-hit(좌우 넘김)이 썸네일 클릭을 가로채지 않게 처리
 ========================= */
 
 #categoryModal{
-  position:fixed;
-  inset:0;
-  display:none;
+  position: fixed;
+  inset: 0;
+  display: none;
   background: rgba(255,255,244,.95);
   z-index: 3500;
 }
 
-/* ✅ cm을 세로 레이아웃 컨테이너로 */
 .cm{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
+  position: absolute;
+  inset: 0;
 }
 
-/* X 버튼 */
+/* 닫기 버튼 */
 .cm-close{
-  position:absolute;
+  position: absolute;
   top: 20px;
   right: 26px;
   font-size: 44px;
   line-height: 1;
-  border:0;
-  background:transparent;
-  color:#000;
-  z-index: 5;
+  border: 0;
+  background: transparent;
+  color: #000;
+  z-index: 40;
+  cursor: url("images/clickhand.png") 0 0, pointer !important;
 }
 
-/* ✅ 위(이미지/캡션) 영역: 남는 공간을 차지 */
+/* ✅ 스테이지: 아래 썸네일바 높이만큼 공간을 '항상' 확보 */
 .cm-stage{
-  position:relative;           /* absolute 제거 */
-  flex: 1 1 auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding: 70px 20px 20px 20px;
-  min-height: 0;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 아래는 썸네일바 120px + 여유 */
+  padding: 40px 20px 160px 20px;
+  box-sizing: border-box;
 }
 
-/* 이미지+캡션 묶음 */
+/* ✅ 미디어: 이미지+캡션을 세로로 */
 .cm-media{
-  width: min(900px, 92vw);
-  display:flex;
-  flex-direction:column;
-  min-height: 0;
+  width: min(1000px, 94vw);
+  max-height: calc(100vh - 40px - 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* ✅ 이미지: 작아지는 문제 핵심 해결 (세로 공간 최대 활용) */
 .cm-img{
-  width:100%;
-  height:auto;
-  display:block;
-
-  /* ✅ 핵심: 썸네일(100px) + 아래 여백(15px) + 상단(70px) 감안 */
-  max-height: calc(100vh - 70px - 20px - 100px - 15px - 70px);
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 40px - 160px - 40px); /* 캡션 공간 */
   object-fit: contain;
+  display: block;
 }
 
 .cm-caption{
-  margin-top: 14px;
+  margin-top: 10px;
   font-size: 20px;
-  line-height:1.35;
-
-  text-align:center;      /* 텍스트 가운데 */
-  align-self:center;      /* flex 안에서 블록도 가운데 */
-  max-width: 90%;         /* 너무 길어질 때 안정성 */
+  line-height: 1.25;
+  text-align: center;
+  width: 100%;
 }
-/* 좌/우 클릭 영역(화살표 대신) */
+
+/* ✅ 좌/우 클릭 영역: 썸네일바 영역은 절대 덮지 않게 */
 .cm-hit{
-  position:absolute;
-  top:0;
-  bottom:140px;
+  position: absolute;
+  top: 0;
+  bottom: 120px;  /* ✅ 썸네일바 높이만큼 제외 */
   width: 20vw;
   min-width: 60px;
-  z-index: 1;
+  z-index: 10;
 }
-.cm-hit.left{ left:0; }
-.cm-hit.right{ right:0; }
+.cm-hit.left{ left: 0; }
+.cm-hit.right{ right: 0; }
 
+/* ✅ 하단 썸네일 바 */
 .cm-thumbs{
   position: fixed;
-  left: 80px;
+  left: 80px;     /* ✅ 첫 썸네일 시작 여백 */
   right: 0;
   bottom: 0;
-  height: 120px;                /* 100(썸네일) + 20(간격) */
+
+  height: 120px;  /* 100(썸네일) + 20(스크롤바 간격) */
   display: flex;
   align-items: flex-end;
   gap: 50px;
@@ -333,19 +337,15 @@ Lightbox (검정 90%, 위아래 여백 느낌)
   overflow-x: auto;
   overflow-y: hidden;
 
-  padding: 0 20px 20px 0;       /* 아래 20px = 스크롤바와 썸네일 간격 */
+  padding: 0 20px 20px 0; /* ✅ 아래 20px = 스크롤바와 썸네일 간격 */
   box-sizing: border-box;
 
   scrollbar-width: thin;
-  z-index: 10;                  /* cm-hit보다 위 */
+  z-index: 30;     /* ✅ cm-hit보다 위 */
 }
 
-.cm-thumbs::-webkit-scrollbar{
-  height: 8px;
-}
-.cm-thumbs::-webkit-scrollbar-track{
-  background: transparent;
-}
+.cm-thumbs::-webkit-scrollbar{ height: 8px; }
+.cm-thumbs::-webkit-scrollbar-track{ background: transparent; }
 .cm-thumbs::-webkit-scrollbar-thumb{
   background: rgba(0,0,0,.25);
   border-radius: 999px;
@@ -356,6 +356,12 @@ Lightbox (검정 90%, 위아래 여백 느낌)
   width: auto;
   display: block;
   transition: opacity .2s ease;
+  cursor: url("images/clickhand.png") 0 0, pointer !important;
+}
+.cm-thumbs img:hover{ opacity: .7; }
+.cm-thumbs img.active{
+  outline: 2px solid rgba(0,0,0,.25);
+  outline-offset: 4px;
 }
 /* =========================
 Book viewer (코믹스 페이지 넘김)
