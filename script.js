@@ -237,22 +237,31 @@ document.querySelectorAll(".cat").forEach(el=>{
 });
 
 /* =========================
-Category Modal (Editorial/Personal)
-- 하단 썸네일바: 얇은 스크롤바 + bottom 15px
-- 썸넬 오토스크롤 기능 제거
+Category Modal (Editorial/Personal) - FIXED
+- 썸네일 클릭 정확
+- active 썸네일이 cmThumbs 안에서만 보이도록 오토스크롤(=필요 기능)
+- Editorial/Personal 둘 다 동일 적용
 ========================= */
 let cmList = [];
 let cmIndex = 0;
 
 function openCategoryModal(type){
   cmList = (type === "e") ? editorialOrder : personalOrder;
-  cmIndex = 0;
 
+  if(!cmList || cmList.length === 0){
+    console.warn("[CategoryModal] list empty:", type);
+    return;
+  }
+
+  cmIndex = 0;
   categoryModal.style.display = "block";
   categoryModal.setAttribute("aria-hidden","false");
 
   buildCategoryThumbs();
-  renderCategoryModal();
+  renderCategoryModal(true);
+
+  // ✅ 처음 열 때 썸네일바 시작 위치를 왼쪽으로
+  cmThumbs.scrollLeft = 0;
 }
 
 function closeCategoryModal(){
@@ -261,53 +270,69 @@ function closeCategoryModal(){
   cmThumbs.innerHTML = "";
 }
 
-function renderCategoryModal(){
+function renderCategoryModal(instant){
   const id = cmList[cmIndex];
   if(!id) return;
 
+  // 큰 이미지/캡션
   cmImg.src = imgPath(id);
   cmCaption.textContent = captions[id] || "";
 
+  // active 표시
   const thumbs = Array.from(cmThumbs.querySelectorAll("img"));
   thumbs.forEach((t,i)=>t.classList.toggle("active", i===cmIndex));
 
-  // ✅ 오토스크롤(센터링) 제거: cmThumbs.scrollTo(...) 없음
+  // ✅ 너가 원한 기능: "다음 썸네일이 자동으로 보이게"
+  const active = thumbs[cmIndex];
+  if(active){
+    const left = active.offsetLeft - (cmThumbs.clientWidth/2) + (active.clientWidth/2);
+    cmThumbs.scrollTo({
+      left: Math.max(0, left),
+      behavior: instant ? "auto" : "smooth"
+    });
+  }
 }
 
 function buildCategoryThumbs(){
   cmThumbs.innerHTML = "";
+
   cmList.forEach((id, i)=>{
     const t = document.createElement("img");
     t.src = thumbPath(id);
     t.alt = `thumb-${id}`;
-    t.addEventListener("click", ()=>{
+
+    t.addEventListener("click", (e)=>{
+      e.stopPropagation(); // ✅ 바깥 클릭/좌우 hit로 새지 않게
       cmIndex = i;
-      renderCategoryModal();
+      renderCategoryModal(false);
     });
+
     cmThumbs.appendChild(t);
   });
+
+  // ✅ 썸네일 바 영역 클릭은 모달 바깥 클릭으로 전파 금지
+  cmThumbs.addEventListener("click", (e)=>e.stopPropagation());
 }
 
 function prevCategory(){
   cmIndex = (cmIndex - 1 + cmList.length) % cmList.length;
-  renderCategoryModal();
+  renderCategoryModal(false);
 }
 function nextCategory(){
   cmIndex = (cmIndex + 1) % cmList.length;
-  renderCategoryModal();
+  renderCategoryModal(false);
 }
 
-cmClose?.addEventListener("click", closeCategoryModal);
-cmHitLeft?.addEventListener("click", prevCategory);
-cmHitRight?.addEventListener("click", nextCategory);
+cmClose.addEventListener("click", (e)=>{ e.stopPropagation(); closeCategoryModal(); });
+cmHitLeft.addEventListener("click", (e)=>{ e.stopPropagation(); prevCategory(); });
+cmHitRight.addEventListener("click", (e)=>{ e.stopPropagation(); nextCategory(); });
 
-categoryModal?.addEventListener("click", (e)=>{
+categoryModal.addEventListener("click", (e)=>{
   if(e.target === categoryModal) closeCategoryModal();
 });
 
 document.addEventListener("keydown",(e)=>{
-  // ESC는 통합 처리에서 처리할 거라 여기서는 좌/우만 처리
-  if(categoryModal?.style.display !== "block") return;
+  if(categoryModal.style.display !== "block") return;
   if(e.key === "ArrowLeft") prevCategory();
   if(e.key === "ArrowRight") nextCategory();
 });
