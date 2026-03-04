@@ -52,10 +52,10 @@ const comicsCovers = ["c1.png","c8.png","c15.png","c23.png"];
 
 /* 각 커버 클릭 시 넘겨볼 페이지들 */
 const comicsBooks = {
-  "c1.png":  Array.from({length:6}, (_,i)=>`c${i+2}.jpeg`),          // c2~c7
-  "c8.png":  Array.from({length:6}, (_,i)=>`c${i+9}.jpeg`),          // c9~c14
-  "c15.png": Array.from({length:7}, (_,i)=>`c${i+16}.jpeg`),         // c16~c22
-  "c23.png": Array.from({length:19},(_,i)=>`c${i+24}.jpeg`)          // c24~c42
+  "c1.png":  Array.from({length:6}, (_,i)=>`c${i+2}.jpg`),          // c2~c7
+  "c8.png":  Array.from({length:6}, (_,i)=>`c${i+9}.jpg`),          // c9~c14
+  "c15.png": Array.from({length:7}, (_,i)=>`c${i+16}.jpg`),         // c16~c22
+  "c23.png": Array.from({length:19},(_,i)=>`c${i+24}.jpg`)          // c24~c42
 };
 
 /* =========================
@@ -100,8 +100,8 @@ const mobileComicsList = document.getElementById("mobileComicsList");
 유틸
 ========================= */
 function imgPath(idOrFile){
-  // 갤러리/썸네일은 jpg / 코믹스는 png/jpeg 혼용
-  if (idOrFile.endsWith(".png") || idOrFile.endsWith(".jpeg") || idOrFile.endsWith(".jpg")) {
+  // 갤러리/썸네일은 jpg / 코믹스는 png/jpg 혼용
+  if (idOrFile.endsWith(".png") || idOrFile.endsWith(".jpg") || idOrFile.endsWith(".jpg")) {
     return `images/${idOrFile}`;
   }
   return `images/${idOrFile}.jpg`;
@@ -206,10 +206,7 @@ function setActiveThumb(idx){
   const t = thumbImgs[idx];
   if(!t) return;
 
-  // 중앙으로 맞추되, smooth 사용 안함(흔들림 방지)
-  const container = thumbsInner;
-  const targetTop = t.offsetTop - (container.clientHeight/2) + (t.clientHeight/2);
-  container.scrollTo({top: Math.max(0, targetTop), behavior:"auto"});
+
 }
 
 window.addEventListener("scroll", ()=>{
