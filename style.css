@@ -312,7 +312,7 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 .cm-hit{
   position:absolute;
   top:0;
-  bottom:0;
+  bottom:140px;
   width: 20vw;
   min-width: 60px;
   z-index: 1;
@@ -320,39 +320,43 @@ Lightbox (검정 90%, 위아래 여백 느낌)
 .cm-hit.left{ left:0; }
 .cm-hit.right{ right:0; }
 
-/* ✅ 하단 썸네일 바: fixed 제거, 항상 공간 확보 => 절대 안 겹침 */
 .cm-thumbs{
-  /* 기존 유지 */
+  position: fixed;
   left: 80px;
   right: 0;
-  bottom: 15px;
-  height: 120px;
-  display:flex;
-  align-items:flex-start;  
+  bottom: 0;
+  height: 120px;                /* 100(썸네일) + 20(간격) */
+  display: flex;
+  align-items: flex-end;
   gap: 50px;
-  overflow-x:auto;
-  overflow-y:hidden;
 
-  /* ✅ 스크롤바 보이게 */
-  scrollbar-width: auto;     /* Firefox: none -> auto */
-  padding-right: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
 
-  /* ✅ “스크롤바가 맨 아래” 느낌을 더 주고 싶으면 */
-  padding-bottom: 24px;      /* 스크롤바 공간 확보(썸네일 아래 여백) */
+  padding: 0 20px 20px 0;       /* 아래 20px = 스크롤바와 썸네일 간격 */
   box-sizing: border-box;
+
+  scrollbar-width: thin;
+  z-index: 10;                  /* cm-hit보다 위 */
 }
+
+.cm-thumbs::-webkit-scrollbar{
+  height: 8px;
+}
+.cm-thumbs::-webkit-scrollbar-track{
+  background: transparent;
+}
+.cm-thumbs::-webkit-scrollbar-thumb{
+  background: rgba(0,0,0,.25);
+  border-radius: 999px;
+}
+
 .cm-thumbs img{
-  height:100px;
-  width:auto;
-  display:block;
+  height: 100px;
+  width: auto;
+  display: block;
   transition: opacity .2s ease;
 }
-.cm-thumbs img:hover{ opacity:.7; }
-.cm-thumbs img.active{
-  outline: 2px solid rgba(0,0,0,.25);
-  outline-offset: 4px;
-}
-
 /* =========================
 Book viewer (코믹스 페이지 넘김)
 - 검정 90%
