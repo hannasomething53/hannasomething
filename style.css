@@ -505,34 +505,39 @@ Me popup (요청 사양)
 - BE: x380.07 y550.31
 메일: w382 h52 x243 y458.55
 */
-
 #meModal .hot-ig{
   left: 22%;
   top: 38.84%;
-  width: 24%;
-  height: 9.17%;
+  width: 28%;
+  height: 11%;
 }
+
 #meModal .hot-it{
   left: 50%;
   top: 38.84%;
-  width: 24%;
-  height: 9.17%;
-  transform: translateX(-50%);
+  width: 28%;
+  height: 11%;
 }
+
 #meModal .hot-be{
-  left: 76.014%;
+  left: 76%;
   top: 38.84%;
-  width: 24%;
-  height: 9.17%;
+  width: 28%;
+  height: 11%;
 }
 
 #meModal .hot-mail{
   left: 48.6%;
   top: 32.36%;
-  width: 76.4%;
-  height: 3.67%;
-  transform: translateX(-50%);
+  width: 80%;
+  height: 5%;
 }
+-------위치확인용---------
+#meModal .hot{
+ outline:2px solid red;
+ background:rgba(255,0,0,.2);
+}
+----
 
 /* 토스트(복사 알림) */
 #meModal .toast{
