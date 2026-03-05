@@ -617,3 +617,23 @@ Comics overlay (카테고리 고정, 오른쪽 영역만 새창처럼)
 html.no-scroll, body.no-scroll{
   overflow: hidden !important;
 }
+/* ✅ Comics hover toast (Me보다 약간 크게) */
+#comicsModal .comics-toast{
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -100%);
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  padding: 10px 16px;     /* ✅ 조금 크게 */
+  border-radius: 12px;
+  font-size: 16px;        /* ✅ Me보다 살짝 크게 */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transition: opacity .15s ease, transform .15s ease;
+}
+#comicsModal .comics-toast.show{
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 6px));
+}
