@@ -82,10 +82,10 @@ img{
 }
 /* 가장 긴 이메일이 갤러리와 너무 붙지 않도록 약간 안쪽 여유 */
 .category{ padding-right: 10px; }
-
 .home-wrap{
-  position:relative;
-  left:55px;      /* ← 이 숫자만 바꿔가면서 맞추면 됨 */
+  width:100%;
+  display:flex;
+  justify-content:center;
   margin-bottom:18px;
 }
 /* home.png 크기 지정(해상도 떨어지는 확대 방지) */
