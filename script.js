@@ -80,19 +80,24 @@ const comicsClose = document.getElementById("comicsClose");
 const comicsList = document.getElementById("comicsList");
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
-  const cat = document.getElementById("category");
-  if(!cat || !comicsModal) return;
+  const emailEl = document.querySelector("#category .email");
+  const catEl   = document.getElementById("category");
+  if(!comicsModal) return;
 
-  const r = cat.getBoundingClientRect();
-  const gap = 100;
-  comicsModal.style.left = Math.round(r.right + gap) + "px";
+  const gap = 100; // ✅ 여백 100px
+
+  // 이메일이 있으면 이메일 끝 기준, 없으면 카테고리 끝 기준
+  const baseRect = emailEl ? emailEl.getBoundingClientRect() : catEl?.getBoundingClientRect();
+  if(!baseRect) return;
+
+  comicsModal.style.left = Math.round(baseRect.right + gap) + "px";
 }
 
 /* ✅ 그 다음에 openComicsModal */
 function openComicsModal(){
   document.getElementById("gallery").style.display = "none";
   document.getElementById("thumbs").style.display = "none";
-
+  document.body.style.overflow = "hidden"; // ✅ 추가: 바깥 스크롤 잠금
   comicsModal.style.display = "block";
   setComicsLeft();
   window.addEventListener("resize", setComicsLeft);
@@ -548,8 +553,9 @@ window.addEventListener("resize", setComicsLeft);
 function closeComicsModal(){
   comicsModal.style.display = "none";
   comicsModal.setAttribute("aria-hidden","true");
-   document.getElementById("gallery").style.display = "";   // 추가
+  document.getElementById("gallery").style.display = "";   // 추가
   document.getElementById("thumbs").style.display = "";    // 추가
+  document.body.style.overflow = ""; // ✅ 추가: 원복
   window.removeEventListener("resize", setComicsLeft); // ✅ 추가
 }
 
