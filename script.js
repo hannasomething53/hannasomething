@@ -98,7 +98,6 @@ function openComicsModal(){
   window.addEventListener("resize", setComicsLeft);
 
   comicsModal.setAttribute("aria-hidden","false");
-  ...
 }
 const bookModal = document.getElementById("bookModal");
 const bookClose = document.getElementById("bookClose");
