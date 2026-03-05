@@ -81,7 +81,7 @@ img{
 }
 .home-wrap{
   position:relative;
-  left:45px;     /* ← 여기 값만 조절 */
+  left:50px;     /* ← 여기 값만 조절 */
   margin-bottom:18px;
 }
 /* home.png 크기 지정(해상도 떨어지는 확대 방지) */
