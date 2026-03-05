@@ -511,6 +511,7 @@ Comics (오버레이 리스트)
 - 이후 cover 추가 시 comicsCovers 배열에만 추가
 ========================= */
 function openComicsModal(){
+  console.log("OPEN COMICS CALLED FROM:", new Error().stack);
   document.getElementById("gallery").style.display = "none";   // 추가
   document.getElementById("thumbs").style.display = "none";    // 추가
   comicsModal.style.display = "block";
