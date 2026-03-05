@@ -551,7 +551,7 @@ function openComicsModal(){
     img.style.width = "min(700px, 92vw)";
     img.style.maxWidth = "700px";
     img.style.display = "block";
-    img.style.margin = "0 auto 50px auto";
+    img.style.margin = "0 0 50px 0";
 
     img.addEventListener("click", ()=>{
       const pages = comicsBooks[file] || [];
