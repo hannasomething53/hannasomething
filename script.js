@@ -80,24 +80,31 @@ const comicsClose = document.getElementById("comicsClose");
 const comicsList = document.getElementById("comicsList");
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
-  const emailEl = document.querySelector("#category .email");
-  const catEl   = document.getElementById("category");
-  if(!comicsModal) return;
+  const cat = document.getElementById("category");
+  if(!cat || !comicsModal) return;
 
-  const gap = 100; // ✅ 여백 100px
+  // ✅ 카테고리 안에서 제일 오른쪽에 있는 요소(실제 끝)를 찾기
+  const candidates = cat.querySelectorAll("*");
+  let maxRight = cat.getBoundingClientRect().right;
 
-  // 이메일이 있으면 이메일 끝 기준, 없으면 카테고리 끝 기준
-  const baseRect = emailEl ? emailEl.getBoundingClientRect() : catEl?.getBoundingClientRect();
-  if(!baseRect) return;
+  candidates.forEach(el=>{
+    const r = el.getBoundingClientRect();
+    if(r.width > 0 && r.height > 0){
+      maxRight = Math.max(maxRight, r.right);
+    }
+  });
 
-  comicsModal.style.left = Math.round(baseRect.right + gap) + "px";
+  const gap = 100; // ✅ 원하는 여백
+  comicsModal.style.left = Math.round(maxRight + gap) + "px";
+  comicsModal.style.right = "0";
 }
 
 /* ✅ 그 다음에 openComicsModal */
 function openComicsModal(){
   document.getElementById("gallery").style.display = "none";
   document.getElementById("thumbs").style.display = "none";
-  document.body.style.overflow = "hidden"; // ✅ 추가: 바깥 스크롤 잠금
+  document.documentElement.classList.add("no-scroll"); // ✅ 추가
+  document.body.classList.add("no-scroll");            // ✅ 추가
   comicsModal.style.display = "block";
   setComicsLeft();
   window.addEventListener("resize", setComicsLeft);
@@ -516,13 +523,18 @@ Comics (오버레이 리스트)
 - 이후 cover 추가 시 comicsCovers 배열에만 추가
 ========================= */
 function openComicsModal(){
-  console.log("OPEN COMICS CALLED FROM:", new Error().stack);
-  document.getElementById("gallery").style.display = "none";   // 추가
-  document.getElementById("thumbs").style.display = "none";    // 추가
+  document.getElementById("gallery").style.display = "none";
+  document.getElementById("thumbs").style.display = "none";
+
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+
   comicsModal.style.display = "block";
+  comicsModal.setAttribute("aria-hidden","false");  // ✅ 여기로
+
   setComicsLeft();
-window.addEventListener("resize", setComicsLeft);
-  comicsModal.setAttribute("aria-hidden","false");
+  window.addEventListener("resize", setComicsLeft);
+}
 
   // ✅ 다른 모달이 열려 있으면 닫아 충돌 방지
   if(categoryModal?.style.display === "block") closeCategoryModal();
@@ -555,7 +567,9 @@ function closeComicsModal(){
   comicsModal.setAttribute("aria-hidden","true");
   document.getElementById("gallery").style.display = "";   // 추가
   document.getElementById("thumbs").style.display = "";    // 추가
-  document.body.style.overflow = ""; // ✅ 추가: 원복
+  document.documentElement.classList.remove("no-scroll"); // ✅ 추가
+  document.body.classList.remove("no-scroll");            // ✅ 추가
+
   window.removeEventListener("resize", setComicsLeft); // ✅ 추가
 }
 
