@@ -537,7 +537,14 @@ Me popup (요청 사양)
  outline:2px solid red;
  background:rgba(255,0,0,.2);
 }
-----
+
+/* ✅ DEBUG: 핫스팟 강제 표시 (확인 후 삭제) */
+#meModal .hot{
+  outline: 4px solid red !important;
+  background: rgba(255,0,0,.35) !important;
+  z-index: 99999 !important;
+  display: block !important;
+}
 
 /* 토스트(복사 알림) */
 #meModal .toast{
