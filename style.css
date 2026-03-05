@@ -71,14 +71,12 @@ img{
   position:fixed;
   top:250px;
 
-  /* 갤러리 중심 기준으로 왼쪽 배치 */
   left: calc(50% - (var(--galleryW) / 2) - var(--gapL) - var(--catW));
 
   width: var(--catW);
   font-size: 22px;
   line-height: 1.2;
   z-index: 200;
-  position:relative;   /* ← 이 줄 추가 */
 }
 /* 가장 긴 이메일이 갤러리와 너무 붙지 않도록 약간 안쪽 여유 */
 .category{ padding-right: 10px; }
