@@ -84,11 +84,10 @@ img{
 .category{ padding-right: 10px; }
 
 .home-wrap{
+  width:100%;
   display:flex;
   justify-content:flex-start;
-
-  margin-left: calc(16px + 7px); /* one.png + gap/2 */
-
+  margin-left:23px;
   margin-bottom:18px;
 }
 /* home.png 크기 지정(해상도 떨어지는 확대 방지) */
