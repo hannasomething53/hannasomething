@@ -492,6 +492,7 @@ Comics (오버레이 리스트)
 function openComicsModal(){
   console.log("COMICS OPEN");
   comicsModal.style.display = "block";
+  comicsModal.style.visibility = "visible";   // ← 이 줄 추가
   comicsModal.setAttribute("aria-hidden","false");
 
   // ✅ 다른 모달이 열려 있으면 닫아 충돌 방지
