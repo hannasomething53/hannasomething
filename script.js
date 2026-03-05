@@ -490,6 +490,7 @@ Comics (오버레이 리스트)
 - 이후 cover 추가 시 comicsCovers 배열에만 추가
 ========================= */
 function openComicsModal(){
+  console.log("COMICS OPEN");
   comicsModal.style.display = "block";
   comicsModal.setAttribute("aria-hidden","false");
 
