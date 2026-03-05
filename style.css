@@ -612,3 +612,8 @@ Comics overlay (카테고리 고정, 오른쪽 영역만 새창처럼)
   display: block;
   margin: 0 auto 50px auto;     /* ✅ 간격 50px */
 }
+
+/* ✅ Comics 열릴 때 바깥 스크롤 잠금 */
+html.no-scroll, body.no-scroll{
+  overflow: hidden !important;
+}
