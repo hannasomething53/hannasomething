@@ -560,7 +560,7 @@ function openComicsModal(){
 
     comicsList.appendChild(img);
   });
-}
+
 
 function closeComicsModal(){
   comicsModal.style.display = "none";
