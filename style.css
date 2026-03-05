@@ -84,9 +84,8 @@ img{
 .category{ padding-right: 10px; }
 
 .home-wrap{
-  width:100%;
-  display:flex;
-  justify-content:center;   /* ← 핵심 */
+  position:relative;
+  left:55px;      /* ← 이 숫자만 바꿔가면서 맞추면 됨 */
   margin-bottom:18px;
 }
 /* home.png 크기 지정(해상도 떨어지는 확대 방지) */
