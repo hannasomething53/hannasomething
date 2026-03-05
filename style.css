@@ -497,9 +497,9 @@ Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
   transform: translate(-50%, -50%);
   background: rgba(0,0,0,.85);
   color: #fff;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s ease, transform .2s ease;
