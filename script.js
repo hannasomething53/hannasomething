@@ -100,6 +100,60 @@ const meTitlebar = document.getElementById("meTitlebar");
 const copyMailBtn = document.getElementById("copyMail");
 const toast = document.getElementById("toast");
 
+/* =========================
+Me hotspots hover toast: "click!"
+========================= */
+
+let toastLock = false;  // Copied가 뜨는 동안 hover가 덮어쓰지 못하게 잠금
+
+function showToastAt(clientX, clientY, text){
+  if(!toast || !meModal) return;
+
+  // Copied 띄우는 중이면 hover 토스트는 무시
+  if(toastLock) return;
+
+  const wrap = meModal.querySelector(".me-wrap");
+  if(!wrap) return;
+
+  const rect = wrap.getBoundingClientRect();
+
+  // me-wrap 안에서의 좌표로 변환
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+
+  toast.textContent = text;
+
+  // 마우스 근처로 띄우기(살짝 위로)
+  toast.style.left = `${Math.max(10, Math.min(rect.width - 10, x))}px`;
+  toast.style.top  = `${Math.max(10, y - 18)}px`;
+  toast.style.transform = "translate(-50%, -100%)";
+
+  toast.classList.add("show");
+}
+
+function hideToast(){
+  if(!toast) return;
+  if(toastLock) return;   // Copied 띄우는 중이면 숨기지 않음
+  toast.classList.remove("show");
+}
+
+// ✅ Me 안의 모든 핫스팟에 hover 이벤트 걸기
+const meHotspots = Array.from(document.querySelectorAll("#meModal .hot"));
+
+meHotspots.forEach((el)=>{
+  el.addEventListener("mouseenter", (e)=>{
+    showToastAt(e.clientX, e.clientY, "click!");
+  });
+
+  // 움직일 때 토스트가 따라오게(원하면 빼도 됨)
+  el.addEventListener("mousemove", (e)=>{
+    showToastAt(e.clientX, e.clientY, "click!");
+  });
+
+  el.addEventListener("mouseleave", ()=>{
+    hideToast();
+  });
+});
 function openMeModal(){
   meModal.style.display = "block";
   meModal.setAttribute("aria-hidden","false");
@@ -118,18 +172,35 @@ meModal?.addEventListener("click",(e)=>{
   if(e.target === meModal) closeMeModal();
 });
 
-/* 이메일 복사 */
-copyMailBtn?.addEventListener("click", ()=>{
+/* 이메일 복사 (lock 포함) */
+copyMailBtn?.addEventListener("click",(e)=>{
+  e.stopPropagation();
   const email = "mybrowncat53@gmail.com";
 
-  navigator.clipboard.writeText(email).then(()=>{
+  const done = ()=>{
+    if(!toast) return;
+
+    toastLock = true;
     toast.textContent = "Copied";
     toast.classList.add("show");
 
     setTimeout(()=>{
       toast.classList.remove("show");
+      toastLock = false;
     },900);
-  });
+  };
+
+  if(navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(email).then(done).catch(done);
+  }else{
+    const ta = document.createElement("textarea");
+    ta.value = email;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    done();
+  }
 });
 
 /* 드래그 이동 */
