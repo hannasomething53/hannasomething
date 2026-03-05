@@ -98,30 +98,51 @@ function setComicsLeft(){
   comicsModal.style.left = Math.round(maxRight + gap) + "px";
   comicsModal.style.right = "0";
 }
-
 /* ✅ 그 다음에 openComicsModal */
 function openComicsModal(){
+
+  // ✅ 항상 첫 화면(맨 위)로
+  comicsModal.scrollTop = 0;
+  const comicsInner = comicsModal.querySelector(".comics-inner");
+  if(comicsInner) comicsInner.scrollTop = 0;
+  comicsList.scrollTop = 0;
+
   document.getElementById("gallery").style.display = "none";
   document.getElementById("thumbs").style.display = "none";
-  document.documentElement.classList.add("no-scroll"); // ✅ 추가
-  document.body.classList.add("no-scroll");            // ✅ 추가
+
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+
   comicsModal.style.display = "block";
   setComicsLeft();
+  window.removeEventListener("resize", setComicsLeft); // ✅ 추가
   window.addEventListener("resize", setComicsLeft);
 
   comicsModal.setAttribute("aria-hidden","false");
+
+
+  /* ⭐ 여기부터가 반드시 있어야 하는 코드 */
+  comicsList.innerHTML = "";
+
+  comicsCovers.forEach((file)=>{
+    const img = document.createElement("img");
+    img.src = imgPath(file);
+    img.alt = file;
+
+    img.style.width = "min(700px, 92vw)";
+    img.style.maxWidth = "700px";
+    img.style.display = "block";
+    img.style.margin = "0 0 50px 0";
+
+    img.addEventListener("click", ()=>{
+      const pages = comicsBooks[file] || [];
+      if(pages.length) openBookModal(pages);
+    });
+
+    comicsList.appendChild(img);
+  });
+
 }
-const bookModal = document.getElementById("bookModal");
-const bookClose = document.getElementById("bookClose");
-const bookImg = document.getElementById("bookImg");
-const bookPrev = document.getElementById("bookPrev");
-const bookNext = document.getElementById("bookNext");
-
-const homeBtn = document.getElementById("homeBtn");
-
-/* (Me는 지금 문제 없다고 했으니 여기서 건드리지 않음)
-   단, ESC 처리에서 참조하는 closeMeModal() 같은 것만 있으면 삭제/정리 필요.
-*/
 /* =========================
 Me Modal 기능
 ========================= */
