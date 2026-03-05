@@ -579,7 +579,7 @@ Comics overlay (카테고리 고정, 오른쪽 영역만 새창처럼)
   bottom: 0;
 
   /* ✅ 왼쪽 카테고리 영역은 남기고, 갤러리+썸네일 영역만 덮기 */
-  left: calc(50% - (var(--galleryW) / 2) - var(--gapL));
+  left: 260px;
 
   background: var(--bg);
   display: none;                 /* JS가 block으로 바꿈 */
