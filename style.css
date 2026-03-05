@@ -409,15 +409,9 @@ Book viewer (코믹스 페이지 넘김)
 .book-hit.right{ right:0; }
 
 /* =========================
-Me popup (요청 사양)
-- 이미지: memyme.jpeg
-- 창: w500 고정 / h1417 기준(단, 화면이 더 작으면 줄어듦)
-- 내부 스크롤로 끝까지 볼 수 있게
-- 드래그 가능
-- 핫스팟: 퍼센트 기반(창 크기 변해도 유지)
+Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
 ========================= */
 
-/* 오버레이 */
 #meModal{
   position: fixed;
   inset: 0;
@@ -426,24 +420,18 @@ Me popup (요청 사양)
   z-index: 3800;
 }
 
-/* 창 */
 #meModal .me-card{
   position: fixed;
-  left: 400px; /* 원하면 유지, 드래그도 되니까 OK */
+  left: 400px;
   top: 60px;
-
-  width: 500px;
-
-  /* ✅ 요청은 1417 고정이지만, 화면이 더 작을 때는 내부 스크롤로 '끝까지' 보이게 줄어들어야 함 */
-  height: min(1417px, calc(100vh - 120px));
-
+  width: 500px;                          
+  height: min(1417px, calc(100vh - 120px)); /* ✅ 화면 작을 때 바닥 접근 가능 */
   background: var(--bg);
   border-radius: 14px;
   box-shadow: 0 12px 48px rgba(0,0,0,.25);
   overflow: hidden;
 }
 
-/* 타이틀바(드래그 영역) */
 #meModal .me-titlebar{
   height: 48px;
   display: flex;
@@ -457,28 +445,25 @@ Me popup (요청 사양)
 }
 #meModal .me-titlebar:active{ cursor: grabbing; }
 
-#meModal .me-title{ font-size: 16px; line-height: 1; }
-
 #meModal .me-close{
   font-size: 22px;
-  line-height: 1;
   border: 0;
   background: transparent;
   color: #000;
 }
 
-/* ✅ 내부 스크롤(핵심) */
 #meModal .me-scroll{
   height: calc(100% - 48px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* 이미지 + 핫스팟 기준 */
+/* ✅ 기준 영역: 폭 500 고정 (핫스팟 px 좌표 기준) */
 #meModal .me-wrap{
   position: relative;
-  width: 500px; /* 기준 폭 */
+  width: 500px;
 }
+
 #meModal #meImg{
   width: 500px;
   height: auto;
@@ -487,51 +472,22 @@ Me popup (요청 사양)
   z-index: 1;
 }
 
-/* 핫스팟 공통 */
+/* ✅ 핫스팟 공통 */
 #meModal .hot{
   position: absolute;
-  display: block;
   z-index: 5;
+  display: block;
   background: transparent;
   border: 0;
   padding: 0;
   margin: 0;
 }
 
-/* ✅ 요청 좌표(500x1417 기준) → 퍼센트로 변환
-버튼: w120 h130
-- IG: x110 y550.31
-- IT: x250 y550.31
-- BE: x380.07 y550.31
-메일: w382 h52 x243 y458.55
-*/
-#meModal .hot-ig{
-  left: 22%;
-  top: 38.84%;
-  width: 28%;
-  height: 11%;
-}
-
-#meModal .hot-it{
-  left: 50%;
-  top: 38.84%;
-  width: 28%;
-  height: 11%;
-}
-
-#meModal .hot-be{
-  left: 76%;
-  top: 38.84%;
-  width: 28%;
-  height: 11%;
-}
-
-#meModal .hot-mail{
-  left: 48.6%;
-  top: 32.36%;
-  width: 80%;
-  height: 5%;
-}
+/* ✅ 네가 준 px좌표 그대로 */
+#meModal .hot-ig{ left:110px; top:550.31px; width:120px; height:130px; }
+#meModal .hot-it{ left:250px; top:550.31px; width:120px; height:130px; }
+#meModal .hot-be{ left:380.07px; top:550.31px; width:120px; height:130px; }
+#meModal .hot-mail{ left:243px; top:458.55px; width:382px; height:52px; }
 -------위치확인용---------
 #meModal .hot{
  outline:2px solid red;
@@ -546,7 +502,7 @@ Me popup (요청 사양)
   display: block !important;
 }
 
-/* 토스트(복사 알림) */
+/* 토스트 */
 #meModal .toast{
   position: absolute;
   left: 50%;
@@ -566,7 +522,7 @@ Me popup (요청 사양)
   opacity: 1;
   transform: translate(-50%, calc(-50% - 6px));
 }
-/* =========================
+=====================
 모바일
 - 카테고리/썸네일 숨김
 - 햄버거 고정
