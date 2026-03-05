@@ -484,10 +484,10 @@ Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
 }
 
 /* ✅ 네가 준 px좌표 그대로 */
-#meModal .hot-ig{ left:90px; top:400px; width:120px; height:130px; }
-#meModal .hot-it{ left:230px; top:400px; width:120px; height:130px; }
-#meModal .hot-be{ left:350px; top:400px; width:120px; height:130px; }
-#meModal .hot-mail{ left:100px; top:420px; width:382px; height:52px; }
+#meModal .hot-ig{ left:75px; top:420px; width:120px; height:130px; }
+#meModal .hot-it{ left:215px; top:420px; width:120px; height:130px; }
+#meModal .hot-be{ left:340px; top:420px; width:120px; height:130px; }
+#meModal .hot-mail{ left:850px; top:420px; width:382px; height:52px; }
 -------위치확인용---------
 #meModal .hot{
  outline:2px solid red;
