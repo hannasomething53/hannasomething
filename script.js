@@ -78,6 +78,7 @@ const cmHitRight = document.getElementById("cmHitRight");
 const comicsModal = document.getElementById("comicsModal");
 const comicsClose = document.getElementById("comicsClose");
 const comicsList = document.getElementById("comicsList");
+const comicsToast = document.getElementById("comicsToast");  // ✅ 여기
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
   const cat = document.getElementById("category");
@@ -122,27 +123,47 @@ function openComicsModal(){
 
 
   /* ⭐ 여기부터가 반드시 있어야 하는 코드 */
-  comicsList.innerHTML = "";
+ comicsList.innerHTML = "";
 
-  comicsCovers.forEach((file)=>{
-    const img = document.createElement("img");
-    img.src = imgPath(file);
-    img.alt = file;
+comicsCovers.forEach((file)=>{
+  const img = document.createElement("img");
+  img.src = imgPath(file);
+  img.alt = file;
 
-    img.style.width = "min(700px, 92vw)";
-    img.style.maxWidth = "700px";
-    img.style.display = "block";
-    img.style.margin = "0 0 50px 0";
+  img.style.width = "min(700px, 92vw)";
+  img.style.maxWidth = "700px";
+  img.style.display = "block";
+  img.style.margin = "0 0 50px 0";
 
-    img.addEventListener("click", ()=>{
-      const pages = comicsBooks[file] || [];
-      if(pages.length) openBookModal(pages);
-    });
 
-    comicsList.appendChild(img);
+  // hover toast
+  img.addEventListener("mouseenter",(e)=>{
+    if(!comicsToast) return;
+    comicsToast.textContent = "click";
+    comicsToast.style.left = e.clientX + "px";
+    comicsToast.style.top  = e.clientY + "px";
+    comicsToast.classList.add("show");
   });
 
-}
+  img.addEventListener("mousemove",(e)=>{
+    if(!comicsToast) return;
+    comicsToast.style.left = e.clientX + "px";
+    comicsToast.style.top  = e.clientY + "px";
+  });
+
+  img.addEventListener("mouseleave",()=>{
+    if(!comicsToast) return;
+    comicsToast.classList.remove("show");
+  });
+
+
+  img.addEventListener("click",()=>{
+    const pages = comicsBooks[file] || [];
+    if(pages.length) openBookModal(pages);
+  });
+
+  comicsList.appendChild(img);
+});
 /* =========================
 Me Modal 기능
 ========================= */
