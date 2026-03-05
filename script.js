@@ -90,6 +90,78 @@ const homeBtn = document.getElementById("homeBtn");
 /* (Me는 지금 문제 없다고 했으니 여기서 건드리지 않음)
    단, ESC 처리에서 참조하는 closeMeModal() 같은 것만 있으면 삭제/정리 필요.
 */
+/* =========================
+Me Modal 기능
+========================= */
+
+const meModal = document.getElementById("meModal");
+const meClose = document.getElementById("meClose");
+const meTitlebar = document.getElementById("meTitlebar");
+const copyMailBtn = document.getElementById("copyMail");
+const toast = document.getElementById("toast");
+
+function openMeModal(){
+  meModal.style.display = "block";
+  meModal.setAttribute("aria-hidden","false");
+}
+
+function closeMeModal(){
+  meModal.style.display = "none";
+  meModal.setAttribute("aria-hidden","true");
+}
+
+window.openMeModal = openMeModal;
+
+meClose?.addEventListener("click", closeMeModal);
+
+meModal?.addEventListener("click",(e)=>{
+  if(e.target === meModal) closeMeModal();
+});
+
+/* 이메일 복사 */
+copyMailBtn?.addEventListener("click", ()=>{
+  const email = "mybrowncat53@gmail.com";
+
+  navigator.clipboard.writeText(email).then(()=>{
+    toast.textContent = "Copied";
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },900);
+  });
+});
+
+/* 드래그 이동 */
+let dragging = false;
+let startX=0,startY=0,baseLeft=0,baseTop=0;
+
+const card = meModal?.querySelector(".me-card");
+
+meTitlebar?.addEventListener("mousedown",(e)=>{
+  dragging=true;
+
+  startX=e.clientX;
+  startY=e.clientY;
+
+  const rect=card.getBoundingClientRect();
+  baseLeft=rect.left;
+  baseTop=rect.top;
+});
+
+window.addEventListener("mousemove",(e)=>{
+  if(!dragging) return;
+
+  const dx=e.clientX-startX;
+  const dy=e.clientY-startY;
+
+  card.style.left=(baseLeft+dx)+"px";
+  card.style.top=(baseTop+dy)+"px";
+});
+
+window.addEventListener("mouseup",()=>{
+  dragging=false;
+});
 
 /* =========================
 유틸
