@@ -87,7 +87,7 @@ img{
   display:flex;
   justify-content:flex-start;
 
-  margin-left: calc(16px + (14px / 2));
+  margin-left: calc(16px + 7px); /* one.png + gap/2 */
 
   margin-bottom:18px;
 }
