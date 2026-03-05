@@ -641,4 +641,7 @@ Me popup window (600x1700 fixed)
   #gallery{ width: 95vw; }
   .hamburger{ display:block; }
 }
-#homeWrap{ position:relative !important; left:40px !important; outline:3px solid red !important; }
+#homeWrap{
+  position:relative;
+  left:20px;
+}
