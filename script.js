@@ -385,14 +385,15 @@ document.querySelectorAll(".cat").forEach(el=>{
     const type = el.dataset.open;
 
     if(type === "e"){
+      if(comicsModal?.style.display === "block") closeComicsModal(); // ✅ 추가
       openCategoryModal("e");
     }else if(type === "p"){
+      if(comicsModal?.style.display === "block") closeComicsModal(); // ✅ 추가
       openCategoryModal("p");
     }else if(type === "comics"){
       openComicsModal();
     }else if(type === "me"){
-      // Me는 네가 이미 잘 된다고 했으니 여기서 새로 손대지 않음.
-      // 기존 openMeModal()이 있으면 그대로 호출.
+      
       if (typeof openMeModal === "function") openMeModal();
       else if (window.openMeModal) window.openMeModal();
     }
