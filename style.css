@@ -568,3 +568,50 @@ Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
   .hamburger{ display:block; }
 }
 
+/* =========================
+Comics overlay (카테고리 고정, 오른쪽 영역만 새창처럼)
+========================= */
+
+#comicsModal{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  /* ✅ 왼쪽 카테고리 영역은 남기고, 갤러리+썸네일 영역만 덮기 */
+  left: calc(50% - (var(--galleryW) / 2) - var(--gapL));
+
+  background: var(--bg);
+  display: none;                 /* JS가 block으로 바꿈 */
+  overflow-y: auto;              /* ✅ 스크롤 */
+  z-index: 3600;
+
+  padding: 50px var(--edge) 80px var(--edge);
+  box-sizing: border-box;
+}
+
+/* 닫기 버튼 */
+.comics-close{
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  font-size: 44px;
+  border: 0;
+  background: transparent;
+  color: #000;
+  z-index: 3601;
+}
+
+/* 리스트 컨테이너 */
+.comics-inner{
+  width: 100%;
+}
+
+/* 커버 리스트 */
+#comicsList img{
+  width: min(700px, 92vw);
+  max-width: 700px;
+  height: auto;
+  display: block;
+  margin: 0 auto 50px auto;     /* ✅ 간격 50px */
+}
