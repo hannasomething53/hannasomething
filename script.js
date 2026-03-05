@@ -490,9 +490,9 @@ Comics (오버레이 리스트)
 - 이후 cover 추가 시 comicsCovers 배열에만 추가
 ========================= */
 function openComicsModal(){
-  console.log("COMICS OPEN", comicsModal);  // ← 이 줄 추가
+  document.getElementById("gallery").style.display = "none";   // 추가
+  document.getElementById("thumbs").style.display = "none";    // 추가
   comicsModal.style.display = "block";
-  comicsModal.style.visibility = "visible";   // ← 이 줄 추가
   comicsModal.setAttribute("aria-hidden","false");
 
   // ✅ 다른 모달이 열려 있으면 닫아 충돌 방지
@@ -524,6 +524,8 @@ function openComicsModal(){
 function closeComicsModal(){
   comicsModal.style.display = "none";
   comicsModal.setAttribute("aria-hidden","true");
+   document.getElementById("gallery").style.display = "";   // 추가
+  document.getElementById("thumbs").style.display = "";    // 추가
 }
 
 comicsClose?.addEventListener("click", closeComicsModal);
