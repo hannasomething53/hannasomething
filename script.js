@@ -78,6 +78,7 @@ const cmHitRight = document.getElementById("cmHitRight");
 const comicsModal = document.getElementById("comicsModal");
 const comicsClose = document.getElementById("comicsClose");
 const comicsList = document.getElementById("comicsList");
+const comicsToast = document.getElementById("comicsToast");
 const comicsToast = document.getElementById("comicsToast");  // ✅ 여기
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
@@ -135,11 +136,9 @@ comicsCovers.forEach((file)=>{
   img.style.display = "block";
   img.style.margin = "0 0 50px 0";
 
-
-  // hover toast
+  // ✅ hover 토스트
   img.addEventListener("mouseenter",(e)=>{
     if(!comicsToast) return;
-    comicsToast.textContent = "click";
     comicsToast.style.left = e.clientX + "px";
     comicsToast.style.top  = e.clientY + "px";
     comicsToast.classList.add("show");
@@ -156,7 +155,6 @@ comicsCovers.forEach((file)=>{
     comicsToast.classList.remove("show");
   });
 
-
   img.addEventListener("click",()=>{
     const pages = comicsBooks[file] || [];
     if(pages.length) openBookModal(pages);
@@ -164,6 +162,7 @@ comicsCovers.forEach((file)=>{
 
   comicsList.appendChild(img);
 });
+
 /* =========================
 Me Modal 기능
 ========================= */
