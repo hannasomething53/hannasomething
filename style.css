@@ -518,63 +518,124 @@ Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
   opacity: 1;
   transform: translate(-50%, calc(-50% - 6px));
 }
-=====================
+/* =========================
 모바일
 - 카테고리/썸네일 숨김
 - 햄버거 고정
 ========================= */
+
+/* 햄버거 크기/색 조절용 */
+:root{
+  --hamSize: 44px;                      /* 햄버거 글자 크기 */
+  --hamTop: 12px;                       /* 위 여백 */
+  --hamLeft: 14px;                      /* 왼쪽 여백 */
+  --hamColor: rgba(140,140,140,.92);    /* 햄버거 색 */
+}
+
 .hamburger{
-  display:none;
+  display:none !important;
   position:fixed;
-  top: 10px;
-  left: 10px;
-  font-size: 34px;
+  top: var(--hamTop);
+  left: var(--hamLeft);
+  font-size: var(--hamSize);
+  line-height: 1;
   border:0;
   background: transparent;
+  color: var(--hamColor);
+  padding: 0;
+  margin: 0;
   z-index: 5000;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .mobile-panel{
   position:fixed;
   inset:0;
-  background: rgba(255,255,244,.95);
+  background: rgba(255,255,244,.96);
   display:none;
   z-index: 4900;
+  overflow-y:auto;
 }
 
 .mobile-card{
-  padding: 90px 30px;
+  width: 100%;
+  padding: 90px 26px 40px 26px;
   font-family: var(--font);
 }
 
 .mobile-title{
-  font-size: 22px;
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
 .mobile-email{
-  font-size: 18px;
-  margin-bottom: 12px;
+  font-size: 20px;
+  margin-bottom: 18px;
+  word-break: break-word;
 }
 
 .mobile-sns{
   display:flex;
-  gap: 12px;
+  flex-wrap:wrap;
+  gap: 14px;
   align-items:center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
-.mobile-sns img{ width:55px; height:auto; display:block; }
+
+.mobile-sns a{
+  display:block;
+}
+
+.mobile-sns img{
+  width: 62px;
+  height:auto;
+  display:block;
+}
+
+.mobile-comics-toggle{
+  display:block;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin: 0 0 18px 0;
+  font-family: var(--font);
+  font-size: 28px;   /* 터치하기 쉬운 크기 */
+  line-height: 1.2;
+  color:#000;
+  text-align:left;
+}
+
+.mobile-comics-list{
+  display:none;
+}
+
+.mobile-comics-list.show{
+  display:block;
+}
 
 .mobile-comics-list img{
-  width: min(92vw, 1000px);
+  width: min(92vw, 700px);
+  height:auto;
   display:block;
-  margin: 0 0 50px 0;
+  margin: 0 0 28px 0;
 }
 
 @media (max-width: 900px){
-  .category, #thumbs{ display:none; }
-  #gallery{ width: 95vw; }
-  .hamburger{ display:block; }
+  .category,
+  #thumbs{
+    display:none !important;
+  }
+
+  #gallery{
+    width: 95vw;
+    margin: 50px auto 0 auto;
+  }
+
+  .hamburger{
+    display:block !important;
+  }
 }
 
 /* =========================
