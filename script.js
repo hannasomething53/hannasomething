@@ -79,6 +79,13 @@ const comicsModal = document.getElementById("comicsModal");
 const comicsClose = document.getElementById("comicsClose");
 const comicsList = document.getElementById("comicsList");
 const comicsToast = document.getElementById("comicsToast");
+
+const hamburger = document.getElementById("hamburger");
+const mobilePanel = document.getElementById("mobilePanel");
+const mobileCard = document.getElementById("mobileCard");
+const mobileComicsToggle = document.getElementById("mobileComicsToggle");
+const mobileComicsList = document.getElementById("mobileComicsList");
+
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
   const cat = document.getElementById("category");
@@ -690,4 +697,64 @@ document.addEventListener("keydown",(e)=>{
 
   // Me는 네가 문제 없다고 했으니 여기서는 강제로 안 건드림
   // (네 기존 closeMeModal이 있으면 거기서 처리)
+});
+/* =========================
+Mobile panel
+========================= */
+
+const mobileOnlyComics = ["c1.png","c8.png","c15.png","c23.png"];
+let mobileComicsBuilt = false;
+
+function openMobilePanel(){
+  if(!mobilePanel) return;
+  mobilePanel.style.display = "block";
+  mobilePanel.setAttribute("aria-hidden","false");
+}
+
+function closeMobilePanel(){
+  if(!mobilePanel) return;
+  mobilePanel.style.display = "none";
+  mobilePanel.setAttribute("aria-hidden","true");
+
+  if(mobileComicsList){
+    mobileComicsList.classList.remove("show");
+  }
+}
+
+function buildMobileComics(){
+  if(!mobileComicsList || mobileComicsBuilt) return;
+
+  mobileOnlyComics.forEach((file)=>{
+    const img = document.createElement("img");
+    img.src = imgPath(file);
+    img.alt = file;
+
+    /* 모바일 comics는 이미지뷰어 없이 파일만 표시 */
+    img.addEventListener("click", (e)=>{
+      e.stopPropagation();
+    });
+
+    mobileComicsList.appendChild(img);
+  });
+
+  mobileComicsBuilt = true;
+}
+
+hamburger?.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  openMobilePanel();
+});
+
+mobilePanel?.addEventListener("click", ()=>{
+  closeMobilePanel();
+});
+
+mobileCard?.addEventListener("click", (e)=>{
+  e.stopPropagation();
+});
+
+mobileComicsToggle?.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  buildMobileComics();
+  mobileComicsList.classList.toggle("show");
 });
