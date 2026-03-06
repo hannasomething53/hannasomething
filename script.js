@@ -122,45 +122,6 @@ function openComicsModal(){
   comicsModal.setAttribute("aria-hidden","false");
 
 
-  /* ⭐ 여기부터가 반드시 있어야 하는 코드 */
- comicsList.innerHTML = "";
-
-comicsCovers.forEach((file)=>{
-  const img = document.createElement("img");
-  img.src = imgPath(file);
-  img.alt = file;
-
-  img.style.width = "min(700px, 92vw)";
-  img.style.maxWidth = "700px";
-  img.style.display = "block";
-  img.style.margin = "0 0 50px 0";
-
-  // ✅ hover 토스트
-  img.addEventListener("mouseenter",(e)=>{
-    if(!comicsToast) return;
-    comicsToast.style.left = e.clientX + "px";
-    comicsToast.style.top  = e.clientY + "px";
-    comicsToast.classList.add("show");
-  });
-
-  img.addEventListener("mousemove",(e)=>{
-    if(!comicsToast) return;
-    comicsToast.style.left = e.clientX + "px";
-    comicsToast.style.top  = e.clientY + "px";
-  });
-
-  img.addEventListener("mouseleave",()=>{
-    if(!comicsToast) return;
-    comicsToast.classList.remove("show");
-  });
-
-  img.addEventListener("click",()=>{
-    const pages = comicsBooks[file] || [];
-    if(pages.length) openBookModal(pages);
-  });
-
-  comicsList.appendChild(img);
-});
 
 /* =========================
 Me Modal 기능
@@ -555,12 +516,6 @@ document.addEventListener("keydown",(e)=>{
 
 /* =========================
 Comics (오버레이 리스트)
-요구사항:
-- 커버 이미지 폭: 700px 기준 (최대 700, 화면 작으면 줄어듦)
-- 세로로 일렬 나열: c1.png, c8.png, c15.png, c23.png
-- 간격 50px
-- 이미지 위에서 스크롤 가능 (modal overflow)
-- 이후 cover 추가 시 comicsCovers 배열에만 추가
 ========================= */
 function openComicsModal(){
   document.getElementById("gallery").style.display = "none";
@@ -570,11 +525,17 @@ function openComicsModal(){
   document.body.classList.add("no-scroll");
 
   comicsModal.style.display = "block";
-  comicsModal.setAttribute("aria-hidden","false");  // ✅ 여기로
+  comicsModal.setAttribute("aria-hidden","false");
 
   setComicsLeft();
+  window.removeEventListener("resize", setComicsLeft);
   window.addEventListener("resize", setComicsLeft);
-}
+
+  // ✅ 항상 첫 화면(맨 위)로
+  comicsModal.scrollTop = 0;
+  const comicsInner = comicsModal.querySelector(".comics-inner");
+  if (comicsInner) comicsInner.scrollTop = 0;
+  comicsList.scrollTop = 0;
 
   // ✅ 다른 모달이 열려 있으면 닫아 충돌 방지
   if(categoryModal?.style.display === "block") closeCategoryModal();
@@ -587,11 +548,29 @@ function openComicsModal(){
     img.src = imgPath(file);
     img.alt = file;
 
-    // ✅ 요구된 스타일(폭/간격) - CSS에 해도 되지만 여기서도 보장
     img.style.width = "min(700px, 92vw)";
     img.style.maxWidth = "700px";
     img.style.display = "block";
     img.style.margin = "0 0 50px 0";
+
+    // ✅ hover 토스트
+    img.addEventListener("mouseenter",(e)=>{
+      if(!comicsToast) return;
+      comicsToast.style.left = e.clientX + "px";
+      comicsToast.style.top  = e.clientY + "px";
+      comicsToast.classList.add("show");
+    });
+
+    img.addEventListener("mousemove",(e)=>{
+      if(!comicsToast) return;
+      comicsToast.style.left = e.clientX + "px";
+      comicsToast.style.top  = e.clientY + "px";
+    });
+
+    img.addEventListener("mouseleave",()=>{
+      if(!comicsToast) return;
+      comicsToast.classList.remove("show");
+    });
 
     img.addEventListener("click", ()=>{
       const pages = comicsBooks[file] || [];
@@ -600,24 +579,28 @@ function openComicsModal(){
 
     comicsList.appendChild(img);
   });
-
+}
 
 function closeComicsModal(){
   comicsModal.style.display = "none";
   comicsModal.setAttribute("aria-hidden","true");
-  document.getElementById("gallery").style.display = "";   // 추가
-  document.getElementById("thumbs").style.display = "";    // 추가
-  document.documentElement.classList.remove("no-scroll"); // ✅ 추가
-  document.body.classList.remove("no-scroll");            // ✅ 추가
 
-  window.removeEventListener("resize", setComicsLeft); // ✅ 추가
+  document.getElementById("gallery").style.display = "";
+  document.getElementById("thumbs").style.display = "";
+
+  document.documentElement.classList.remove("no-scroll");
+  document.body.classList.remove("no-scroll");
+
+  window.removeEventListener("resize", setComicsLeft);
+
+  if(comicsToast) comicsToast.classList.remove("show");
 }
 
 comicsClose?.addEventListener("click", closeComicsModal);
+
 comicsModal?.addEventListener("click",(e)=>{
   if(e.target === comicsModal) closeComicsModal();
 });
-
 /* =========================
 Book viewer (코믹스 페이지 넘김)
 요구사항:
