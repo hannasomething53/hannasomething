@@ -637,3 +637,24 @@ html.no-scroll, body.no-scroll{
   opacity: 1;
   transform: translate(-50%, calc(-100% - 6px));
 }
+#comicsToast{
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -100%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+#comicsToast img{
+  width: 100px;   /* 필요하면 여기서 크기 조절 */
+  height: auto;
+  display: block;
+}
+
+#comicsToast.show{
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 6px));
+}
