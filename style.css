@@ -391,8 +391,8 @@ Book viewer (코믹스 페이지 넘김)
 }
 
 #bookImg{
-  width: min(2000px, 94vw);
-  max-width: 2000px;
+  width: min(1500px, 94vw);
+  max-width: 1500px;
   height:auto;
   display:block;
 }
