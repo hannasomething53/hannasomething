@@ -120,7 +120,7 @@ function openComicsModal(){
   window.addEventListener("resize", setComicsLeft);
 
   comicsModal.setAttribute("aria-hidden","false");
-
+} 
 
 
 /* =========================
