@@ -666,6 +666,13 @@ bookModal?.addEventListener("click",(e)=>{
 });
 
 document.addEventListener("keydown",(e)=>{
+    if(bookModal?.style.display === "flex"){
+    if(e.key === "ArrowLeft") bookPrevPage();
+    if(e.key === "ArrowRight") bookNextPage();
+  }
+});
+
+document.addEventListener("keydown",(e)=>{
   if(e.key !== "Escape") return;
 
   // 라이트박스
