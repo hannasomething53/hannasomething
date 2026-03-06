@@ -534,34 +534,34 @@ Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
 
 .hamburger{
   display:none !important;
-  position:fixed;
-  top: var(--hamTop);
-  left: var(--hamLeft);
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: 14px;
   font-size: var(--hamSize);
   line-height: 1;
-  border:0;
+  border: 0;
   background: transparent;
   color: var(--hamColor);
   padding: 0;
   margin: 0;
-  z-index: 5000;
+  z-index: 6000;
   box-shadow: none;
   appearance: none;
   -webkit-appearance: none;
 }
-
 .mobile-panel{
-  position:fixed;
-  inset:0;
+  position: fixed;
+  inset: 0;
   background: rgba(255,255,244,.96);
-  display:none;
-  z-index: 4900;
-  overflow-y:auto;
+  display: none;
+  z-index: 5900;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
-
 .mobile-card{
   width: 100%;
-  padding: 90px 26px 40px 26px;
+  min-height: 100vh;
+  padding: 120px 26px 60px 26px;
   font-family: var(--font);
 }
 
