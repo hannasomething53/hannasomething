@@ -18,8 +18,8 @@
   --thumbW: clamp(90px, 12vw, 130px);
 
   --font: 'Jost', sans-serif;
-  --closeSize: 56px;                 /* X 버튼 크기 */
-  --closeColor: rgba(95,95,95,.95);  /* X 버튼 색 */
+  --closeSize: 70px;                 /* X 버튼 크기 */
+  --closeColor: rgba(110,110,110,.88);  /* X 버튼 색 */
 }
 
 /* 기본 */
@@ -315,11 +315,11 @@ Category Modal (Editorial/Personal) - FIXED
 
 .cm-hit.left{
   left: 0;
-  right: calc(50% - 50px);
+  right: calc(50% - 60px);
 }
 
 .cm-hit.right{
-  left: calc(50% + 50px);
+  left: calc(50% + 60px);
   right: 0;
 }
 
