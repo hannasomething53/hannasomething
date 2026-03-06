@@ -125,13 +125,20 @@
   </div>
 
   <!-- Comics page (카테고리는 고정, 갤러리+썸네일 영역만 바뀌는 새창 느낌 오버레이) -->
-  <div id="comicsModal" aria-hidden="true">
-    <button class="comics-close" id="comicsClose" aria-label="close">✕</button>
-    <div class="comics-inner">
-      <div class="comics-list" id="comicsList"></div>
-    </div>
-    <div class="comics-toast" id="comicsToast">click</div>
+ <!-- Comics page -->
+<div id="comicsModal" aria-hidden="true">
+  <button class="comics-close" id="comicsClose" aria-label="close">✕</button>
+
+  <div class="comics-inner">
+    <div class="comics-list" id="comicsList"></div>
   </div>
+
+  <!-- ✅ 토스트 -->
+  <div id="comicsToast" class="comics-toast">
+    <img src="images/view.png" alt="view">
+  </div>
+
+</div>
 
   <!-- Book viewer (comics inside) -->
   <div id="bookModal" aria-hidden="true">
