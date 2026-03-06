@@ -99,9 +99,9 @@ img{
 
 .home-bubble{
   position: absolute;
-  left: 6px;
-  bottom: 48px;
-  width: 62px;
+  left: 4px;
+  bottom: 46px;
+  width: 58px;
   height: auto;
   opacity: 0;
   pointer-events: none;
