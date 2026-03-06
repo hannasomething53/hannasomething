@@ -18,6 +18,8 @@
   --thumbW: clamp(90px, 12vw, 130px);
 
   --font: 'Jost', sans-serif;
+  --closeSize: 56px;                 /* X 버튼 크기 */
+  --closeColor: rgba(95,95,95,.95);  /* X 버튼 색 */
 }
 
 /* 기본 */
@@ -254,13 +256,13 @@ Category Modal (Editorial/Personal) - FIXED
 /* 닫기 버튼 */
 .cm-close{
   position: absolute;
-  top: 20px;
-  right: 26px;
-  font-size: 44px;
+  top: 18px;
+  right: 24px;
+  font-size: var(--closeSize);
   line-height: 1;
   border: 0;
   background: transparent;
-  color: #000;
+  color: var(--closeColor);
   z-index: 40;
 }
 
@@ -307,13 +309,19 @@ Category Modal (Editorial/Personal) - FIXED
 .cm-hit{
   position: absolute;
   top: 0;
-  bottom: 120px;  /* ✅ 썸네일바 높이만큼 제외 */
-  width: 20vw;
-  min-width: 60px;
+  bottom: 120px;   /* 썸네일바 영역은 제외 */
   z-index: 10;
 }
-.cm-hit.left{ left: 0; }
-.cm-hit.right{ right: 0; }
+
+.cm-hit.left{
+  left: 0;
+  right: calc(50% - 50px);
+}
+
+.cm-hit.right{
+  left: calc(50% + 50px);
+  right: 0;
+}
 
 /* ✅ 하단 썸네일 바 */
 .cm-thumbs{
@@ -374,10 +382,11 @@ Book viewer (코믹스 페이지 넘김)
   position:fixed;
   top: 18px;
   right: 18px;
-  font-size: 44px;
+  font-size: var(--closeSize);
+  line-height: 1;
   border:0;
   background:transparent;
-  color:#fff;
+  color: rgba(210,210,210,.95);
   z-index: 2;
 }
 
@@ -592,10 +601,11 @@ Comics overlay (카테고리 고정, 오른쪽 영역만 새창처럼)
   position: fixed;
   top: 18px;
   right: 18px;
-  font-size: 44px;
+  font-size: var(--closeSize);
+  line-height: 1;
   border: 0;
   background: transparent;
-  color: #000;
+  color: var(--closeColor);
   z-index: 3601;
 }
 
