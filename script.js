@@ -79,7 +79,6 @@ const comicsModal = document.getElementById("comicsModal");
 const comicsClose = document.getElementById("comicsClose");
 const comicsList = document.getElementById("comicsList");
 const comicsToast = document.getElementById("comicsToast");
-const comicsToast = document.getElementById("comicsToast");  // ✅ 여기
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
   const cat = document.getElementById("category");
