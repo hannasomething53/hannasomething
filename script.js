@@ -384,6 +384,7 @@ window.addEventListener("scroll", ()=>{
 HOME 버튼: 첫 화면(맨 위)로
 ========================= */
 homeBtn?.addEventListener("click", ()=>{
+   if(comicsModal?.style.display === "block") closeComicsModal();
   window.scrollTo({top:0, behavior:"smooth"});
 });
 
