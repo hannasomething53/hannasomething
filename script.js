@@ -721,6 +721,14 @@ function closeMobilePanel(){
   }
 }
 
+function toggleMobilePanel(){
+  if(!mobilePanel) return;
+
+  const isOpen = mobilePanel.style.display === "block";
+  if(isOpen) closeMobilePanel();
+  else openMobilePanel();
+}
+
 function buildMobileComics(){
   if(!mobileComicsList || mobileComicsBuilt) return;
 
@@ -729,7 +737,6 @@ function buildMobileComics(){
     img.src = imgPath(file);
     img.alt = file;
 
-    /* 모바일 comics는 이미지뷰어 없이 파일만 표시 */
     img.addEventListener("click", (e)=>{
       e.stopPropagation();
     });
@@ -740,21 +747,30 @@ function buildMobileComics(){
   mobileComicsBuilt = true;
 }
 
+/* 햄버거: 열기/닫기 토글 */
 hamburger?.addEventListener("click", (e)=>{
   e.stopPropagation();
-  openMobilePanel();
+  toggleMobilePanel();
 });
 
+/* 패널 어디든 누르면 닫기 */
 mobilePanel?.addEventListener("click", ()=>{
   closeMobilePanel();
 });
 
-mobileCard?.addEventListener("click", (e)=>{
-  e.stopPropagation();
+/* 카드 안쪽도 누르면 닫히게 */
+mobileCard?.addEventListener("click", ()=>{
+  closeMobilePanel();
 });
 
+/* 단, Comics 버튼은 닫히지 않고 펼치기 */
 mobileComicsToggle?.addEventListener("click", (e)=>{
   e.stopPropagation();
   buildMobileComics();
   mobileComicsList.classList.toggle("show");
+});
+
+/* Comics 이미지 누를 때는 패널 안 닫히게 */
+mobileComicsList?.addEventListener("click", (e)=>{
+  e.stopPropagation();
 });
