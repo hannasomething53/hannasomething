@@ -730,3 +730,15 @@ html.no-scroll, body.no-scroll{
   opacity: 1;
   transform: translate(-50%, calc(-100% - 6px));
 }
+.mobile-pcview{
+  display:block;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin: 28px 0 0 0;
+  font-family: var(--font);
+  font-size: 24px;
+  line-height: 1.2;
+  color:#000;
+  text-align:left;
+}
