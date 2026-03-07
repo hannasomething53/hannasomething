@@ -367,10 +367,26 @@ const thumbImgs = Array.from(thumbsInner.querySelectorAll("img"));
 let activeIndex = 0;
 let ticking = false;
 
+setActiveThumb(0);
+
 function setActiveThumb(idx){
   if(idx === activeIndex) return;
+
   activeIndex = idx;
   thumbImgs.forEach((img,i)=>img.classList.toggle("active", i===idx));
+
+  const activeThumb = thumbImgs[idx];
+  if(activeThumb){
+    const top =
+      activeThumb.offsetTop
+      - (thumbsInner.clientHeight / 2)
+      + (activeThumb.clientHeight / 2);
+
+    thumbsInner.scrollTo({
+      top: Math.max(0, top),
+      behavior: "smooth"
+    });
+  }
 }
 
 window.addEventListener("scroll", ()=>{
