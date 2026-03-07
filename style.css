@@ -657,31 +657,7 @@ Me popup (w500 / 내부스크롤 / px좌표 핫스팟)
     display:block !important;
   }
 }
-@media (max-width: 900px){
 
-  body.force-desktop .category{
-    display: block !important;
-  }
-
-  body.force-desktop #thumbs{
-    display: block !important;
-  }
-
-  body.force-desktop .hamburger{
-    display: none !important;
-  }
-
-  body.force-desktop #gallery{
-    width: var(--galleryW) !important;
-    margin: 50px auto 0 auto !important;
-  }
-
-  body.force-desktop{
-    min-width: 1400px;
-    overflow-x: auto;
-  }
-
-}
 /* =========================
 Comics overlay (카테고리 고정, 오른쪽 영역만 새창처럼)
 ========================= */
@@ -753,16 +729,4 @@ html.no-scroll, body.no-scroll{
 #comicsToast.show{
   opacity: 1;
   transform: translate(-50%, calc(-100% - 6px));
-}
-.mobile-pcview{
-  display:block;
-  border:0;
-  background:transparent;
-  padding:0;
-  margin: 28px 0 0 0;
-  font-family: var(--font);
-  font-size: 24px;
-  line-height: 1.2;
-  color:#000;
-  text-align:left;
 }
