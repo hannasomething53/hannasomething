@@ -85,6 +85,7 @@ const mobilePanel = document.getElementById("mobilePanel");
 const mobileCard = document.getElementById("mobileCard");
 const mobileComicsToggle = document.getElementById("mobileComicsToggle");
 const mobileComicsList = document.getElementById("mobileComicsList");
+const mobilePcView = document.getElementById("mobilePcView");
 
 /* ✅ 여기(바로 아래)에 넣기 */
 function setComicsLeft(){
@@ -789,4 +790,9 @@ mobileComicsToggle?.addEventListener("click", (e)=>{
 /* Comics 이미지 누를 때는 패널 안 닫히게 */
 mobileComicsList?.addEventListener("click", (e)=>{
   e.stopPropagation();
+});
+mobilePcView?.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  document.body.classList.add("force-desktop");
+  closeMobilePanel();
 });
